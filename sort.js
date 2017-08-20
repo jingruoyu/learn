@@ -91,3 +91,49 @@ function exchange(arr,pos1,pos2){//交换数组中两个位置内容
     arr[pos1]=arr[pos2];
     arr[pos2]=x;
 }
+
+//归并排序
+function MergeSort(arr,low,high){
+    if(low<high){
+        var mid=parseInt((low+high)/2);//迭代分割数组
+        MergeSort(arr,low,mid);
+        MergeSort(arr,mid+1,high);
+        merge(arr,low,mid,high);//归并数组
+    }
+}
+//归并函数
+function merge(arr,low,mid,high){
+    var i=low;
+    var j=mid+1;
+    var arr1=[];
+    while(i<=mid && j<=high){
+        //较小值放入新数组
+        if(arr[i]<=arr[j]){
+            arr1.push(arr[i]);
+            i++;
+        }else{
+            arr1.push(arr[j]);
+            j++;
+        }
+    }
+    //剩余值全部放进新数组
+    if(i<=mid){
+        arr1 = arr1.concat(arr.slice(i,mid+1));
+    }
+    if(j<=high){
+        arr1 = arr1.concat(arr.slice(j,high+1));
+    }
+/*    //剩余值全部放进新数组
+    while(i<=mid){
+        arr1.push(arr[i]);
+        i++;
+    }
+    if(j<=high){
+        arr1.push(arr[j]);
+        j++;
+    }*/
+    //更新原数组
+    for(var k=0;k<=high-low;k++){
+        arr[k+low] = arr1[k];
+    }
+}
