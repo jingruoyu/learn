@@ -1100,7 +1100,7 @@ indexOf方法不够直观，对NaN不支持
 
 **简写的属性名为字符串，不会与关键字冲突**
 
-generator函数的定义在函数名前加*即可
+generator函数的定义在函数名前加\*即可
 
 	const obj = {
 	  * m() {
@@ -1340,9 +1340,9 @@ enumerable属性代表可枚举性，该属性为false时，代表该属性不�
           })
         );
 
-### __proto__属性，Object.setPrototypeOf()，Object.getPrototypeOf()
+### `__proto__`属性,`Object.setPrototypeOf()`,`Object.getPrototypeOf()`
 
-#### __proto__属性
+#### `__proto__`属性
 
 用于获取当前对象的原型对象，不建议使用，尽量使用一下函数代替
 
