@@ -44,7 +44,7 @@ ngx_http_addition_module 是一个过滤模块，它可以在回复正文前后�
 
 ### 请求转发
 
-* `proxy_pass URL;`：设置后端服务器的协议和地址，还可以设置可选的URI用于定义本地路径和后端服务器的映射关系
+* `proxy_pass URL;`：设置后端服务器的协议和地址，主要用于请求转发负载均衡，还可以设置可选的URI用于定义本地路径和后端服务器的映射关系，不影响浏览器地址栏的URL
 
     协议可以使用http或者https，地址可以使用域名、IP地址加端口号或者Unix域套接字路径定义，其中可以使用变量。
 
@@ -58,6 +58,9 @@ ngx_http_addition_module 是一个过滤模块，它可以在回复正文前后�
         location /name/ {
             proxy_pass http://127.0.0.1/remote/;
         }
+
+        请求http://127.0.0.1/name/test.html 会被代理到http://example.com/remote/test.html
+
         ```
 
     * 如果不使用URI，传送到后端服务器的请求URI一般是客户端发起的原始URI，如果nginx改变了请求URI，则传送的URI是nginx改变以后完整的规范化URI
@@ -66,12 +69,15 @@ ngx_http_addition_module 是一个过滤模块，它可以在回复正文前后�
         location /some/path/ {
             proxy_pass http://127.0.0.1;
         }
+
+        请求http://127.0.0.1/name/test.html 会被代理到http://127.0.0.1/name/test.html
+
         ```
 
     一些情况下无法确定URI应该被替换的部分：
 
     * 使用正则表达式定义路径，proxy_pass路径中不应该使用URI
-    * 需要代理的路径中，使用rewrite指令改变了URI并使用break参数，**之后使用proxy_pass将会被忽略**，改变后的URI将被发送给后端服务器
+    * 需要代理的路径中，使用rewrite指令改变了URI并使用break参数，**之后使用proxy_pass将不会改变URI参数**，改变后的URI将被发送给proxy_pass指定的后端服务器
 
         ```
         location /name/ {
@@ -394,7 +400,7 @@ ngx_http_addition_module 是一个过滤模块，它可以在回复正文前后�
 
     作为一种特殊情况，重定向URL可以简化为当前server的本地URI，那么完整的重定向URL将按照请求协议（$scheme）、server_name_in_redirect指令和port_in_redirect指令的配置进行补全
 
-* `rewrite regex replacement [flag];`：如果指定的正则表达式能匹配URI，此URI将被replacement参数定义的字符串改写
+* `rewrite regex replacement [flag];`：用于修改请求URL，如果指定的正则表达式能匹配URI，此URI将被replacement参数定义的字符串改写
 
     rewrite指令按照在配置文件中出现的顺序执行，**如果replacement的字符串以“http://”或“https://”开头，nginx将结束执行过程，并返回给客户端一个重定向**
 
@@ -406,6 +412,8 @@ ngx_http_addition_module 是一个过滤模块，它可以在回复正文前后�
     * perament：返回状态码为301的永久重定向
 
     如果replacement字符串包括新的请求参数，以往的请求参数会添加到新参数后面。如果不希望这样，在replacement字符串末尾加一个问号“？”，就可以避免
+
+    **注意rewrite与proxy_pass的区别**
 
 * `rewrite_log on | off;`：开启或者关闭将ngx_http_rewrite_module模块指令的处理日志以notice级别记录到错误日志中。
 * `set variable value;`：为指定变量variable设置变量值value。value可以包含文本、变量或者它们的组合。
