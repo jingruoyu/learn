@@ -11,8 +11,8 @@
 
 ## HTML5
 
-* [简介](./HTML5/简介.md)
-* [the living standard](./HTML5/the_living_standard.md)
+* [简介](./HTML5/introduction.md)
+* [基础概念](./HTML5/common_infrastucture.md)
 
 ## nginx
 

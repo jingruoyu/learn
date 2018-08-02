@@ -2,7 +2,7 @@
 
 ## WHATWG与W3C的纠葛
 
-* W3C原来希望发展XML，Apple决定成立新的WHATWG发展HTML5
+* W3C原来希望发展XML，Apple、Mozilla与Opera决定成立新的WHATWG发展HTML5
 * W3C参与HTML5开发，二者共同更新HTML5
 * W3C希望发布HTML5的完成版，WHATWG希望继续不断维护
 * 之后W3C将WHATWG做的修复复制到自身的HTML5标准中
