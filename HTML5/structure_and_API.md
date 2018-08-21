@@ -33,7 +33,121 @@
 
 ### 资源管理
 
-* document.referrer
-* document.cookie
-* document.lastModified
-* document.readyState
+#### document.referrer
+
+返回将用户导航至当前页面document的链接。如果它被隐藏或者没有相应的文档，将会返回空字符串
+
+noreferrer类型链接可以用于阻断页面之间的引用
+
+#### document.cookie
+
+返回当前页面的http cookie。如果当前页面没有cookie或者cookie不能被当前的源获取，将会返回空字符串
+
+cookie可以被设置 ，可以为页面增加新的cookie
+
+如果对目标内容进行了sandboxed设置，例如对iframe设置sandbox属性，则其在获取或设置cookie时将会抛出安全性错误
+
+#### document.lastModified
+
+返回document的lastModified时间戳，如果此属性未知，则返回当前时间
+
+#### document.readyState
+
+返回文档的加载状态，取值为以下三种
+
+* loading：加载，document正在加载
+* interactive：互动，文档已经加载完成并且被解析，但是如图像、样式表、iframe之类的子资源仍在加载中
+* complete：完成，文档和所有的子资源已经完成加载。load事件即将被触发
+
+其他事件的触发：
+
+* 当次状态值发生改变时，`onreadystatechange`事件将会被触发
+* `DOMContentLoaded`事件将会在readyState变为interactive之后但是出于complete之前触发，事件触发时，除了异步加载的脚本之外，所有的子资源全部加载完毕
+
+### 访问DOM树
+
+document对象html元素即为[document elment](https://dom.spec.whatwg.org/#document-element)，其他情况将会返回null
+
+#### document.head
+
+返回head元素，head元素即为html元素的子元素中第一个head元素，如果存在的话将返回此元素，否则返回null
+
+#### document.title
+
+可读可写，返回当前文档的title，title值由HTML的title元素和SVG的SVG title元素给出
+
+设置此值时，将会更新文档的title内容。如果当时没有合适的元素进行更新，将会忽略新的值
+
+与head元素类似，title元素是DOM树中的第一个title元素，如果没有的话将会返回null
+
+#### document.body
+
+可读可写，返回当前文档的body元素。
+
+可以进行设置，替换掉原来的body元素。当新设置的值不是一个body元素或者frameset元素（此元素已被废弃可以忽略）是，将会抛错
+
+body元素是文档中的第一个body元素或者frameset元素，如果没有的话将会返回null
+
+#### document.images
+
+返回一个HTMLCollection，其中包含document中的图片元素
+
+#### document.embeds,document.pluguns
+
+返回一个HTMLCollection，其中包含document中的embed元素
+
+#### document.links
+
+返回一个HTMLCollection，其中包含document中包含链接属性的元素，如a标签和area
+
+#### document.forms
+
+form元素集合
+
+#### document.scripts
+
+script元素集合
+
+#### collection = document.getElementsByName(name)
+
+#### document.currentScript
+
+返回当前正在被执行的script元素或者SVG script元素。如果当前有`reentrant script`正在被执行，则会返回最开始执行且尚未执行完的脚本
+
+如果当前执行的代码是位于一个回调函数或者异步执行的，则该属性会返回null
+
+## elements
+
+### 定义
+
+HTML标准中为元素、属性和属性值定义了其对应的语义，而不是专门的表现形式。其表现形式可能会根据设备或者设置的不同而变化
+
+### Elements in the DOM
+
+元素表示DOM中的HTML元素节点实现并具有对应的相应属性。
+
+元素可以被显式或者隐式的被引用。页面内部的跳转可以通过链接对id进行引用的形式进行
+
+	<a href="#target-point">target point</a>
+
+**所有HTML元素的基本接口都继承自HTMLElement对象**
+
+### 元素定义
+
+元素定义包含以下内容
+
+* 元素类别
+* 元素使用场景
+* 内容模型：必须包含哪些内容作为元素的子元素和后代的规范性描述
+* 元素使用语法
+* 内容属性：可以在元素上指定的属性
+* DOM接口：元素必须实现的DOM接口
+
+#### 属性值
+
+除特殊声明外，元素属性值是一个字符串，可以为任意字符串值，包括空字符串，并且对此类属性值中可指定的文本没有限制
+
+### 内容模型
+
+
+
