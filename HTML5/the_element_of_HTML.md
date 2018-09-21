@@ -1,8 +1,8 @@
-# HTML元素
+# 4 HTML元素
 
-## document元素
+## 4.1 document元素
 
-### html元素
+### 4.1.1 html元素
 
 使用上下文：
 
@@ -28,9 +28,9 @@ manifest属性给出文档的应用程序缓存清单，如果属性存在，属
 
 manifest仅在文档加载的初期阶段起作用，所以动态更改manifest属性不会起作用，因此manifest属性没有DOM API。但是window.applicationcache提功力访问离线应用缓存的接口
 
-## 文档内容
+## 4.2 文档内容
 
-### head元素
+### 4.2.1 head元素
 
 使用上下文：html元素的第一个子元素
 
@@ -53,7 +53,7 @@ DOM接口：HTMLHeadElement
 
 title元素在大部分情况下都是需要的，但是当有更高等级的协议提供此信息时，title元素可以被省略，例如当HTML用于email时
 
-### title元素
+### 4.2.2 title元素
 
 类别：元数据内容
 
@@ -71,7 +71,7 @@ title元素用于表示一篇文档的标题，作者应该使用更具标示性
 title.text [= value]
 ```
 
-### base元素
+### 4.2.3 base元素
 
 分类：元数据内容
 
@@ -91,7 +91,7 @@ base元素仅用于为文档指定基本URL和跟随超链接的默认浏览上�
 
 base元素必须包含一个href属性，一个target属性，或者两者均包含
 
-### link元素
+### 4.2.4 link元素
 
 分类：元数据内容，当元素用于body中时，其同时是flow content和phrasing content
 
@@ -116,18 +116,33 @@ link元素可以创建外部资源链接和超链接两种类型链接，可以�
 
     <link rel="author license" href="/about">
 
-link元素创建的超链接和其rel属性适用于整个文档，与其相反，a元素和area元素的rel属性
+link元素创建的超链接和其rel属性适用于整个文档，与其相反，a元素和area元素的rel属性表示链接的类型，其链接的上下文由文档中链接的位置给出
 
-#### Providing users with a means to follow hyperlinks created using the link element
+属性使用说明
 
-### the meta data
+* media属性说明资源适用于哪种媒体，属性取值必须为媒体查询列表中的有效值
+* integrity属性表示link元素负责的请求数据是完整的元数据，取值为文本。属性只能在rel为stylesheet的link元素上使用
+* hreflang属性知名被连接资源的语言，与在其他元素上使用效果相同
+* type属性指定链接资源的MIME type，仅用于说明，取值必须为合法的MIME type值
 
-#### 标准数据名
+	针对外部资源链接，type属性可以帮助浏览器避免请求那些不支持的资源
 
-#### 其他数据名
+* referrerpolicy：设置当获取外部资源时的referrer属性
+* title
+* size
+* as
+* color
 
-#### pragma directives
+#### 4.2.4.1 Providing users with a means to follow hyperlinks created using the link element
 
-#### 指定文档的字符编码
+### 4.2.5 the meta data
 
-### style元素
+#### 4.2.5.1 标准数据名
+
+#### 4.2.5.2 其他数据名
+
+#### 4.2.5.3 pragma directives
+
+#### 4.2.5.4 指定文档的字符编码
+
+### 4.2.6 style元素
