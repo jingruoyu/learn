@@ -154,9 +154,22 @@ The activation behavior of link elements that create hyperlinks is to follow the
 使用上下文：
 
 * 如果元素的charset属性指定，或者http-equive属性处于编码状态，则要在head元素中使用
-* 
+* 如果元素的http-equive属性指定但不处于编码状态，则要在head元素中使用
+* 如果元素的http-equive属性指定但不处于编码状态，则要在head元素的noscript标签中使用
 
+标签缺省：没有结束标签
 
+标签属性：全局属性、name、http-equiv、content、charset
+
+meta标签用于表示不同通过title、base、link、style和script等元素展示的信息
+
+**如果标签中指定了name、http-equiv或itemprop属性，则其content属性必须被指定，否则将会忽略该属性**
+
+charset属性指定document所使用的字符编码，是一个字符编码声明。如果该属性被指定，其取值必须为与utf-8匹配的不区分大小写的ASCII码。为了便于统一，XML中允许指定charset属性，但是其无效。
+
+**每个文档中，不能在多个meta标签中同时指定charset属性**
+
+meta标签中的name属性用于定义数据属性名，同一个标签中的content用于定义属性值，如果没有的content属性，则对应的属性值为空字符串
 
 #### 4.2.5.1 标准数据名
 
