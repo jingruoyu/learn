@@ -173,6 +173,28 @@ meta标签中的name属性用于定义数据属性名，同一个标签中的con
 
 #### 4.2.5.1 标准数据名
 
+文档规定了部分meta元素的name属性，name取值不区分大小写，并且必须符合ASCII码
+
+* application-name
+
+	取值必须为简短的自由格式字符串，其中包含页面所代表的web应用程序名称。如果页面不是一个web应用，则不能使用该name属性。
+
+	**文档中，可以使用lang属性为不同语言指定其对应application-name，每种语言不能有多个application-name**
+
+* author
+
+	自由格式字符串，给定页面作者名称
+
+* description
+
+* generator
+
+* keywords
+
+* referrer
+
+* theme-color
+
 #### 4.2.5.2 其他数据名
 
 #### 4.2.5.3 pragma directives
