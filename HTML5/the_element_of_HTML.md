@@ -153,9 +153,9 @@ The activation behavior of link elements that create hyperlinks is to follow the
 
 使用上下文：
 
-* 如果元素的charset属性指定，或者http-equive属性处于编码状态，则要在head元素中使用
-* 如果元素的http-equive属性指定但不处于编码状态，则要在head元素中使用
-* 如果元素的http-equive属性指定但不处于编码状态，则要在head元素的noscript标签中使用
+* 如果元素的charset属性指定，或者http-equiv属性处于编码状态，则要在head元素中使用
+* 如果元素的http-equiv属性指定但不处于编码状态，则要在head元素中使用
+* 如果元素的http-equiv属性指定但不处于编码状态，则要在head元素的noscript标签中使用
 
 标签缺省：没有结束标签
 
@@ -187,18 +187,60 @@ meta标签中的name属性用于定义数据属性名，同一个标签中的con
 
 * description
 
+	自由格式字符串，用于描述页面，应该是对页面具有总结性的词，一个文档中最多只能出现一次
+
 * generator
+
+	只在页面由工具自动生成时使用，用于标识生成页面的软件
 
 * keywords
 
 * referrer
 
+	设置文档默认的referrer policy，取值必须为一个合法的referrer policy
+
 * theme-color
+
+	取值为一个合法的颜色值，定义了建议UA需要向用户展示的页面颜色，一个文档中最多出现一次
 
 #### 4.2.5.2 其他数据名
 
-#### 4.2.5.3 pragma directives
+用户可以根据自身需求定义相关的元数据名扩展，对于这些名称没有具体的规范要求，但是一个新的元数据名称在下列情况下不应该被创建：
+
+* name属性或其相关的value取值为url，此时将会被当做一个链接进行处理
+* name属性为UA中的标准数据名
+
+在使用自定义数据名前，可以在[WHATWG Wiki MetaExtensions page](https://wiki.whatwg.org/wiki/MetaExtensions)中查阅相关信息，避免选择已被使用的元数据名，避免再次定义一个已被实现的元数据，避免新标准中的名称与自定义名称冲突
+
+WHATWG wiki大家都可以编辑，在其中加入新的元数据名称，但是要遵循一定的规则
+
+#### 4.2.5.3 编译指示指令
+
+meta元素使用http-equiv属性时，该元素即为一个编译指示指令
+
+http-equiv取值：
+
+* content-type：定义文档的MIME type，由其字符编码决定
+
+	其对应的content取值为字符串'text/html; charset=utf-8'
+
+	一个文档最多只能包含一个http-equiv属性处于字符编码状态的meta元素和一个使用charset属性的meta元素
+
+	meta元素的http-equiv属性不能被用于XML文档
+
+* default-style：这个属性指定了在页面上使用的首选样式表
+
+	content属性必须包含<\link> 元素的标题, href属性链接到CSS样式表或包含CSS样式表的<\style>元素的标题
+
+* refresh：设置定时刷新
+
+	取值为：
+
+	* 有效的非负整数：重新载入页面的时间间隔（单位为秒）
+	* 有效非负整数，后跟一个字符串为'URL=xxx链接'：重定向到指定链接的时间间隔(单位为秒)
 
 #### 4.2.5.4 指定文档的字符编码
+
+
 
 ### 4.2.6 style元素
