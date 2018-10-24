@@ -28,7 +28,7 @@ manifest属性给出文档的应用程序缓存清单，如果属性存在，属
 
 manifest仅在文档加载的初期阶段起作用，所以动态更改manifest属性不会起作用，因此manifest属性没有DOM API。但是window.applicationcache提功力访问离线应用缓存的接口
 
-## 4.2 文档内容
+## 4.2 文档数据元素
 
 ### 4.2.1 head元素
 
@@ -239,8 +239,48 @@ http-equiv取值：
 	* 有效的非负整数：重新载入页面的时间间隔（单位为秒）
 	* 有效非负整数，后跟一个字符串为'URL=xxx链接'：重定向到指定链接的时间间隔(单位为秒)
 
+* X-UA-Compatible
+
+	当meta元素的http-equiv属性处于此状态时，对应的content属性值为"IE=edge"，此举是为了让IE更关注标准，UA将会忽略这条指令
+
+* content-security-policy
+
+	此指令加强文档的内容安全策略。当meta元素的http-equiv属性处于此状态时，对应content属性值必须是一个合法的内容安全策略值，但是不能包含report-uri, frame-ancestors, or sandbox directives
+
+	```
+	<meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'none'">
+	```
+
+	上例中指定文档中script标签的src只能为同源，同时禁止了插件的使用
+
 #### 4.2.5.4 指定文档的字符编码
 
+编码标准与编码标签均需使用utf-8进行编码。无论是否存在字符编码声明，用于编码文档的实际字符编码必须是UTF-8。
 
+如果一个HTML文档不是以BOM开始，同时其编码没有被content-type明确给定，并且文档也不是以iframe的形式存在于源文档中，那么必须使用meta元素的charset属性或者http-equiv属性明确指定其编码状态
+
+如果文档以iframe的形式存在于源文档中，则该文档中不能包含字符编码声明。在此情况下，源文档中已经进行了字符解码，其中包含了iframe
+
+**使用非utf-8编码会在表单提交和URL编码过程中产生不可预期的结果**
 
 ### 4.2.6 style元素
+
+分类：元数据内容
+
+使用上下文：作为head元素的子元素
+
+内容模型：给定内容的样式表
+
+标签省略：标签不可省略
+
+内容属性：title属性指定css样式表的名称
+
+DOM接口：HTMLStyleElement
+
+* `HTMLStyleElement/media`中media属性指定style适用的媒体种类，取值必须为合法的媒体值，当省略时，相当于对所有媒体均生效
+
+* style元素不会继承父级元素的title属性
+
+* 如果style元素不在DOM树上，则其title属性将会被忽略
+
+## 4.3 段落元素
