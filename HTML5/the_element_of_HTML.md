@@ -283,4 +283,63 @@ DOM接口：HTMLStyleElement
 
 * 如果style元素不在DOM树上，则其title属性将会被忽略
 
-## 4.3 段落元素
+## 4.3 章节元素
+
+### 4.3.1 body元素
+
+分类：章节元素根节点
+
+内容模型：文档流
+
+标签省略：
+
+* bod元素起始标签省略：
+
+	当body元素中的第一个元素不是meta、link、script、style或template元素是，以下情况body的起始标签可以被省略
+
+	* body元素为空
+	* body元素中第一个字符不是空格或注释
+
+* body元素结束标签省略：
+
+	当body元素后不是紧跟注释时可以省略结束标签
+
+DOM接口：HTMLBodyElement
+
+body元素代表文档的内容，每个文档中只能有一个body元素，`document.body`提供了文档中body元素的使用接口
+
+body元素将window对象上的大量事件处理函数以事件处理函数内容属性的方式暴露出来，并且镜像了事件处理函数的IDL属性，**即将部分window对象上的事件，可以在body元素上进行绑定**，如onerror，onLoad等
+
+### 4.3.2 article元素
+
+标签省略：标签不可省略
+
+DOM接口：HTMLElement
+
+article元素用于标识文档或页面中一个完整的或者自包含的作品，原则上讲，他是独立或者可重用的。
+
+当article元素出现互相嵌套时，原则上内层article元素所代表内容与外层article元素是有关联的。作者信息不适合与article元素相关联。
+
+当页面除了页眉、页脚、导航栏和侧边栏之外的内容整体是一个自包含内容，这部分内容可以被标记在一个article元素中，不过这种情况在技术上是多余的，因为整个页面显然是一个单个的文档
+
+**疑问：例子中article为什么会包含header**
+
+### 4.3.3 section元素
+
+
+
+### 4.3.4 nav元素
+
+### 4.3.5 aside元素
+
+### 4.3.6 h标题系列元素
+
+### 4.3.7 hgroup元素
+
+### 4.3.8 header元素
+
+### 4.3.9 footer元素
+
+### 4.3.10 address元素
+
+### Headings and sections
