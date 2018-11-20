@@ -40,3 +40,6 @@
 * 内存面板
 * 应用面板
 * 安全面板
+* 指令菜单
+
+	`Cmd+Shift+P (Mac) or Ctrl+Shift+P (Windows, Linux)`
