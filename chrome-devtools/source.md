@@ -1,6 +1,35 @@
 ## source
 
+### page面板
+
+page面板中可以看到当前页面已经加载的所有资源，其中组织结构如下
+
+* top级：代表一个HTML页面，每个页面中均可以找到对应的top
+* 第二级：代表一个源
+* 第三级、第四级及以下：代表从相应的源请求到的目录和路径
+
+### editor面板
+
+在editor面板中展示和编辑代码
+
+* CSS代码不需要保存即可生效
+* JavaScript代码需要保存才可以生效，但是devtools不会重新执行脚本
+
+### snippets面板
+
+可以将一些会在多个页面重复运行的小脚本保存为代码段，代码段会在已打开页面的上下文执行，可以配合断点使用
+
+**snippets可以访问全局范围的变量，如window等**，但是无法访问对断点处的局部变量
+
+### overrides面板
+
+可以直接在source中修改页面的js和css，页面刷新后修改会丢失。
+
+overrides可以对修改进行本地化保存，以后页面针对此文件的请求也会直接使用该文件
+
 ### 断点
+
+设置断点，可以在断点处查看和修改当前作用域下的属性与变量，运行JavaScript代码，或者进行其他操作
 
 #### 断点类型
 
@@ -59,18 +88,6 @@ watch可以监听变量值的变化，避免重复的`console.log`，其监视�
 
 但是个人觉得watch需要配合断点使用，可以简化操作，避免重复调用对象，相比`console.log`优点有限
 
-### snippets
-
-可以将一些会在多个页面重复运行的小脚本保存为代码段，代码段会在已打开页面的上下文执行，可以配合断点使用
-
-**snippets可以访问全局范围的变量，如window等**，但是无法访问对断点处的局部变量
-
-### overrides
-
-可以直接在source中修改页面的js和css，`Ctrl + s`保存后即可使用，但是页面刷新后修改会丢失。
-
-overrides可以对修改进行本地化保存，以后页面针对此文件的请求也会直接使用该文件
-
 ### 将预处理代码映射到源代码
 
 `chrome devtools`可以基于文件的source maps，将预处理压缩过后的代码映射到源代码，从而在原始文件中设置断点和浏览代码。[预处理器](https://developers.google.com/web/tools/setup/setup-preprocessors#debugging-and-editing-preprocessed-content)
@@ -94,7 +111,3 @@ devtools -> setting -> source 中可以开启或者关闭JS与CSS的source map�
 * setting -> Blackboxing -> Add pattern -> 输入脚本名称或其名称的正则表达式
 
 **devtools中F1可以直接进入setting**
-
-### 文件编辑
-
-**可以直接修改JavaScript和CSS文件，保存后即可使用，但是页面刷新后修改就会丢失**
