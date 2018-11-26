@@ -49,3 +49,32 @@ device mode存在一些限制，主要在于以下几个方面
 * 浏览器UI
 * 浏览器功能
 * Appcache
+
+## 远程调试安卓设备
+
+此处需要使用Google提供的特定服务，故需要翻墙，采用host翻墙的方法，访问指定服务
+
+	172.217.21.20 chrome-devtools-frontend.appspot.com
+
+### 连接安卓设备
+
+* 设置安卓设备允许USB调试
+* 此处有两种方法
+	+ 访问`chrome://inspect/?tracing#devices`页面显示您的设备上已启用调试的 WebView 列表
+	+ 在devtools的more tools -> Remote devices 中，选择discover USB devices，查看连接的设备
+
+### 安卓设备设置端口转发
+
+端口转发`Port forwarding`可以使安卓设备通过自身特定端口访问在开发计算机上部署的内容。如通过设置可以使得手机使用自身的8080端口通过USB数据线访问与之相连计算机的localhost:5000地址
+
+端口转发通过在映射到开发计算机上 TCP 端口的 Android 设备上创建侦听 TCP 端口的方式工作。端口之间的流量通过 Android 设备与开发计算机之间的 USB 连接传输，所以连接并不取决于您的网络配置。
+
+端口转发配置如下图所示，左侧为设备端口号，右侧为目标网站的IP或主机名，后面紧跟端口号
+
+[端口转发配置](../img/port-forwarding.png)
+
+**此部分起到反向代理的作用**
+
+### 完整的转发设置
+
+完整的转发设置包括正向代理 + 反向代理，反向代理设置如上述，正向代理设置需要开发人员在WiFi的设置项中设置转发规则，地址为`localhost`，端口号为上述设置的devicePort，之后才可以将设置的所有请求由特定端口号转发到目标计算机上
