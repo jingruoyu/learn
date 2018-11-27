@@ -54,7 +54,7 @@
 	- scrolling performance issues：高亮会减慢页面滚动的元素，包括触摸和滚轮事件处理程序以及其他主线程滚动事件的处理
 	- emulate CSS media：选择CSS媒体，打印机或者屏幕
 * coverage
-	
+
 	**分析页面引入的js与css中使用和未使用的代码比例，选择每一个文件，可以看到其中使用与未使用到的代码**
 
 
