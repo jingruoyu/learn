@@ -60,6 +60,7 @@ console的设置项中`preserve log`可以跨页面保留log输出，在页面�
 
 #### console语句
 
+* `console.clear()`：清空控制台
 * `console.log()`：基本记录
 * `console.group()` & `console.groupEnd()`：分组输出，可以嵌套
 
@@ -67,10 +68,17 @@ console的设置项中`preserve log`可以跨页面保留log输出，在页面�
 
 	`console.group()`可以替换为`console.groupCollapsed()`，会自动折叠该分组信息
 
-* `console.warn()`
-* `console.error()`
-* `console.assert()`：断言，在第一个参数为false时，显示第二个参数，否则断言失败显示报错
+* `console.warn()`：警告，有堆栈信息
+* `console.error()`：报错，有堆栈信息
+* `console.assert()`：断言，在第一个参数为false时，输出第二个参数，同时包含堆栈信息
 * `console.table(arr1, arr2)`: 将arr1中的对象以表格形式展示出来，arr2可选，内容为希望展示的key
+* `console.time(str)` & `console.timeEnd(str)`：计时器，同一个计时开始与结束传入的字符串要相同
+* `console.timeStamp(str)`：在performance的时间轴上标记一条黄色垂直线，并在event log中添加相应记录
+* `console.count(str)`：输出str参数以及使用此参数调用该函数的次数，系统会自动为str进行计数
+* `console.trace()`：打印当前的堆栈信息
+	tips：window.onError参数：错误信息，错误页面网址，出错行号
+
+具体见[教程](https://developers.google.com/web/tools/chrome-devtools/console/console-reference)
 
 #### 字符串替代与样式控制
 
@@ -82,7 +90,20 @@ console的设置项中`preserve log`可以跨页面保留log输出，在页面�
 
 		console.log("%cThis will be formatted with large, blue text", "color: blue; font-size: x-large");
 
+### 命令行函数
 
+在控制台中可以使用与jQuery类似的元素选择器语法，但是其内部实现与jquery无关，可以避免使用`document.querySelector()`等过长的命令
 
+* `$0-4`：返回最后选中的五个元素，$0是最后访问的元素
+* `$()`：返回与指定 CSS 选择器匹配的第一个元素
+* `$$()`：返回一个与指定 CSS 选择器匹配的所有元素数组
+* `$x()`：返回一个与指定 XPath 匹配的元素数组
 
+		$x('html/body/p')
+
+* `$_`：返回上一个表达式的输出，不一定是元素，也可以是JavaScript表达式结果
+* `copy(object)`：将指定对象的字符串表示形式复制到粘贴板
+* `getEventListeners(object)`：返回在指定对象上注册的事件侦听器
+
+具体见[教程](https://developers.google.com/web/tools/chrome-devtools/console/command-line-reference)
 
