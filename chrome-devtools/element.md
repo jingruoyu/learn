@@ -72,4 +72,4 @@ accessibility面板用于展现与元素可访问性相关的属性，页面可�
 
 * request blocking
 
-	阻塞特定请求
+	阻塞包含特定关键字的请求
