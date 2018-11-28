@@ -62,8 +62,8 @@ accessibility面板用于展现与元素可访问性相关的属性，页面可�
 * rendering
 	- paint flashing：高亮页面中需要重绘的区域
 	- layer borders：展示页面的图层边界
-	- FPS meter：展示屏幕的FPS，GPU内存占用与GPU加速情况
-	- scrolling performance issues：高亮会减慢页面滚动的元素，包括触摸和滚轮事件处理程序以及其他主线程滚动事件的处理
+	- FPS meter：展示屏幕的FPS，GPU内存占用与GPU情况
+	- scrolling performance issues：高亮具有与滚动相关的事件监听的元素，包括触摸和滚轮事件处理程序以及其他主线程滚动事件的处理。这些元素可能会损害页面的性能
 		事件委托的使用会减小内存的占用，但是当chrome判断当前元素没有进行事件绑定时，在滚动等事件发生时绘制会更加流畅。而在过高层级的元素上绑定scroll，会与这种机制相矛盾
 	- emulate CSS media：选择CSS媒体，打印机或者屏幕
 * coverage
