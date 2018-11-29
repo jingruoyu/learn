@@ -17,7 +17,7 @@ audits 栏用于全面衡量页面性能
 	+ best practice
 	+ accessibility:页面的可访问性
 		页面可访问性包括能否通过键盘或屏幕阅读器访问与页面元素是否使用正确，此处主要针对第二项
-	+ SEO 
+	+ SEO
 
 * throttling
 
@@ -41,7 +41,7 @@ audits 栏用于全面衡量页面性能
 * 设置多级图片大小，选择合适的图片
 * 页面首次加载时只运行核心的CSS与JavaScript代码，其他内容懒加载
 
-	- 使用coverage可以查看页面加载时js代码的执行情况，然后设置异步加载defer
+	- 使用coverage可以查看页面加载时js代码的执行情况，然后设置异步加载defer或async，注意这两个的区别
 	- 如果使用框架，可以利用框架中的工具，如webpack的[tree shaking](https://webpack.js.org/guides/tree-shaking/)进行代码简化
 
 * 减轻主线程的工作
