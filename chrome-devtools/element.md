@@ -8,7 +8,7 @@
 
 	选中元素的几种方法：
 
-	* 在元素上邮件选择检查
+	* 在元素上右键选择检查
 	* 在devtools中点击元素选择器选择鼠标选择视野内的元素
 	* 在devtools中的DOM树中选择元素
 	* 在console中筛选出元素，在结果上右键选择**Reveal in Elements panel**
