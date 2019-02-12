@@ -18,7 +18,7 @@
 
 	控制台中相同的消息会默认堆叠，并在消息旁显示重复次数
 
-	可以在`setting -> console`中选择`show timestamps`，显示每条消息时还会显示其时间戳，由于时间戳不同，不会出现消息堆叠
+	可以在`setting -> console`中选择`show timestamps`，显示每条消息时还会显示其**时间戳**，由于时间戳不同，不会出现消息堆叠
 
 * filter过滤
 
