@@ -616,3 +616,25 @@ hidden属性为全局属性，表明将某一个模块从DOM树中移除
 ### 4.5.4 small元素
 
 暂停元素部分
+
+#### 4.12.3 template element
+
+内容模型：nothing
+
+template元素用于声明可以被脚本插入或克隆到文档其他位置的HTML片段。在渲染过程中，template元素代表空
+
+**template元素的内容并不是template的后代元素**，其内容存储在与不同Document相关联的`DocumentFragment`中，而不是浏览器上下文，从而避免template中的内容影响主文档。**其内部元素是通过template元素的content属性返回的`DocumentFragment`对象的子节点**
+
+	template.content //返回template元素内容，即一个DocumentFragment
+
+template元素中可以包含文本节点和元素节点，但是由于其内容模型为nothing，故元素中包含任何内容都会违反template的内容模型
+
+每个template元素都有一个与之相关联的`DocumentFragment`对象，其中存储着template的内容，对于内容没有一致性要求。当template元素创建时，UA必须执行如下操作
+* 将doc设置为template元素模板中节点文档的所有者
+* 创建一个`DocumentFragment`对象，其节点文档是doc，其所有者为template元素
+* 设置template元素的模板内容是最新创建的`DocumentFragment`对象
+
+#### slot element
+
+#### 4.13 custom element
+
