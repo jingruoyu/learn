@@ -634,7 +634,24 @@ template元素中可以包含文本节点和元素节点，但是由于其内容
 * 创建一个`DocumentFragment`对象，其节点文档是doc，其所有者为template元素
 * 设置template元素的模板内容是最新创建的`DocumentFragment`对象
 
-#### slot element
+clone template元素中节点的步骤：
+* 如果没有指定深度clone标志位，则直接返回
+* 让复制的内容是克隆节点模板内容的所有子节点的结果，文档设置为复制模板内容的节点文档，并且克隆子元素标志集
+* 将复制的内容附加到副本的模板内容中
+
+#### 4.12.4 slot element
+
+slot元素定义一个slot插槽，通常用于`shadow DOM`树。slot元素代表其分配的节点，如果未被分配到节点，则代表其内容
+
+**name属性**代表slot的name，其中可以包含任何字符串。
+
+name属性用于将slot插槽分配给其他元素，具有name属性的slot元素创建一个命名槽，如果其他元素的slot属性值与该slot元素name属性的值相匹配，则对应元素将分配给slot插槽
+
+* slot.name：可以被用于设置或获取name属性
+* slot.assignNodes()：返回slot被分配到的节点
+* slot.assignNode({flatten: true})：返回插槽的已分配节点（如果有），否则返回插槽的子节点，并对其中遇到的任何插槽元素执行相同的操作，直到没有剩余插槽元素为止。
+* slot.assignElements()：返回slot被分配到的节点，仅限于元素节点
+* slot.assignElements({flatten: true})：与assignNodes操作相同，仅限于元素节点
 
 #### 4.13 custom element
 
