@@ -4,6 +4,10 @@
 
 [performance事件参考](https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/performance-reference)
 
+**window下performance对象可以提供页面加载相关事件耗时统计**，时间采用timestamp格式，可以在使用该对象属性进行性能统计
+
+![performance API](../img/performance-network.png)
+
 ### 工具使用
 
 #### 概览
@@ -12,8 +16,11 @@
 * CPU栏：CPU栏火焰图颜色与底部summary统计栏中颜色相对应。当CPU栏被占满时，应该寻找方法减少CPU工作量
 
 	在火焰图上看到一到三条垂直的虚线，蓝线代表`DOMContentLoaded`事件，绿线代表首次绘制的时间，红线代表`load`事件
-	+ DOMContentLoaded：当初始的 HTML 文档被完全加载和解析完成之后，DOMContentLoaded 事件被触发，而无需等待样式表、图像和子框架的完成加载。但是同步的JavaScript会暂停DOM的解析，而且`DOMContentLoaded`必须等待其所属的script之前的样式表加载解析完成才会触发
-	* load：浏览器已经加载了所有的资源，包括样式表、图像与子框架等
+	* DOMContentLoaded：当初始的 HTML 文档被完全加载和解析完成之后，DOMContentLoaded 事件被触发，而无需等待样式表、图像和子框架的完成加载。
+
+	但是同步的JavaScript会暂停DOM的解析，而且**`DOMContentLoaded`必须等待其所属的script之前的样式表加载解析完成才会触发**
+
+	* load：浏览器已经加载了所有的资源，包括样式表、同步与异步js、图像与子框架等
 
 #### 堆栈栏
 
@@ -22,7 +29,7 @@
 
 	不同请求会用颜色作为区分，HTML蓝色，CSS紫色，JS黄色，图片绿色。高优先级请求左上角有深蓝色块，低优先级请求左上角为浅蓝色块，如下图所示
 
-	[network](../img/performance-network.png)
+	![network](../img/performance-network.png)
 
 	* 请求前面的细线代表`Connection start`事件组的所有内容，即为`Request Sent`前的所有内容
 	* 请求的浅色部分代表`Request Sent`和`Waiting (TTFB)`
