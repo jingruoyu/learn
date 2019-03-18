@@ -50,7 +50,7 @@ console的设置项中`preserve log`可以跨页面保留log输出，在页面�
 
 如图示下拉框为`Execution Context Selector`，可以选择控制台的执行环境，在页面中存在iframe时会有很大作用
 
-![Execution Context Selector](../img/console-context.png)
+![Execution Context Selector](../img/chrome-devtools/console-context.png)
 
 此选项默认为top，即为页面的顶部框架。其他的框架和扩展程序在其自身环境中运行，执行环境可以通过下拉菜单进行切换。当在top外的环境进行操作时，选择框会突出显示为红色
 
