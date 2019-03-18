@@ -87,7 +87,7 @@ TCP中一个连接的建立需要经过三次握手，断开需要经过四次�
 
 三次握手与四次分手如下图示
 
-![TCP](../img/TCP-connection.png)
+![TCP](../img/TCPIP/TCP-connection.png)
 
 #### 6.4.5 TCP以段为单位发送数据
 
@@ -122,7 +122,7 @@ MSS：最大消息长度，TCP在建立连接时，同时确定发送数据包�
 * 在每个TCP连接的整个生命周期中，每个ACK分组都会携带相应的最新rwnd值，以便两端动态调整数据流速
 * 由于TCP首部中表示Window Size的字段只有16位，因此按照协议，能表示的最大窗口大小是2^16-1=65535Bytes(64Kb)。采用TCP窗口缩放（TCP Window Scaling），窗口的最大值可以扩展到1G字节
 
-![流控制](../img/TCP-rwnd.png)
+![流控制](../img/TCPIP/TCP-rwnd.png)
 
 当接收端将发送窗口限制为0时，发送端会暂停发送数据
 * 之后收到接收端发送的发送窗口更新通知才会继续发送数据。
@@ -140,7 +140,7 @@ MSS：最大消息长度，TCP在建立连接时，同时确定发送数据包�
 
 通信开始通过慢启动算法得出的数值，对发送数据量进行控制，过程如下图
 
-![慢启动](../img/TCP/TCP-cwnd.png)
+![慢启动](../img/TCPIP/TCP/TCP-cwnd.png)
 
 拥塞窗口cwnd(congestion window)：发送端对从客户端接收确认（ACK）之前可以发送数据量的限制
 * 慢启动将此值初始化为1个数据段，即1MSS
@@ -162,7 +162,7 @@ TCP拥塞控制窗口变化的原则是AIMD原则，即加法增大、乘法减�
 
 	new_cwnd = old_cwnd + SMSS*SMSS/old_cwnd
 
-![TCP窗口变换](../img/TCP-ssthread.png)
+![TCP窗口变换](../img/TCPIP/TCP-ssthread.png)
 
 **快速重传**
 
@@ -296,11 +296,11 @@ DCCP，Datagram Congestion Control Protocol，数据报拥塞控制协议，辅�
 
 ### 6.6 UDP首部格式
 
-![UDP首部格式](../img/UDP-head.png)
+![UDP首部格式](../img/TCPIP/UDP-head.png)
 
 ### 6.7 TCP首部格式
 
-![TCP首部格式](../img/TCP-head.png)
+![TCP首部格式](../img/TCPIP/TCP-head.png)
 
 在TCP与UDP计算校验和时，会使用**伪首部**
 * 原因：识别一个通信有五个要素，但是在传输层只知道源端口与目标端口，其他三项在IP首部中，故在验证五项识别码时需要引入伪首部

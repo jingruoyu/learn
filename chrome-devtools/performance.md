@@ -6,7 +6,7 @@
 
 **window下performance对象可以提供页面加载相关事件耗时统计**，时间采用timestamp格式，可以在使用该对象属性进行性能统计
 
-![performance API](../img/performance-network.png)
+![performance API](../img/chrome-devtools/performance-network.png)
 
 ### 工具使用
 
@@ -29,7 +29,7 @@
 
 	不同请求会用颜色作为区分，HTML蓝色，CSS紫色，JS黄色，图片绿色。高优先级请求左上角有深蓝色块，低优先级请求左上角为浅蓝色块，如下图所示
 
-	![network](../img/performance-network.png)
+	![network](../img/chrome-devtools/performance-network.png)
 
 	* 请求前面的细线代表`Connection start`事件组的所有内容，即为`Request Sent`前的所有内容
 	* 请求的浅色部分代表`Request Sent`和`Waiting (TTFB)`
