@@ -43,3 +43,17 @@ HTTP依赖于可靠的数据通信，故可以提供可靠数据通信的协议�
 
 * `HTTP/1.0`中大部分情况需要为每个请求或相应新建一个连接
 * `HTTP/1.1`中一个连接可以被用于一个或多个请求或响应的数据交换
+
+## 符号惯例
+
+* `"literal"`：文字被双引号包围，无特殊说明大小写不敏感
+* `<n>*<m>rule`：最少n个最多m个，当n为0或m为正无穷时可省略
+* `(rule)`：括号中元素被当做一个简单元素
+* `[rule]`：`[foo bar]`等价于`*1(foo bar)`
+
+## 基础规则
+
+* CR：carriage return，回车
+* LF：linefeed，换行
+* SP：space，空格
+* CTL：control character and DEL，控制字符和DEL
