@@ -56,4 +56,6 @@ HTTP依赖于可靠的数据通信，故可以提供可靠数据通信的协议�
 * CR：carriage return，回车
 * LF：linefeed，换行
 * SP：space，空格
+* HT：horizontal-tab，横向tab
 * CTL：control character and DEL，控制字符和DEL
+* LWS：linear white space，连续空格

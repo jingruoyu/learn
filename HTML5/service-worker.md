@@ -40,13 +40,28 @@
 
 	通过捕捉控制scope范围内的fetch事件，service worker可以实现对所有请求的控制
 
-	捕获fetch事件后，使用`event.respondWith`可以劫持HTTP响应，完成各种操作，详见[service workers](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API/Using_Service_Worker#自定义请求的响应)
+	捕获fetch事件后，使用`event.respondWith`可以劫持HTTP响应，完成各种操作，详见[service workers](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API/Using_Service_Workers#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%B7%E6%B1%82%E7%9A%84%E5%93%8D%E5%BA%94)
 
 5. 更新
 
-	如果你的 service worker 已经被安装，但是刷新页面时有一个新版本的可用，新版的 service worker 会在后台安装，但是还没激活。当不再有任何已加载的页面在使用旧版的 service worker 的时候，新版本才会激活。
+	如果你的 service worker 已经被安装，但是刷新页面时有一个新版本的可用，此时
 
-	**新旧版之间通过key区分cache**
+	* 新版会在后台安装，但是还没激活。
+	* 当不再有任何已加载的页面在使用旧版的时候，新版本才会激活。
+
+	注意此过程中
+	* service worker的文件名不能发生变化，否则无法发现版本更新
+	* 注册的service worker名称不能发生变化，有人会在名称后面跟时间戳以实时监测sw文件更新得到最新缓存，但会导致每次都注册新的service worker，系统负担很大，得不偿失。
+
+	正确监测sw文件更新两种方法：
+	* 服务端配置sw.js为no-cache不缓存，每次更新单独请求，此方法需要单独服务端配置
+	* 将注册过程单独写入js文件，在主文件中每次带上时间戳请求最新的该文件。
+
+		在注册文件中，注册时带上上线版本号，保证每上线一次，会且只会重新注册一个新的sw，立即完成新文件缓存
+
+	详见：[service worker更新](https://zoumiaojiang.com/article/how-regist-service-worker-for-pwa/)
+
+	**新旧版之间可以通过key区分cache，注意旧cache的删除**
 
 ## Q&A
 
@@ -61,3 +76,16 @@
 	Q：断网情况下，`unregister`掉`/a`路径注册在根路径下的`service worker`，此时再刷新页面a的确无法访问。但是转而访问根路径页面可以访问，观察到一个新的worker被重新注册并获取资源，何处注册，何处拿到资源？
 
 	A：在devtools的network中可以发现，断网`unregister`后页面来源为`from disk cache`，故页面资源从硬盘缓存中获取，并在其中注册
+
+3. 单页面应用history模式下拦截其他路径下请求
+
+	Q：vuerouter的history模式下，使用path区分不同页面的路径，本质仍为单页面，需要服务器做相应配置，在不同路径下返回同一份html文件，此时HTTP缓存位于不同路径下。当无网络时访问一个全新路径，由于没有该path缓存，页面会访问失败，可以使用service worker返回相关资源
+
+	A：在service中具体做法类似于服务端的配置，对特定路径下的html资源访问均从缓存中匹配主文件或发起根路径资源请求，如下示
+
+		if (event.request.url.indexOf('/b') > 0) {
+            // return fetch('/');
+            return caches.match('/');
+        }
+
+    此种方法即可解决SPA应用不同路径下缓存不同问题
