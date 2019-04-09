@@ -1,6 +1,12 @@
 ## 4 HTTP Message
 
 HTTP信息包含客户端向服务端的请求和服务端向客户端的响应，一般消息格式为
+
+    generic-message = start-line
+              *(message-header CRLF)
+              CRLF
+              [ message-body ]
+
 * 起始行，也称状态行
 * 0或多个HTTP头部
 * 标志header结束的**回车换行**，即空行
@@ -95,4 +101,20 @@ header字段可以扩展到多行，每个字段前要加上空格或者tab
 
 普通头字段可以随着版本号进行扩展。但是新的或实验中的字段如果不能被识别为普通头字段，将被当做实体头字段处理
 
-## 5 Request
+## 5 Request请求
+
+客户端向服务端的请求信息，应该包括请求行、请求方法、资源URI与协议版本
+
+    Request = Request-Line
+              *(( general-header
+                | request-header
+                | entity-header ) CRLF)
+              CRLF
+              [ message-body ]
+
+
+### 5.1 请求行
+
+    Request-Line   = Method SP Request-URI SP HTTP-Version CRLF
+
+#### 5.1.1 请求方法
