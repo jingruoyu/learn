@@ -1,5 +1,7 @@
 # Hypertext Transfer Protocol -- HTTP/1.1
 
+[HTTP/1.1](https://tools.ietf.org/html/rfc2616#section-5.1.1)
+
 HTTP是应用层协议，分布式协作
 
 ## 标准目的

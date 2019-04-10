@@ -27,8 +27,8 @@ HTTP信息包含客户端向服务端的请求和服务端向客户端的响应�
 
 header字段可以扩展到多行，每个字段前要加上空格或者tab
 
-	message-header = field-name ":" [ field-value ]
-	field-name     = token
+    message-header = field-name ":" [ field-value ]
+    field-name     = token
     field-value    = *( field-content | LWS )
 
 `field-content`不包含其之前或之后的连续空格，在解释语义或转发消息流时连续空格会被替换为单个空格，连续空格不会改变语义
@@ -41,7 +41,7 @@ header字段可以扩展到多行，每个字段前要加上空格或者tab
 
 消息正文用于承担请求或响应的实体信息`entity-body`，当使用`Transfer-Encoding`时实体信息会被编码
 
-	message-body = entity-body | <entity-body encoded as per Transfer-Encoding>
+    message-body = entity-body | <entity-body encoded as per Transfer-Encoding>
 
 `Transfer-Encoding`属于消息的一项属性，在请求响应链中可以被添加或移除
 
@@ -67,13 +67,13 @@ header字段可以扩展到多行，每个字段前要加上空格或者tab
 1. 当响应被规定不能包含消息正文，无论其消息头中字段如何定义，响应会在消息头之后的第一个空行处结束
 2. 当消息头中的`Transfer-Encoding`被指定为除`identity`之外的其他值时，传输长度取决于当前传输编码的分块，除非连接被关闭
 
-	所有的HTTP/1.1发送实体信息时必须使用分块传输编码，故其消息长度不能够被提前给出
+    所有的HTTP/1.1发送实体信息时必须使用分块传输编码，故其消息长度不能够被提前给出
 
 3. 当消息头中的`Content-Length`被指定，其十进制形式同时表示实体信息长度和传输长度。当这两个值不同，`Content-Length`不会被发送，如使用了`Transfer-Encoding`
 
-	如果接收方收到的消息头中同时包含`Transfer-Encoding`和`Content-Length`，后者必须被忽略
+    如果接收方收到的消息头中同时包含`Transfer-Encoding`和`Content-Length`，后者必须被忽略
 
-	消息中不能同时包含`Content-Length`头与非`identity`的`Transfer-Encoding`头，如果包含，前者将被忽略
+    消息中不能同时包含`Content-Length`头与非`identity`的`Transfer-Encoding`头，如果包含，前者将被忽略
 
 4. 如果消息使用媒体类型`multipart / byteranges`，并且未另外指定`ransfer-length`，则此自我限制媒体类型定义传输长度。除非发件人知道收件人可以处理，否则不能使用此媒体类型
 
@@ -81,7 +81,7 @@ header字段可以扩展到多行，每个字段前要加上空格或者tab
 
 **兼容性**
 * 为了兼容HTTP/1.0，除非明确知道服务端兼容HTTP/1.1，否则当请求中包含请求正文时，请求头中必须包含有效地`Content-Length`字段
-* 当请求中包含请求正文，但是未给出`Content-Length`，如果苏无端无法判断消息的长度，服务端应该返回400(bad request)或411(length required)
+* 当请求中包含请求正文，但是未给出`Content-Length`，如果苏无端无法判断消息的长度，服务端应该返回400(`bad request`)或411(`length required`)
 
 **`Content-Length`的取值必须与消息正文相匹配**，如果UA检测到一个无效长度时必须通知用户
 
@@ -118,3 +118,52 @@ header字段可以扩展到多行，每个字段前要加上空格或者tab
     Request-Line   = Method SP Request-URI SP HTTP-Version CRLF
 
 #### 5.1.1 请求方法
+
+* OPTIONS：预检请求
+* GET
+* HEAD：类似于GET，但服务器不返回消息体，相应头中的元信息。常用于获取请求的元信息
+* POST
+* PUT
+* DELETE
+* TRACE
+* CONNECT
+* 其他扩展方法
+
+[各请求方法介绍](https://itbilu.com/other/relate/EkwKysXIl.html)
+
+请求方法使用
+
+* 可以在`ALLOW`头中列举出本资源可以使用的请求方法
+* 当使用远程服务器已知但是不允许的方法请求资源时，服务器应该返回405`Method Not Allowed`
+* 当使用远程服务器不能识别的方式请求资源，服务器应该返回501`Not Implemented`
+* 所有的多用途服务器都必须支持GET与HEAD方法，其他方法为可选项，如果使用必须按照标准进行实现
+
+### 5.1.2 请求URI
+
+**注意请求URI与http_URL的不同**
+
+    Request-URI    = "*" | absoluteURI | abs_path | authority
+
+请求URI的取值取决于请求的性质
+
+* `*`：请求并不依赖于特定的资源，只是针对服务端的请求，该URI只能在请求方法不一定针对资源时使用，如
+
+        OPTIONS * HTTP/1.1
+
+    预检请求在跨域时用于判断服务器是否接受当前域名下的请求方法
+
+* 绝对路径URI：一个请求链中可能经过网络代理，网络代理会根据请求的绝对路径对请求进行转发。为了避免请求循环，代理必须能够识别其所有服务器名称，包括任何别名，本地变体和数字IP地址
+
+    所有使用HTTP/1.1的服务器都必须支持绝对路径
+
+* authority：仅用于CONNECT请求
+
+* 绝对路径：绝对路径可以作为`Request-URI`，但**同时需要在请求头中包含Host域名**
+
+    此时绝对路径不能为空，如果未指定，则应该置为`\`
+
+如果`Request-URI`使用十六进制编码，则服务端必须进行解码以获取正确的请求。服务器针对错误的请求URI应该返回对应的相应值
+
+**禁止重写规则**：网关代理在转发请求时严禁重写`Request-URI`中的绝对路径，使用`\`代替空的绝对路径除外
+
+禁止重写规则旨在
