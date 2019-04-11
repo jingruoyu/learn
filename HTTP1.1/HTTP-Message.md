@@ -87,7 +87,7 @@ header字段可以扩展到多行，每个字段前要加上空格或者tab
 
 ### 4.5 普通头信息
 
-有一些头字段对请求和响应消息具有普遍适用性，但**仅适用于正在传输的消息，不适用于实体。**
+有一些头字段对请求和响应消息具有普遍适用性，但**仅适用于正在传输的消息，不适用于实体**。
 
 * Cache-Control
 * Connection
@@ -184,9 +184,58 @@ header字段可以扩展到多行，每个字段前要加上空格或者tab
 
 `HTTP/1.1`请求的接收方缺失`Host`头时会尝试采用启发式的方法以便确定请求的资源，如根据URI路径寻找特定的host
 
-### 5.3 请求头
+### 5.3 请求头字段
 
 请求头允许客户端向服务端传输请求与客户端的额外信息，作为一些语义化的参数
 
+* `Accept`
+* `Accept-Charset`
+* `Accept-Encoding`
+* `Accept-Language`
+* `Authorization`
+* `Expect`
+* `From`
+* `Host`
+* `If-Match`
+* `If-Modified-Since`
+* `If-None-Match`
+* `If-Range`
+* `If-Unmodified-Since`
+* `Max-Forwards`
+* `Proxy-Authorization`
+* `Range`
+* `Referer`
+* `TE`
+* `User-Agent`
+
 请求头的name只有在协议升级时才能被可靠地扩展，但在各个版本中也可以扩展一些新的或者实验性的请求头字段。不能识别的头字段将被当做实体头对待
 
+## 6 响应
+
+接收和解析请求信息之后，服务器将会返回一个HTTP响应信息
+
+    Response      = Status-Line
+                    *(( general-header
+                     | response-header
+                     | entity-header ) CRLF)
+                    CRLF
+                    [ message-body ]
+
+### 6.1 状态行
+
+响应信息的第一行为状态行，包括HTTP版本、状态码与描述文本，使用空格相连，最后为回车换行
+
+    Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF
+
+#### 6.1.1 状态码与描述短语
+
+状态码为三位整数，描述短语用于给状态码一个简短的描述
+
+状态码是机器可读的，原因短语是人可读的，客户端并不需要检测或展示原因短语
+
+状态码的第一位代表响应的分类
+* 1xx：信息响应，请求收到，客户端继续发送请求
+* 2xx：成功响应，请求成功接收与解析
+* 3xx：重定向，需要采取进一步操作以完成请求
+* 4xx：客户端错误，请求包含错误的语法或无法实现
+* 5xx：服务端错误，客户端无法处理一个有效请求
