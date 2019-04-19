@@ -23,4 +23,9 @@ HTTP/1.1中长连接时任何HTTP连接的默认行为，这是其与更早版�
 
 #### 8.1.2.1 传输
 
-当`Connection`头字段值位close时，长连接将被断开。如果服务器希望在返回响应后立即断开长连接，其应该将响应头中`Connection`置为close
+当`Connection`头字段值位close时，长连接将被断开。
+
+* 如果HTTP/1.1服务器希望在返回响应后立即断开长连接，其应该将响应头中`Connection`置为close
+* 如果HTTP/1.1客户端希望在本次请求后断开长连接，其应该将请求头中`Connection`置为close
+
+长连接是否保持基于请求与响应中的`Connection`头字段，如果请求或响应任意一方的`Connection`字段为close，则该请求
