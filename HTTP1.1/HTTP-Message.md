@@ -200,7 +200,7 @@ header字段可以扩展到多行，每个字段前要加上空格或者tab
 * `If-None-Match`
 * `If-Range`
 * `If-Unmodified-Since`
-* `Max-Forwards`
+* `Max-Forwards`：最大可转发次数
 * `Proxy-Authorization`
 * `Range`
 * `Referer`
