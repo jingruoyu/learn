@@ -104,6 +104,8 @@ console的设置项中`preserve log`可以跨页面保留log输出，在页面�
 * `$_`：返回上一个表达式的输出，不一定是元素，也可以是JavaScript表达式结果
 * `copy(object)`：将指定对象的字符串表示形式复制到粘贴板
 * `getEventListeners(object)`：返回在指定对象上注册的事件侦听器
+* `monitor(function)`：调用指定函数，系统会向控制台记录一条消息，其中指明函数名称及在调用时传递到该函数的参数，停止监听使用`unmonitor`
+* `monitorEvents(object[, events])`：监听指定对象上发生的事件，可以监听单独事件、事件数组或事件类型，详见教程，停止监控使用`monitorEvents`，可以直接停止监控所有事件，亦可以停止监控某一个事件
 
 具体见[教程](https://developers.google.com/web/tools/chrome-devtools/console/command-line-reference)
 
