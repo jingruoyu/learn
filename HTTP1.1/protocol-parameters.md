@@ -23,6 +23,8 @@ URI分为绝对路径和相对路径，其中相对路径依赖于已知的基�
 * HTTP协议不会对URI长度做任何限制
 * URI如果过长导致服务器不能处理，会返回414
 
+URI与URL区别见TCP/IP第一章
+
 #### http URL
 
 	http_URL = "http:" "//" host [ ":" port ] [ abs_path [ "?" query ]]
