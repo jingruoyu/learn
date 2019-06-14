@@ -30,7 +30,7 @@ symbol值的使用：
         Boolean(sym) // true
         !sym  // false
 
-* **symbol值不能转化为数值**、
+* **symbol值不能转化为数值**
 
 ## symbol值作为属性名或方法名
 
