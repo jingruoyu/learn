@@ -1,3 +1,5 @@
+[七天学会NodeJS](http://nqdeng.github.io/7-days-nodejs/#1)
+
 # Nodejs基础
 
 Nodejs相当于一个解析器，运行平台，其中运行js语言，为js提供一系列的内置对象和方法
@@ -76,3 +78,26 @@ module.exports = function () {
 
 ## 工程目录
 
+一个完整项目中一般会包含可执行脚本、API文件与第三方库，还应该有完整的文档与测试用例，故标准的工作目录应该和以下类似：
+
+```
+# 工程目录
+    + bin/                          # 可执行脚本
+    + doc/                          # 存放文档
+    - lib/                          # 存放API相关代码
+        echo.js
+    + proxy							# 数据代理目录
+    + assets						# 静态文件目录
+    + node_modules/                 # 存放三方包
+    + tests/                        # 存放测试用例
+    package.json                    # 包描述文件，项目依赖项配置等
+    README.md                       # 说明文件
+```
+
+## npm相关
+
+### 发布npm包
+
+1. `npm adduser`向`https://registry.npmjs.org/.`注册用户
+2. 在包的`package.json`中放入必要字段
+3. `npm publish`发布npm包
