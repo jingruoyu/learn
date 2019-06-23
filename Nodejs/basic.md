@@ -19,7 +19,7 @@ Nodejs初始目标为实现高性能的Web服务器，这需要依赖事件机�
 
     权限问题，在监听80或443端口时可能会有权限问题，建议针对单独文件设置权限
 
-## 模块
+## [模块](http://nodejs.cn/api/modules.html)
 
 ### 代码模块化
 
@@ -35,13 +35,23 @@ Nodejs初始目标为实现高性能的Web服务器，这需要依赖事件机�
 
     在其他模块中通过`require`可以访问到当前模块的`exports`对象
 
+    ```javascript
+    exports.a = 1;
+    ```
+
+    `exports`是`module.exports`的简洁形式，一般这两个变量指向同一个对象
+    * 但是如果为`exports`赋予了新值，它将不在绑定到`module.exports`
+    * 但是如果`module.exports`属性被新对象完全替换时，通常也会重新赋值`exports`
+
 * `module`：可以访问到当前模块的一些相关信息，最常用为替换当前模块的导出对象，如下示
 
-```javascript
-module.exports = function () {
-    console.log('Hello World!');
-};
-```
+    ```javascript
+    module.exports = function () {
+        console.log('Hello World!');
+    };
+    ```
+
+
 
 ### 模块初始化
 
