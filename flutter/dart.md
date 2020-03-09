@@ -4,7 +4,7 @@
 
 外部因素：java在Oracle的版权问题
 
-dart优势：
+dart优秀：
 * AOT：ahead of time，提前编译，即在程序运行之前自行编译，编译为快速、可预测的本地代码，使flutter更快
 * JIT：just in time，实时编译，可以实现亚秒级有状态热重载
 * 动画流畅，轻松实现60fps

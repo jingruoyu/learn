@@ -2,8 +2,6 @@
 
 [搭建React框架指南](https://github.com/facebookincubator/create-react-app)，类似于vue-cli
 
-很久之前写的，废话太多了
-
 ## 依赖库
 
 * react.js，React核心库
@@ -87,7 +85,7 @@ this.props中组件的属性与dom的属性一一对应，具有只读性
 
 **this.props.children表示组件的所有子节点**
 
-`this.props.children`的取值要点：
+this.props的取值要点：
 
 * 如果当前组件没有子节点，则值为undefined
 * 如果当前组件有一个子节点，则取值类型为object
