@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>微信小程序基础 · 荆若愚学习笔记</title>
+        <title>hook · 荆若愚学习笔记</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -86,10 +86,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="微信小程序进阶.html" />
+    <link rel="next" href="../flutter/" />
     
     
-    <link rel="prev" href="./" />
+    <link rel="prev" href="guide/context.html" />
     
 
     
@@ -343,9 +343,9 @@
         
         
     
-        <li class="chapter " data-level="3.1" data-path="../react/">
+        <li class="chapter " data-level="3.1" data-path="./">
             
-                <a href="../react/">
+                <a href="./">
             
                     
                         <b>3.1.</b>
@@ -359,9 +359,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.1" data-path="../react/react基础.html">
+        <li class="chapter " data-level="3.1.1" data-path="react基础.html">
             
-                <a href="../react/react基础.html">
+                <a href="react基础.html">
             
                     
                         <b>3.1.1.</b>
@@ -374,9 +374,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.2" data-path="../react/react进阶.html">
+        <li class="chapter " data-level="3.1.2" data-path="react进阶.html">
             
-                <a href="../react/react进阶.html">
+                <a href="react进阶.html">
             
                     
                         <b>3.1.2.</b>
@@ -390,9 +390,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.2.1" data-path="../react/guide/context.html">
+        <li class="chapter " data-level="3.1.2.1" data-path="guide/context.html">
             
-                <a href="../react/guide/context.html">
+                <a href="guide/context.html">
             
                     
                         <b>3.1.2.1.</b>
@@ -410,9 +410,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.3" data-path="../react/hook.html">
+        <li class="chapter active" data-level="3.1.3" data-path="hook.html">
             
-                <a href="../react/hook.html">
+                <a href="hook.html">
             
                     
                         <b>3.1.3.</b>
@@ -481,9 +481,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.3" data-path="./">
+        <li class="chapter " data-level="3.3" data-path="../wechat/">
             
-                <a href="./">
+                <a href="../wechat/">
             
                     
                         <b>3.3.</b>
@@ -497,9 +497,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="3.3.1" data-path="微信小程序基础.html">
+        <li class="chapter " data-level="3.3.1" data-path="../wechat/微信小程序基础.html">
             
-                <a href="微信小程序基础.html">
+                <a href="../wechat/微信小程序基础.html">
             
                     
                         <b>3.3.1.</b>
@@ -512,9 +512,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.3.2" data-path="微信小程序进阶.html">
+        <li class="chapter " data-level="3.3.2" data-path="../wechat/微信小程序进阶.html">
             
-                <a href="微信小程序进阶.html">
+                <a href="../wechat/微信小程序进阶.html">
             
                     
                         <b>3.3.2.</b>
@@ -527,9 +527,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.3.3" data-path="小程序组件.html">
+        <li class="chapter " data-level="3.3.3" data-path="../wechat/小程序组件.html">
             
-                <a href="小程序组件.html">
+                <a href="../wechat/小程序组件.html">
             
                     
                         <b>3.3.3.</b>
@@ -542,9 +542,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.3.4" data-path="快应用基础.html">
+        <li class="chapter " data-level="3.3.4" data-path="../wechat/快应用基础.html">
             
-                <a href="快应用基础.html">
+                <a href="../wechat/快应用基础.html">
             
                     
                         <b>3.3.4.</b>
@@ -1241,7 +1241,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >微信小程序基础</a>
+        <a href=".." >hook</a>
     </h1>
 </div>
 
@@ -1256,79 +1256,50 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="&#x5FAE;&#x4FE1;&#x5C0F;&#x7A0B;&#x5E8F;"><a name="&#x5FAE;&#x4FE1;&#x5C0F;&#x7A0B;&#x5E8F;" class="plugin-anchor" href="#&#x5FAE;&#x4FE1;&#x5C0F;&#x7A0B;&#x5E8F;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x5FAE;&#x4FE1;&#x5C0F;&#x7A0B;&#x5E8F;</h1>
-<h1 id="&#x57FA;&#x7840;"><a name="&#x57FA;&#x7840;" class="plugin-anchor" href="#&#x57FA;&#x7840;"><i class="fa fa-link" aria-hidden="true"></i></a><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/" target="_blank">&#x57FA;&#x7840;</a></h1>
-<h2 id="&#x4EE3;&#x7801;&#x6784;&#x6210;"><a name="&#x4EE3;&#x7801;&#x6784;&#x6210;" class="plugin-anchor" href="#&#x4EE3;&#x7801;&#x6784;&#x6210;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x4EE3;&#x7801;&#x6784;&#x6210;</h2>
+                                <h2 id="hook"><a name="hook" class="plugin-anchor" href="#hook"><i class="fa fa-link" aria-hidden="true"></i></a>Hook</h2>
+<h3 id="hook-&#x4F5C;&#x7528;"><a name="hook-&#x4F5C;&#x7528;" class="plugin-anchor" href="#hook-&#x4F5C;&#x7528;"><i class="fa fa-link" aria-hidden="true"></i></a>hook &#x4F5C;&#x7528;</h3>
+<p>React&#x7F3A;&#x70B9;</p>
 <ul>
-<li><p>JSON&#x914D;&#x7F6E;</p>
-<ul>
-<li><p>app.json&#xFF1A;&#x5F53;&#x524D;&#x5C0F;&#x7A0B;&#x5E8F;&#x5168;&#x5C40;&#x914D;&#x7F6E;</p>
-<p>  pages&#xFF1A;&#x5F53;&#x524D;&#x5C0F;&#x7A0B;&#x5E8F;&#x6240;&#x6709;&#x9875;&#x9762;&#x8DEF;&#x5F84;</p>
-<p>  window&#xFF1A;&#x9ED8;&#x8BA4;&#x9875;&#x9762;&#x7684;&#x7A97;&#x53E3;&#x8868;&#x73B0;</p>
-<p>  tabBar&#xFF1A;&#x8BBE;&#x7F6E;tab&#x7684;&#x8868;&#x73B0;</p>
-<p>  networkTimeout&#xFF1A;&#x7F51;&#x7EDC;&#x8D85;&#x65F6;&#x4E8B;&#x4EF6;</p>
-<p>  debug&#xFF1A; &#x662F;&#x5426;&#x5F00;&#x542F;debug&#x6A21;&#x5F0F;</p>
+<li><p>&#x7EC4;&#x4EF6;&#x95F4;&#x590D;&#x7528;&#x72B6;&#x6001;&#x903B;&#x8F91;&#x5F88;&#x96BE;&#xFF0C;&#x9700;&#x8981;&#x501F;&#x52A9;render props&#x548C;&#x9AD8;&#x9636;&#x7EC4;&#x4EF6;&#xFF0C;&#x4F46;&#x662F;&#x8FD9;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x7EC4;&#x7EC7;&#x7EC4;&#x4EF6;&#x7ED3;&#x6784;</p>
+<p>  <strong>Hook&#x53EF;&#x4EE5;&#x5728;&#x65E0;&#x9700;&#x66F4;&#x6539;&#x7EC4;&#x4EF6;&#x7ED3;&#x6784;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x590D;&#x7528;&#x72B6;&#x6001;&#x903B;&#x8F91;</strong></p>
 </li>
-<li><p>project.config.json&#xFF1A;&#x5F00;&#x53D1;&#x8005;&#x5DE5;&#x5177;&#x914D;&#x7F6E;&#xFF0C;&#x5982;&#x754C;&#x9762;&#x989C;&#x8272;&#xFF0C;&#x4EE3;&#x7801;&#x4E0A;&#x4F20;&#x538B;&#x7F29;&#x7B49;</p>
+<li><p>&#x590D;&#x6742;&#x7EC4;&#x4EF6;&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#x4E2D;&#x5305;&#x542B;&#x5F88;&#x591A;&#x4E0D;&#x540C;&#x7684;&#x903B;&#x8F91;</p>
+<p>  <strong>Hook&#x5C06;&#x7EC4;&#x5EFA;&#x4E2D;&#x76F8;&#x4E92;&#x5173;&#x8054;&#x7684;&#x90E8;&#x5206;&#x62C6;&#x5206;&#x6210;&#x66F4;&#x5C0F;&#x7684;&#x51FD;&#x6570;</strong>&#xFF0C;&#x800C;&#x975E;&#x6309;&#x7167;&#x751F;&#x547D;&#x5468;&#x671F;&#x8FDB;&#x884C;&#x5206;&#x5272;</p>
 </li>
-<li><p>page.json&#xFF1A;&#x4E3A;&#x5355;&#x4E2A;&#x9875;&#x9762;&#x6307;&#x5B9A;&#x4E0D;&#x540C;&#x4E8E;app.json&#x7684;&#x7279;&#x6B8A;&#x5C5E;&#x6027;</p>
+<li><p>class&#x7EC4;&#x4EF6;&#x4E0E;function&#x7EC4;&#x4EF6;&#x5728;this&#x5DE5;&#x4F5C;&#x65B9;&#x5F0F;&#x4E0A;&#x5B58;&#x5728;&#x4E0D;&#x540C;</p>
+<p>  <strong>Hook&#x4E0D;&#x80FD;&#x5728;class&#x7EC4;&#x4EF6;&#x4E2D;&#x4F7F;&#x7528;</strong>&#xFF0C;&#x53EA;&#x80FD;&#x5728;&#x51FD;&#x6570;&#x7EC4;&#x4EF6;&#x4E2D;&#x4F7F;&#x7528;</p>
 </li>
 </ul>
-</li>
-<li><p>WXML&#x6A21;&#x677F;</p>
+<p>&#x7EFC;&#x4E0A;&#x8FF0;&#xFF0C;Hook&#x662F;&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x4EE5;&#x4E0A;&#x95EE;&#x9898;&#x800C;&#x8BDE;&#x751F;&#x7684;</p>
+<h3 id="hook&#x6982;&#x89C8;"><a name="hook&#x6982;&#x89C8;" class="plugin-anchor" href="#hook&#x6982;&#x89C8;"><i class="fa fa-link" aria-hidden="true"></i></a>Hook&#x6982;&#x89C8;</h3>
+<p>Hook&#x662F;&#x4E00;&#x79CD;&#x590D;&#x7528;<strong>&#x72B6;&#x6001;&#x903B;&#x8F91;</strong>&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x4E0D;&#x590D;&#x7528;&#x72B6;&#x6001;&#x672C;&#x8EAB;&#xFF0C;Hook&#x7684;&#x6BCF;&#x6B21;&#x8C03;&#x7528;&#x90FD;&#x4F1A;&#x4EA7;&#x751F;&#x5B8C;&#x5168;&#x72EC;&#x7ACB;&#x7684;state</p>
+<h4 id="&#x7CFB;&#x7EDF;&#x81EA;&#x5E26;&#x7684;hook"><a name="&#x7CFB;&#x7EDF;&#x81EA;&#x5E26;&#x7684;hook" class="plugin-anchor" href="#&#x7CFB;&#x7EDF;&#x81EA;&#x5E26;&#x7684;hook"><i class="fa fa-link" aria-hidden="true"></i></a>&#x7CFB;&#x7EDF;&#x81EA;&#x5E26;&#x7684;Hook</h4>
 <ul>
-<li><p>&#x81EA;&#x5B9A;&#x4E49;&#x7EC4;&#x4EF6;&#xFF0C;&#x5305;&#x88C5;&#x539F;&#x539F;&#x751F;&#x6807;&#x7B7E;&#xFF0C;&#x5982;text&#xFF0C;view&#x7B49;</p>
+<li><p>state Hook</p>
+<p>  useState&#x8FD4;&#x56DE;<strong>&#x5F53;&#x524D;&#x72B6;&#x6001;&#x548C;&#x4E00;&#x4E2A;&#x66F4;&#x65B0;&#x72B6;&#x6001;&#x7684;&#x51FD;&#x6570;</strong>&#xFF0C;&#x5176;&#x529F;&#x80FD;&#x4E0E;class&#x7EC4;&#x4EF6;&#x7684;this.state&#x5B8C;&#x5168;&#x76F8;&#x540C;&#xFF0C;&#x4E14;&#x5F53;&#x51FD;&#x6570;&#x9000;&#x51FA;&#x540E;&#xFF0C;state&#x4E2D;&#x7684;&#x53D8;&#x91CF;&#x4E5F;&#x4F1A;&#x88AB;React&#x4FDD;&#x7559;</p>
+<p>  &#x53E6;&#x51FD;&#x6570;&#x7EC4;&#x4EF6;&#x4E2D;&#x53EA;&#x5728;&#x9996;&#x6B21;&#x6E32;&#x67D3;&#x65F6;&#x521B;&#x5EFA;state&#xFF0C;&#x4E0B;&#x6B21;&#x91CD;&#x65B0;&#x6E32;&#x67D3;&#x65F6;&#xFF0C;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;&#x5F53;&#x524D;state&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x518D;&#x6B21;&#x521B;&#x5EFA;</p>
+<p>  &#x8C03;&#x7528;&#x66F4;&#x65B0;state&#x7684;&#x51FD;&#x6570;&#x65F6;&#xFF0C;&#x5982;&#x679C;state&#x662F;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#xFF0C;&#x5219;state&#x4F1A;&#x88AB;&#x5408;&#x5E76;&#xFF0C;&#x800C;this.setState&#x7684;&#x64CD;&#x4F5C;&#x662F;&#x66FF;&#x6362;</p>
 </li>
-<li><p>&#x81EA;&#x5B9A;&#x4E49;&#x6307;&#x4EE4;&#xFF0C;&#x8868;&#x73B0;&#x4E0E;&#x6570;&#x636E;&#x5206;&#x79BB;&#xFF0C;&#x5982;wx:if&#x7B49;</p>
-</li>
-</ul>
-</li>
-<li><p>WXSS&#x6837;&#x5F0F;</p>
+<li><p>Effect Hook</p>
+<p>  useEffect&#x76F8;&#x5F53;&#x4E8E;componentDidMount + componentDidUpdate + componentWillUnmount &#x4E09;&#x4E2A;&#x751F;&#x547D;&#x5468;&#x671F;&#xFF0C;React&#x5728;&#x6BCF;&#x6B21;DOM&#x5B8C;&#x6210;&#x4FEE;&#x6539;&#x540E;&#x8C03;&#x7528;&#xFF0C;&#x5305;&#x62EC;&#x7B2C;&#x4E00;&#x6B21;&#x6E32;&#x67D3;</p>
 <ul>
-<li><p>&#x65B0;&#x589E;&#x5C3A;&#x5BF8;&#x5355;&#x4F4D;&#xFF0C;&#x4F7F;&#x7528;rpx&#x907F;&#x514D;&#x6362;&#x7B97;</p>
-</li>
-<li><p>app.wxss&#x8BBE;&#x7F6E;&#x5168;&#x5C40;&#x6837;&#x5F0F;&#xFF0C;page.wxss&#x8BBE;&#x7F6E;&#x5F53;&#x524D;&#x9875;&#x9762;&#x6837;&#x5F0F;</p>
-</li>
+<li>useEffect&#x53EF;&#x4EE5;&#x591A;&#x6B21;&#x8C03;&#x7528;&#xFF0C;&#x5173;&#x6CE8;&#x70B9;&#x5206;&#x79BB;</li>
+<li>useEffect&#x53EF;&#x4EE5;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;React &#x4F1A;&#x5728;&#x7EC4;&#x4EF6;&#x5378;&#x8F7D;&#x7684;&#x65F6;&#x5019;&#x6267;&#x884C;&#x6E05;&#x9664;&#x64CD;&#x4F5C;&#xFF0C;&#x8C03;&#x7528;&#x51FD;&#x6570;</li>
 </ul>
 </li>
-<li><p>js&#x4EA4;&#x4E92;</p>
+<li><p>useContext&#xFF1A;&#x4E0D;&#x9002;&#x7528;&#x7EC4;&#x4EF6;&#x5D4C;&#x5957;&#x5373;&#x53EF;&#x8BA2;&#x9605;React&#x7684;Context</p>
 </li>
+<li>useReducer&#xFF1A;&#x901A;&#x8FC7;reducer&#x7BA1;&#x7406;&#x7EC4;&#x4EF6;&#x672C;&#x5730;&#x7684;state</li>
 </ul>
-<h2 id="&#x5C0F;&#x7A0B;&#x5E8F;&#x80FD;&#x529B;"><a name="&#x5C0F;&#x7A0B;&#x5E8F;&#x80FD;&#x529B;" class="plugin-anchor" href="#&#x5C0F;&#x7A0B;&#x5E8F;&#x80FD;&#x529B;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x5C0F;&#x7A0B;&#x5E8F;&#x80FD;&#x529B;</h2>
+<h4 id="&#x4F7F;&#x7528;&#x89C4;&#x5219;"><a name="&#x4F7F;&#x7528;&#x89C4;&#x5219;" class="plugin-anchor" href="#&#x4F7F;&#x7528;&#x89C4;&#x5219;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x4F7F;&#x7528;&#x89C4;&#x5219;</h4>
 <ul>
-<li><p>&#x5C0F;&#x7A0B;&#x5E8F;&#x542F;&#x52A8;</p>
-<ol>
-<li><p>app.json&#x7684;pages&#x6570;&#x7EC4;&#x7B2C;&#x4E00;&#x9879;&#x4E3A;&#x5C0F;&#x7A0B;&#x5E8F;&#x9996;&#x9875;</p>
-</li>
-<li><p>&#x52A0;&#x8F7D;&#x9996;&#x9875;&#x4EE3;&#x7801;&#x8FDB;&#x884C;&#x6E32;&#x67D3;</p>
-</li>
-<li><p>&#x89E6;&#x53D1;app.js&#x4E2D;&#x7684;onLaunch&#x56DE;&#x8C03;&#x51FD;&#x6570;</p>
-</li>
-</ol>
-</li>
-<li><p>&#x7A0B;&#x5E8F;&#x4E0E;&#x9875;&#x9762;</p>
-<ol>
-<li><p>&#x6839;&#x636E;page.json&#x914D;&#x7F6E;&#x751F;&#x6210;&#x9875;&#x9762;&#xFF0C;&#x5176;&#x4E2D;&#x5B9A;&#x4E49;&#x9876;&#x90E8;&#x989C;&#x8272;&#x4E0E;&#x6587;&#x5B57;</p>
-</li>
-<li><p>&#x52A0;&#x8F7D;WXML&#x4E0E;WXSS</p>
-</li>
-<li><p>&#x52A0;&#x8F7D;page.js&#xFF0C;&#x6E32;&#x67D3;&#x9875;&#x9762;</p>
-</li>
-<li><p>&#x89E6;&#x53D1;onload&#x56DE;&#x8C03;</p>
-</li>
-</ol>
-</li>
-<li><p>&#x7EC4;&#x4EF6;</p>
-<p>  &#x7EC4;&#x4EF6;&#x4F20;&#x503C;&#x3001;&#x4E8B;&#x4EF6;&#x7ED1;&#x5B9A;</p>
-</li>
-<li><p>API</p>
-</li>
+<li>&#x53EA;&#x80FD;&#x5728;&#x51FD;&#x6570;&#x6700;&#x5916;&#x5C42;&#x8C03;&#x7528;Hook&#xFF0C;&#x4E0D;&#x80FD;&#x5728;&#x5FAA;&#x73AF;&#x3001;&#x6761;&#x4EF6;&#x5224;&#x65AD;&#x6216;&#x5B50;&#x51FD;&#x6570;&#x4E2D;&#x8C03;&#x7528;</li>
+<li>&#x53EA;&#x80FD;&#x5728;react&#x51FD;&#x6570;&#x7EC4;&#x4EF6;&#x548C;&#x81EA;&#x5B9A;&#x4E49;Hook&#x4E2D;&#x8C03;&#x7528;Hook&#xFF0C;&#x4E0D;&#x80FD;&#x5728;JavaScript&#x51FD;&#x6570;&#x4E2D;&#x8C03;&#x7528;</li>
 </ul>
-<h2 id="&#x53D1;&#x5E03;&#x524D;&#x51C6;&#x5907;"><a name="&#x53D1;&#x5E03;&#x524D;&#x51C6;&#x5907;" class="plugin-anchor" href="#&#x53D1;&#x5E03;&#x524D;&#x51C6;&#x5907;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x53D1;&#x5E03;&#x524D;&#x51C6;&#x5907;</h2>
-<p>&#x5F00;&#x53D1;&#x8005;&#x6743;&#x9650;&#x7BA1;&#x7406;&#x3001;&#x5C0F;&#x7A0B;&#x5E8F;&#x9884;&#x89C8;&#x3001;&#x4EE3;&#x7801;&#x4E0A;&#x4F20;&#x3001;&#x7248;&#x672C;&#x53F7;&#x8BBE;&#x7F6E;&#x7B49;</p>
-<h2 id="&#x5C0F;&#x7A0B;&#x5E8F;&#x4E0A;&#x7EBF;"><a name="&#x5C0F;&#x7A0B;&#x5E8F;&#x4E0A;&#x7EBF;" class="plugin-anchor" href="#&#x5C0F;&#x7A0B;&#x5E8F;&#x4E0A;&#x7EBF;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x5C0F;&#x7A0B;&#x5E8F;&#x4E0A;&#x7EBF;</h2>
-<p>&#x63D0;&#x4EA4;&#x5BA1;&#x6838;&#x3001;&#x53D1;&#x5E03;&#x3001;&#x8FD0;&#x8425;&#x6570;&#x636E;&#x67E5;&#x770B;</p>
-<div class="git-author-container git-author-bottom"><div class="modified"><span style="font-size:75%">Last modified by jingruoyu 2018-07-18 20:36:41</span></div><div class="created"><span style="font-size:75%">Created by jingruoyu 2018-07-18 20:36:41</span></div></div>
+<h4 id="&#x81EA;&#x5B9A;&#x4E49;hook"><a name="&#x81EA;&#x5B9A;&#x4E49;hook" class="plugin-anchor" href="#&#x81EA;&#x5B9A;&#x4E49;hook"><i class="fa fa-link" aria-hidden="true"></i></a>&#x81EA;&#x5B9A;&#x4E49;Hook</h4>
+<p>&#x81EA;&#x5B9A;&#x4E49;Hook&#x5373;&#x4E3A;&#x5C06;&#x9700;&#x8981;&#x590D;&#x7528;&#x7684;useState&#x548C;useEffect&#x76F8;&#x5173;&#x7684;&#x903B;&#x8F91;&#x62BD;&#x79BB;&#x51FA;&#x6765;&#xFF0C;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x7EC4;&#x4EF6;&#x4E2D;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8C03;&#x7528;&#x8BE5;Hook</p>
+<p>&#x6BCF;&#x6B21;&#x8C03;&#x7528;&#x90FD;&#x4F1A;&#x4EA7;&#x751F;&#x72EC;&#x7ACB;&#x7684;&#x72B6;&#x6001;&#xFF0C;&#x4E0D;&#x4F1A;&#x76F8;&#x5173;&#x5F71;&#x54CD;</p>
+<div class="git-author-container git-author-bottom"><div class="modified"><span style="font-size:75%">Last modified by jingruoyu 2020-03-09 22:07:01</span></div><div class="created"><span style="font-size:75%">Created by jingruoyu 2020-03-09 22:07:01</span></div></div>
                                 
                                 </section>
                             
@@ -1355,12 +1326,12 @@
 
             
                 
-                <a href="./" class="navigation navigation-prev " aria-label="Previous page: 微信小程序">
+                <a href="guide/context.html" class="navigation navigation-prev " aria-label="Previous page: Context">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="微信小程序进阶.html" class="navigation navigation-next " aria-label="Next page: 微信小程序进阶">
+                <a href="../flutter/" class="navigation navigation-next " aria-label="Next page: flutter">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1371,7 +1342,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"微信小程序基础","level":"3.3.1","depth":2,"next":{"title":"微信小程序进阶","level":"3.3.2","depth":2,"path":"wechat/微信小程序进阶.md","ref":"wechat/微信小程序进阶.md","articles":[]},"previous":{"title":"微信小程序","level":"3.3","depth":1,"path":"wechat/README.md","ref":"wechat/README.md","articles":[{"title":"微信小程序基础","level":"3.3.1","depth":2,"path":"wechat/微信小程序基础.md","ref":"wechat/微信小程序基础.md","articles":[]},{"title":"微信小程序进阶","level":"3.3.2","depth":2,"path":"wechat/微信小程序进阶.md","ref":"wechat/微信小程序进阶.md","articles":[]},{"title":"小程序组件","level":"3.3.3","depth":2,"path":"wechat/小程序组件.md","ref":"wechat/小程序组件.md","articles":[]},{"title":"快应用基础","level":"3.3.4","depth":2,"path":"wechat/快应用基础.md","ref":"wechat/快应用基础.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","search-plus","-sharing","-highlight","prism","anchors","emphasize","splitter","expandable-chapters-small","toc","git-author","mermaid-gb3","chart"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"ignore":["mermaid"]},"emphasize":{},"git-author":{"modifyTpl":"<span style=\"font-size:75%\">Last modified by {user} {timeStamp}</span>","createTpl":"<span style=\"font-size:75%\">Created by {user} {timeStamp}</span>"},"splitter":{},"toc":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"expandable-chapters-small":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"anchors":{},"chart":{"type":"highcharts"},"search-plus":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"荆若愚学习笔记","language":"zh-hans","gitbook":"*"},"file":{"path":"wechat/微信小程序基础.md","mtime":"2018-12-05T14:54:01.221Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-03-09T15:37:45.886Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"hook","level":"3.1.3","depth":2,"next":{"title":"flutter","level":"3.2","depth":1,"path":"flutter/README.md","ref":"flutter/README.md","articles":[{"title":"简介","level":"3.2.1","depth":2,"path":"flutter/begin.md","ref":"flutter/begin.md","articles":[]},{"title":"dart","level":"3.2.2","depth":2,"path":"flutter/dart.md","ref":"flutter/dart.md","articles":[]}]},"previous":{"title":"Context","level":"3.1.2.1","depth":3,"path":"react/guide/context.md","ref":"react/guide/context.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","search-plus","-sharing","-highlight","prism","anchors","emphasize","splitter","expandable-chapters-small","toc","git-author","mermaid-gb3","chart"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"ignore":["mermaid"]},"emphasize":{},"git-author":{"modifyTpl":"<span style=\"font-size:75%\">Last modified by {user} {timeStamp}</span>","createTpl":"<span style=\"font-size:75%\">Created by {user} {timeStamp}</span>"},"splitter":{},"toc":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"expandable-chapters-small":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"anchors":{},"chart":{"type":"highcharts"},"search-plus":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"荆若愚学习笔记","language":"zh-hans","gitbook":"*"},"file":{"path":"react/hook.md","mtime":"2020-02-10T14:58:54.313Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-03-09T15:37:45.886Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

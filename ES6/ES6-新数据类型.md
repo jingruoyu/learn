@@ -32,6 +32,10 @@ symbol值的使用：
 
 * **symbol值不能转化为数值**
 
+## Symbol.prototype.description
+
+ES2019提供方法，获取symbol的描述字符串
+
 ## symbol值作为属性名或方法名
 
 symbol值作为属性名可以防止同名属性出现
