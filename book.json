@@ -1,0 +1,34 @@
+{
+    "title": "荆若愚学习笔记",
+    "language": "zh-hans",
+    "plugins": [
+        "-lunr", "-search", "search-plus",
+        "-sharing",
+        "-highlight", "prism",
+        "anchors",
+        "emphasize",
+        "splitter",
+        "expandable-chapters-small",
+        "toc",
+        "git-author",
+        "mermaid-gb3",
+        "chart"
+    ],
+    "pluginsConfig": {
+        "theme-default": {
+            "showLevel": true
+        },
+        "git-author": {
+            "modifyTpl": "<span style=\"font-size:75%\">Last modified by {user} {timeStamp}</span>",
+            "createTpl": "<span style=\"font-size:75%\">Created by {user} {timeStamp}</span>"
+        },
+        "prism": {
+            "ignore": [
+                "mermaid"
+            ]
+        },
+        "chart": {
+            "type": "highcharts"
+        }
+    }
+}
