@@ -144,6 +144,8 @@ getInitialState 函数规定函数内部初始状态，函数返回一个对象�
 
 ## react生命周期
 
+仅class组件拥有生命周期，函数组件没有生命周期
+
 ![react生命周期图](http://upload-images.jianshu.io/upload_images/1814354-4bf62e54553a32b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 大流程顺序如下所示：

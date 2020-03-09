@@ -170,39 +170,6 @@ React中，出现了`falsy`值，即强制类型转换后会变为false的值，
 
 如果需要将false、true、null或者undefined出现在输出中，则必须将其转换为字符串。
 
-### Context
-
-Context提供了一个无需为每层组件手动添加props，就能在组件之间进行数据传输的方法，但是也使得组件复用性变差
-
-使用Context的场景：共享全局数据
-
-### 避免使用context
-
-context使得组件复用性变差，应谨慎使用。
-
-**层层传递属性的一个替代方案是层层传递组件。**
-
-如果属性最终只是在底层的某个组件中使用，则可将该组件提升到顶层组件中，然后将组件传递下去
-
-* 优点：控制反转，减少应用中传递的props数量，增强根组件把控度
-* 缺点：强行提升底层组件，根组件会变得更复杂，且使用范围有限
-
-context适用于在组件树的不同层级中需要访问同样一批数据，此时可以context将这些数据对所有组件进行广播，且后续的数据更新也能访问到
-
-### API
-
-* React.createContext
-* Context.Provider
-    Provider的value值变化时，内部所有消费组件都会被重新渲染，不会受制于`shouldComponentUpdate`函数
-* Class.contextType
-    * 可以使用`this.context`来消费最近`Context`上的那个值，可以再任何生命周期中访问，包括render函数
-    * 通过public class filed，可以使用static初始化context
-* Context.Consumer
-    * 为内部的子元素订阅context变更
-    * 子元素需要为函数，参数为上一个provider提供的value或其defaultValue
-* Context.displayName
-    设置在devtools中显示的context的内容
-
 ## 代码分割
 
 配合懒加载只加载当前用户所需要的内容，避免体积过大导致加载时间过长，不影响实际的整体代码体积
@@ -229,3 +196,31 @@ const OtherComponent = React.lazy(() => import('./OtherComponent'));
 
 **React.lazy仅支持默认导出**，如果要支持命名导出，需要增加中间模块，将想要导出的模块重新导出为默认模块
 
+## 错误边界
+
+react 16引入错误边界，避免部分JavaScript错误导致整个应用崩溃
+
+错误边界在渲染期间、生命周期方法和整个组件树的构造函数中捕获错误，但是其无法以下错误
+* 事件处理函数：事件回调不会在渲染期间触发，故当其抛出异常不影响当时的渲染，可以通过try/catch进行内部的错误捕获
+* 异步代码
+* 服务端渲染
+* 错误边界本身跑出的错误
+
+class组件具备以下两个生命周期中任意一个或两个时，即为错误边界
+* `static getDerivedStateFromError()`用于渲染备用UI
+* `componentDidCatch()`用于打印错误信息
+
+**只有class组件才可以成为错误边界组件**
+
+错误边界使用类似于try...catch，仅可以捕获子组件的错误，无法捕获自身错误。如果当前错误边界无法处理错误信息，则该错误信息会冒泡至最近的上层错误边界
+
+### 未捕获错误行为
+
+**自react 16起，任何未被错误边界捕获的错误将会导致整个组件树被卸载**，这要求
+* 页面中所有可能报错的地方都要包含在错误边界中
+* 相互独立的功能区域要用不同的错误边界
+
+### 与try/catch区别
+
+* `try/catch`是命令式的
+* react组件是声明式的，错误边界保留了声明式的性质
