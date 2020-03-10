@@ -225,12 +225,48 @@
             
         </li>
     
-        <li class="chapter " data-level="2.2" data-path="../../HTML5/">
+        <li class="chapter " data-level="2.2" data-path="../../JavaScript/">
+            
+                <a href="../../JavaScript/">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    JavsScript
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="../../JavaScript/High_Performance_JavaScript.html">
+            
+                <a href="../../JavaScript/High_Performance_JavaScript.html">
+            
+                    
+                        <b>2.2.1.</b>
+                    
+                    高性能JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../../HTML5/">
             
                 <a href="../../HTML5/">
             
                     
-                        <b>2.2.</b>
+                        <b>2.3.</b>
                     
                     HTML5
             
@@ -241,12 +277,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.2.1" data-path="../../HTML5/introduction.html">
+        <li class="chapter " data-level="2.3.1" data-path="../../HTML5/introduction.html">
             
                 <a href="../../HTML5/introduction.html">
             
                     
-                        <b>2.2.1.</b>
+                        <b>2.3.1.</b>
                     
                     简介
             
@@ -256,12 +292,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.2.2" data-path="../../HTML5/common_infrastucture.html">
+        <li class="chapter " data-level="2.3.2" data-path="../../HTML5/common_infrastucture.html">
             
                 <a href="../../HTML5/common_infrastucture.html">
             
                     
-                        <b>2.2.2.</b>
+                        <b>2.3.2.</b>
                     
                     基础概念
             
@@ -271,12 +307,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.2.3" data-path="../../HTML5/structure_and_API.html">
+        <li class="chapter " data-level="2.3.3" data-path="../../HTML5/structure_and_API.html">
             
                 <a href="../../HTML5/structure_and_API.html">
             
                     
-                        <b>2.2.3.</b>
+                        <b>2.3.3.</b>
                     
                     HTML API
             
@@ -286,12 +322,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.2.4" data-path="../../HTML5/microdata.html">
+        <li class="chapter " data-level="2.3.4" data-path="../../HTML5/microdata.html">
             
                 <a href="../../HTML5/microdata.html">
             
                     
-                        <b>2.2.4.</b>
+                        <b>2.3.4.</b>
                     
                     元数据
             
@@ -301,12 +337,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.2.5" data-path="../../HTML5/the_element_of_HTML.html">
+        <li class="chapter " data-level="2.3.5" data-path="../../HTML5/the_element_of_HTML.html">
             
                 <a href="../../HTML5/the_element_of_HTML.html">
             
                     
-                        <b>2.2.5.</b>
+                        <b>2.3.5.</b>
                     
                     HTML元素
             
@@ -316,12 +352,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.2.6" data-path="../../HTML5/service-worker.html">
+        <li class="chapter " data-level="2.3.6" data-path="../../HTML5/service-worker.html">
             
                 <a href="../../HTML5/service-worker.html">
             
                     
-                        <b>2.2.6.</b>
+                        <b>2.3.6.</b>
                     
                     service worker
             
@@ -1271,9 +1307,20 @@
 <h3 id="api"><a name="api" class="plugin-anchor" href="#api"><i class="fa fa-link" aria-hidden="true"></i></a>API</h3>
 <ul>
 <li>React.createContext</li>
-<li>Context.Provider
-  Provider&#x7684;value&#x503C;&#x53D8;&#x5316;&#x65F6;&#xFF0C;&#x5185;&#x90E8;&#x6240;&#x6709;&#x6D88;&#x8D39;&#x7EC4;&#x4EF6;&#x90FD;&#x4F1A;&#x88AB;&#x91CD;&#x65B0;&#x6E32;&#x67D3;&#xFF0C;&#x4E0D;&#x4F1A;&#x53D7;&#x5236;&#x4E8E;<code>shouldComponentUpdate</code>&#x51FD;&#x6570;</li>
-<li>Class.contextType<ul>
+<li><p>Context.Provider
+  Provider&#x7684;value&#x503C;&#x53D8;&#x5316;&#x65F6;&#xFF0C;&#x5185;&#x90E8;&#x6240;&#x6709;&#x6D88;&#x8D39;&#x7EC4;&#x4EF6;&#x90FD;&#x4F1A;&#x88AB;&#x91CD;&#x65B0;&#x6E32;&#x67D3;&#xFF0C;&#x4E0D;&#x4F1A;&#x53D7;&#x5236;&#x4E8E;<code>shouldComponentUpdate</code>&#x51FD;&#x6570;</p>
+<p>  defaultValue&#x7528;&#x4E8E;&#x7EC4;&#x4EF6;&#x6240;&#x5904;&#x7684;&#x6811;&#x5411;&#x4E0A;&#x6CA1;&#x6709;&#x5339;&#x914D;&#x5230;provider&#xFF0C;&#x5982;&#x4E0B;&#x4F8B;&#x4E2D;&#x7684;ThemedButton</p>
+  <page>
+      <themecontext.provider value="{this.state.theme}">
+          <toolbar changetheme="{this.toggleTheme}">
+      </toolbar></themecontext.provider>
+      <section>
+          <themedbutton>
+      </themedbutton></section>
+  </page>
+</li>
+<li><p>Class.contextType</p>
+<ul>
 <li>&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>this.context</code>&#x6765;&#x6D88;&#x8D39;&#x6700;&#x8FD1;<code>Context</code>&#x4E0A;&#x7684;&#x90A3;&#x4E2A;&#x503C;&#xFF0C;&#x53EF;&#x4EE5;&#x518D;&#x4EFB;&#x4F55;&#x751F;&#x547D;&#x5468;&#x671F;&#x4E2D;&#x8BBF;&#x95EE;&#xFF0C;&#x5305;&#x62EC;render&#x51FD;&#x6570;</li>
 <li>&#x901A;&#x8FC7;public class filed&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;static&#x521D;&#x59CB;&#x5316;context</li>
 </ul>
@@ -1286,7 +1333,19 @@
 <li>Context.displayName
   &#x8BBE;&#x7F6E;&#x5728;devtools&#x4E2D;&#x663E;&#x793A;&#x7684;context&#x7684;&#x5185;&#x5BB9;</li>
 </ul>
-
+<h3 id="&#x52A8;&#x6001;context"><a name="&#x52A8;&#x6001;context" class="plugin-anchor" href="#&#x52A8;&#x6001;context"><i class="fa fa-link" aria-hidden="true"></i></a>&#x52A8;&#x6001;context</h3>
+<p>context&#x7684;&#x503C;&#x662F;&#x5728;provider&#x4E2D;&#x6307;&#x5B9A;&#x7684;&#xFF0C;&#x6539;&#x53D8;&#x4E5F;&#x53EA;&#x80FD;&#x5728;provider&#x4E2D;&#x6539;&#x53D8;&#xFF0C;&#x6216;&#x4F7F;&#x7528;provider&#x63D0;&#x4F9B;&#x7684;&#x51FD;&#x6570;&#x6539;&#x53D8;</p>
+<ul>
+<li>&#x76F4;&#x63A5;&#x5C06;callback&#x4F20;&#x9012;&#x7ED9;&#x5B50;&#x7EC4;&#x4EF6;</li>
+<li>&#x901A;&#x8FC7;context&#x4F20;&#x9012;callback</li>
+</ul>
+<p>&#x4F46;&#x662F;callback&#x90FD;&#x5FC5;&#x987B;&#x5728;&#x4E8E;provider&#x540C;&#x7EA7;&#x7684;&#x5730;&#x65B9;&#x5B9A;&#x4E49;</p>
+<h3 id="&#x6D88;&#x8D39;&#x591A;&#x4E2A;context"><a name="&#x6D88;&#x8D39;&#x591A;&#x4E2A;context" class="plugin-anchor" href="#&#x6D88;&#x8D39;&#x591A;&#x4E2A;context"><i class="fa fa-link" aria-hidden="true"></i></a>&#x6D88;&#x8D39;&#x591A;&#x4E2A;context</h3>
+<p>&#x6D88;&#x8D39;&#x5355;&#x4E2A;context&#x53EF;&#x4EE5;&#x4E3A;class&#x6307;&#x5B9A;contextType&#xFF0C;&#x4ECE;&#x800C;&#x91CD;&#x5B9A;&#x4E49;&#x5176;context&#x5C5E;&#x6027;</p>
+<p>&#x6D88;&#x8D39;&#x591A;&#x4E2A;context&#x9700;&#x8981;&#x4F7F;&#x7528;<code>Context.Consumer</code> API&#xFF0C;&#x4F7F;&#x7528;&#x51FD;&#x6570;&#x7EC4;&#x4EF6;&#xFF0C;&#x5C42;&#x5C42;&#x5D4C;&#x5957;</p>
+<h3 id="&#x6CE8;&#x610F;&#x4E8B;&#x9879;"><a name="&#x6CE8;&#x610F;&#x4E8B;&#x9879;" class="plugin-anchor" href="#&#x6CE8;&#x610F;&#x4E8B;&#x9879;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x6CE8;&#x610F;&#x4E8B;&#x9879;</h3>
+<p>&#x4E0D;&#x8981;&#x5BF9;Provider&#x7684;value&#x76F4;&#x63A5;&#x6307;&#x5B9A;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x5B57;&#x9762;&#x91CF;&#xFF0C;&#x4F1A;&#x5BFC;&#x81F4;&#x6BCF;&#x6B21;&#x91CD;&#x65B0;&#x6E32;&#x67D3;&#x65F6;Provider&#x90FD;&#x4F1A;&#x88AB;&#x8D4B;&#x503C;&#x4E3A;&#x65B0;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x5EFA;&#x8BAE;&#x4F7F;&#x7528;&#x53D8;&#x91CF;&#x8FDB;&#x884C;&#x8D4B;&#x503C;</p>
+<div class="git-author-container git-author-bottom"><div class="modified"><span style="font-size:75%">Last modified by jingruoyu 2020-03-10 11:20:52</span></div><div class="created"><span style="font-size:75%">Created by jingruoyu 2020-03-09 23:39:54</span></div></div>
                                 
                                 </section>
                             
@@ -1329,7 +1388,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Context","level":"3.1.2.1","depth":3,"next":{"title":"hook","level":"3.1.3","depth":2,"path":"react/hook.md","ref":"react/hook.md","articles":[]},"previous":{"title":"进阶","level":"3.1.2","depth":2,"path":"react/react进阶.md","ref":"react/react进阶.md","articles":[{"title":"Context","level":"3.1.2.1","depth":3,"path":"react/guide/context.md","ref":"react/guide/context.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","search-plus","-sharing","-highlight","prism","anchors","emphasize","splitter","expandable-chapters-small","toc","git-author","mermaid-gb3","chart"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"ignore":["mermaid"]},"emphasize":{},"git-author":{"modifyTpl":"<span style=\"font-size:75%\">Last modified by {user} {timeStamp}</span>","createTpl":"<span style=\"font-size:75%\">Created by {user} {timeStamp}</span>"},"splitter":{},"toc":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"expandable-chapters-small":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"anchors":{},"chart":{"type":"highcharts"},"search-plus":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"荆若愚学习笔记","language":"zh-hans","gitbook":"*"},"file":{"path":"react/guide/context.md","mtime":"2020-03-09T15:22:18.795Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-03-09T15:37:45.886Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Context","level":"3.1.2.1","depth":3,"next":{"title":"hook","level":"3.1.3","depth":2,"path":"react/hook.md","ref":"react/hook.md","articles":[]},"previous":{"title":"进阶","level":"3.1.2","depth":2,"path":"react/react进阶.md","ref":"react/react进阶.md","articles":[{"title":"Context","level":"3.1.2.1","depth":3,"path":"react/guide/context.md","ref":"react/guide/context.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","search-plus","-sharing","-highlight","prism","anchors","emphasize","splitter","expandable-chapters-small","toc","git-author","mermaid-gb3","chart"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"ignore":["mermaid"]},"emphasize":{},"git-author":{"modifyTpl":"<span style=\"font-size:75%\">Last modified by {user} {timeStamp}</span>","createTpl":"<span style=\"font-size:75%\">Created by {user} {timeStamp}</span>"},"splitter":{},"toc":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"expandable-chapters-small":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"anchors":{},"chart":{"type":"highcharts"},"search-plus":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"荆若愚学习笔记","language":"zh-hans","gitbook":"*"},"file":{"path":"react/guide/context.md","mtime":"2020-03-10T12:36:18.244Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-03-10T15:03:46.805Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
