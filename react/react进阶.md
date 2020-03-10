@@ -65,7 +65,6 @@ JSX中有几种不同的方式指定属性
 如果没有给属性传值，则默认为true
 
     <MyTextBox autocomplete />
-
     <MyTextBox autocomplete={true} />
 
 **不建议使用**
@@ -146,7 +145,7 @@ props.children可以传递任何数据，包括函数。只要将该组件在Rea
 
 #### 布尔值、Null和undefined被忽略
 
-false、null、undefined 和 true 都是有效的子代，但它们不会直接被渲染
+false、null、undefined 和 true 都是合法的子元素，但它们不会直接被渲染
 
 以下表达式等价：
 
@@ -162,7 +161,9 @@ false、null、undefined 和 true 都是有效的子代，但它们不会直接�
 
     <div>{true}</div>
 
-React中，出现了`falsy`值,即强制类型转换后会变为false的值，包括有0，“”，null，undefined 和 NaN，在进行组件渲染的&&判断时不会起到作用
+React中，出现了`falsy`值，即强制类型转换后会变为false的值，包括有0，''，null，undefined 和 NaN
+
+此处需注意，**0作为一个falsy，会被判断为false，不执行后续的逻辑，但其本身会被渲染**，而其他值渲染时会被忽略
 
     <div>
       {props.messages.length &&
@@ -170,44 +171,61 @@ React中，出现了`falsy`值,即强制类型转换后会变为false的值，�
       }
     </div>
 
-当length为0时，后面的组件依然会得到渲染。
-
 **解决办法为使得&&前面的表达式始终为布尔值**
 
 如果需要将false、true、null或者undefined出现在输出中，则必须先将其转换为字符串再加入到元素中。
 
-## context
+## 代码分割
 
-defaultValue用于组件所处的树向上没有匹配到provider，如下例中的ThemedButton
+配合懒加载只加载当前用户所需要的内容，避免体积过大导致加载时间过长，不影响实际的整体代码体积
 
-```<JavaScript>
-<Page>
-    <ThemeContext.Provider value={this.state.theme}>
-        <Toolbar changeTheme={this.toggleTheme} />
-    </ThemeContext.Provider>
-    <Section>
-        <ThemedButton />
-    </Section>
-</Page>
+### 动态import
+
+动态import为代码分割最佳方式
+
+```javascript
+import('./math').then(math => {
+    console.log(math)
+})
 ```
 
-### 动态context
+### React.lazy
 
-context的值是在provider中指定的，改变也只能在provider中改变，或使用provider提供的函数改变
+```javascript
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+```
 
-* 直接将callback传递给子组件
-* 通过context传递callback
+引用`OtherComponent`组件的父组件在第一次渲染时，会自动导入包含`OtherComponent`的包
 
-但是callback都必须在于provider同级的地方定义
+加载`OtherComponent`的父元素可以指定fallback属性，进行优雅降级
 
-### 消费多个context
+**React.lazy仅支持默认导出**，如果要支持命名导出，需要增加中间模块，将想要导出的模块重新导出为默认模块
 
-消费单个context可以为class指定contextType，从而重定义其context属性
+## 错误边界
 
-消费多个context需要使用`Context.Consumer` API，使用函数组件，层层嵌套
+react 16引入错误边界，避免部分JavaScript错误导致整个应用崩溃
 
-### 注意事项
+错误边界在渲染期间、生命周期方法和整个组件树的构造函数中捕获错误，但是其无法以下错误
+* 事件处理函数：事件回调不会在渲染期间触发，故当其抛出异常不影响当时的渲染，可以通过try/catch进行内部的错误捕获
+* 异步代码
+* 服务端渲染
+* 错误边界本身跑出的错误
 
-不要对Provider的value直接指定一个对象字面量，会导致每次重新渲染时Provider都会被赋值为新的对象，建议使用变量进行赋值
+class组件具备以下两个生命周期中任意一个或两个时，即为错误边界
+* `static getDerivedStateFromError()`用于渲染备用UI
+* `componentDidCatch()`用于打印错误信息
 
-##
+**只有class组件才可以成为错误边界组件**
+
+错误边界使用类似于try...catch，仅可以捕获子组件的错误，无法捕获自身错误。如果当前错误边界无法处理错误信息，则该错误信息会冒泡至最近的上层错误边界
+
+### 未捕获错误行为
+
+**自react 16起，任何未被错误边界捕获的错误将会导致整个组件树被卸载**，这要求
+* 页面中所有可能报错的地方都要包含在错误边界中
+* 相互独立的功能区域要用不同的错误边界
+
+### 与try/catch区别
+
+* `try/catch`是命令式的
+* react组件是声明式的，错误边界保留了声明式的性质

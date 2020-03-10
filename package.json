@@ -1,0 +1,34 @@
+{
+  "name": "learn",
+  "version": "1.0.0",
+  "description": "jingruoyulearn\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D \u001b[C\u001b[C\u001b[C learn notes",
+  "main": "index.js",
+  "dependencies": {
+    "gh-pages": "^2.2.0",
+    "gitbook-plugin-anchors": "^0.7.1",
+    "gitbook-plugin-chart": "^0.2.2",
+    "gitbook-plugin-emphasize": "^1.1.0",
+    "gitbook-plugin-expandable-chapters-small": "^0.1.7",
+    "gitbook-plugin-git-author": "^1.1.2",
+    "gitbook-plugin-mermaid-gb3": "^2.1.0",
+    "gitbook-plugin-prism": "^2.4.0",
+    "gitbook-plugin-search-plus": "^1.0.3",
+    "gitbook-plugin-splitter": "^0.0.8",
+    "gitbook-plugin-toc": "^0.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gitbook build && gh-pages -d _book"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jingruoyu/learn.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jingruoyu/learn/issues"
+  },
+  "homepage": "https://github.com/jingruoyu/learn#readme"
+}
