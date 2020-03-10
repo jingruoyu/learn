@@ -9,6 +9,8 @@
     * [ES6-继承](ES6/ES6-继承.md)
     * [ES6-新数据结构](ES6/ES6-新数据结构.md)
     * [ES6-新数据类型](ES6/ES6-新数据类型.md)
+* [JavsScript](JavaScript/README.md)
+    * [高性能JavaScript](JavaScript/High_Performance_JavaScript.md)
 * [HTML5](HTML5/README.md)
     * [简介](HTML5/introduction.md)
     * [基础概念](HTML5/common_infrastucture.md)
