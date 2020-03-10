@@ -229,3 +229,45 @@ class组件具备以下两个生命周期中任意一个或两个时，即为错
 
 * `try/catch`是命令式的
 * react组件是声明式的，错误边界保留了声明式的性质
+
+## 高阶组件HOC
+
+高阶组件是基于REACT组合特性形成的一种设计模式，是指参数是组件，返回值为新组件的函数
+
+**组价是将props转换为UI，高阶组件是将组件转换为另一个组件**
+
+## Refs转发
+
+允许某些组件接受ref，并将其向下传递给子组件
+
+* `React.createRef()`创建一个`React ref`，保存为变量ref
+* 将创建的ref作为JSX属性，传递给组件
+* 使用`React.forwardRef`定义的组件获取到第二个ref参数，此处需注意ref不属于props
+* 组件将ref参数传递给子组件
+* 挂载完成后，`ref.current`指向子组件
+
+慎用refs转发，应将其视为破坏性更改
+
+### 高阶组件中转发refs
+
+高阶组件与普通组件使用类似，核心为`React.forwardRef`包装组件即可
+
+## Fragments
+
+<React.Fragment>可以将内部的子节点分组，但是其自身不会向DOM添加额外节点
+
+```
+<React.Fragment>
+  <td>Hello</td>
+  <td>World</td>
+</React.Fragment>
+```
+
+* <React.Fragment>可以简写为`<></>`
+* Fragment仅支持key属性，但是简写时不能使用
+  ```
+  <React.Fragment key={item.id}>
+    <dt>{item.term}</dt>
+    <dd>{item.description}</dd>
+  </React.Fragment>
+  ```
