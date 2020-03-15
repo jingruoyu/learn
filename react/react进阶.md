@@ -1,179 +1,6 @@
 # React进阶
 
-## JSX
-
-JSX本质为React.createElement()的语法糖
-
-### React的声明
-
-JSX编译后会调用React.createElement方法，故需要提前声明引入react变量
-
-### 点表示法
-
-组件自身也可作为一个对象的属性存在
-
-### 首字母大写
-
-React组件名首字母必须为大写。
-
-React中默认首字母小写的为HTML标签，大写的为React组件，将调用React.component进行编译
-
-### 运行时选择组件类型
-
-如需运行时根据变量确定所使用的元素类型，需要将其先赋值给一个大写字母开头的变量，再用这个变量进行组件的渲染
-
-    import React from 'react';
-    import { PhotoStory, VideoStory } from './stories';
-
-    const components = {
-      photo: PhotoStory,
-      video: VideoStory
-    };
-
-    function Story(props) {
-      // 正确！JSX 标签名可以为大写开头的变量。
-      const SpecificStory = components[props.storyType];
-      return <SpecificStory story={props.story} />;
-    }
-
-### 属性的使用
-
-JSX中有几种不同的方式指定属性
-
-#### javascript表达式
-
-使用javascript表达式对属性进行赋值
-
-    <MyComponent foo={1 + 2 + 3 + 4} />
-
-注意：if和for不算表达式
-
-#### 字符串常量
-
-可以将字符串常量作为属性值传递
-
-    <MyComponent message="hello world" />
-
-    <MyComponent message={'hello world'} />
-
-两种方法等价
-
-**字符串常量在进行传递时，不会对其进行HTML转义**，故`<3`与`$lt;3`相同
-
-#### 属性值默认为true
-
-如果没有给属性传值，则默认为true
-
-    <MyTextBox autocomplete />
-    <MyTextBox autocomplete={true} />
-
-**不建议使用**
-
-#### 扩展属性
-
-可以使用ES6的对象扩展符将对象中所有属性传递过去
-
-    function App1() {
-      return <Greeting firstName="Ben" lastName="Hector" />;
-    }
-
-    function App2() {
-      const props = {firstName: 'Ben', lastName: 'Hector'};
-      return <Greeting {...props} />;
-    }
-
-**不建议使用，容易导致不相关属性的传递**
-
-### 子节点的传递
-
-组件内部可以使用props.chirldren获取外部传入的子节点，子节点的传入有以下方法
-
-#### 字符串常量
-
-在开始与结束标签之间放入一个字符串，则props.children就是那个字符串
-
-JSX会移除空行和开始与结尾处的空格，字符串内部的换行会被压缩成一个空格。
-
-#### JSX
-
-    <MyContainer>
-      <MyFirstComponent />
-      <MySecondComponent />
-    </MyContainer>
-
-**一个React组件可以通过数组的形式返回多个元素**
-
-#### javascript表达式
-
-将用大括号`{}`包裹的javascript表达式作为子元素传递
-
-    function Item(props) {
-      return <li>{props.message}</li>;
-    }
-
-    function TodoList() {
-      const todos = ['finish doc', 'submit pr', 'nag dan to review'];
-      return (
-        <ul>
-          {todos.map((message) => <Item key={message} message={message} />)}
-        </ul>
-      );
-    }
-
-可以与其他类型的子代混合使用
-
-#### 函数
-
-props.children可以传递任何数据，包括函数。只要将该组件在React渲染前转换成React能够理解的结构即可。
-
-    // Calls the children callback numTimes to produce a repeated component
-    function Repeat(props) {
-      let items = [];
-      for (let i = 0; i < props.numTimes; i++) {
-        items.push(props.children(i));
-      }
-      return <div>{items}</div>;
-    }
-
-    function ListOfTenThings() {
-      return (
-        <Repeat numTimes={10}>
-          {(index) => <div key={index}>This is item {index} in the list</div>}
-        </Repeat>
-      );
-    }
-
-#### 布尔值、Null和undefined被忽略
-
-false、null、undefined 和 true 都是合法的子元素，但它们不会直接被渲染
-
-以下表达式等价：
-
-    <div />
-
-    <div></div>
-
-    <div>{false}</div>
-
-    <div>{null}</div>
-
-    <div>{undefined}</div>
-
-    <div>{true}</div>
-
-React中，出现了`falsy`值，即强制类型转换后会变为false的值，包括有0，''，null，undefined 和 NaN
-
-此处需注意，**0作为一个falsy，会被判断为false，不执行后续的逻辑，但其本身会被渲染**，而其他值渲染时会被忽略
-
-    <div>
-      {props.messages.length &&
-        <MessageList messages={props.messages} />
-      }
-    </div>
-
-**解决办法为使得&&前面的表达式始终为布尔值**
-
-如果需要将false、true、null或者undefined出现在输出中，则必须先将其转换为字符串再加入到元素中。
+# 高级指引
 
 ## 代码分割
 
@@ -232,25 +59,53 @@ class组件具备以下两个生命周期中任意一个或两个时，即为错
 
 ## 高阶组件HOC
 
-高阶组件是基于REACT组合特性形成的一种设计模式，是指参数是组件，返回值为新组件的函数
+高阶组件是基于REACT组合特性形成的一种设计模式，是指参数是组件，返回值为新组件的**函数**
 
-**组价是将props转换为UI，高阶组件是将组件转换为另一个组件**
+**组价是将props转换为UI，高阶组件是将组件转换为另一个组件**，HOC不会修改传入的组件，也不会使用继承来复制其行为，HOC通过将组件包装在容器组件中来组成新组件
+
+### 约定：
+
+1. 高阶组件应该将不相关的props传递给被包裹的组件
+2. 最大化可组合性，即输入参数类型和输出结果类型相同，便于进行串联组合
+3. 包装显示名称以便轻松调试
+
+### 注意事项
+
+1. 不要再render方法中调用高阶组件
+    如果在render方法中调用高阶组件，会造成每次渲染更新时都会生成一个新的高阶组件，导致组件被重新渲染。这会造成性能问题和重新挂载后组件的状态丢失
+
+    一般在组件之外创建HOC，则组建只会创建一次，如果确实需要动态创建HOC，则在组件生命周期中进行
+
+    **React diff算法使用组件标识来确定一个组件是应该更新现有子树还是将其丢弃并挂载新子树**
+    * 如果render返回的组件与前一个渲染中的组件相同(===)，则递归更新子树
+    * 如果不相等，则完全卸载前一个子树，挂载新子树
+2. 静态方法需单独复制
+
+    高阶组件不会复制传入组件的静态方法，需要手动进行复制，可以使用npm包，或者将静态方法导出后在高阶组件中直接复制
+
+### 使用组合避免修改原始组件
+
+使用高阶组件是应避免修改原始组件，否则将会导致原始组件不能按照HOC增强之前使用
+
+高阶组件与**容器组件模式**类似，容器组件将高层和低层关注点分离，由容器管理订阅和状态，并将 prop 传递给低层组件
 
 ## Refs转发
 
 允许某些组件接受ref，并将其向下传递给子组件
 
 * `React.createRef()`创建一个`React ref`，保存为变量ref
-* 将创建的ref作为JSX属性，传递给组件
-* 使用`React.forwardRef`定义的组件获取到第二个ref参数，此处需注意ref不属于props
-* 组件将ref参数传递给子组件
+* 将创建的ref作为JSX属性，传递给父组件
+* 使用`React.forwardRef`定义的父组件获取到第二个ref参数，此处需注意ref不属于props
+* 父组件将ref参数传递给子组件
 * 挂载完成后，`ref.current`指向子组件
 
 慎用refs转发，应将其视为破坏性更改
 
 ### 高阶组件中转发refs
 
-高阶组件与普通组件使用类似，核心为`React.forwardRef`包装组件即可
+高阶组件中转发refs分为两步，传递ref到容器组件 + 传递ref到输入组件
+1. 传递ref到容器组件类似于普通的ref转发，组件定义使用`React.forwardRef`，ref值传入使用`React.createRef()`
+2. 传递ref到输入组件类似于普通的props传递，容器组件将ref作为一个特殊的props传入，之后取出，再放入输入组件中
 
 ## Fragments
 
