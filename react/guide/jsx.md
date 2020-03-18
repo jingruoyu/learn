@@ -1,10 +1,8 @@
 ## JSX
 
-JSX本质为React.createElement()的语法糖
+JSX本质为`React.createElement(component, props, ...children)`的语法糖
 
-### React的声明
-
-JSX编译后会调用React.createElement方法，故需要提前声明引入react变量
+JSX编译后会调用React.createElement方法，故需要提前声明引入`react`变量
 
 ### 点表示法
 
@@ -14,11 +12,11 @@ JSX编译后会调用React.createElement方法，故需要提前声明引入reac
 
 React组件名首字母必须为大写。
 
-React中默认首字母小写的为HTML标签，大写的为React组件，将调用React.component进行编译
+React中默认首字母小写的为HTML标签，大写的为React组件，将调用React.createElement进行编译
 
-### 运行时选择组件类型
+### 运行时选择组件类型(动态组件)
 
-如需运行时根据变量确定所使用的元素类型，需要将其先赋值给一个大写字母开头的变量，再用这个变量进行组件的渲染
+如需运行时根据变量确定所使用的元素类型，需要将其先赋值给一个**大写字母**开头的变量，再用这个变量进行组件的渲染
 
     import React from 'react';
     import { PhotoStory, VideoStory } from './stories';
@@ -44,7 +42,7 @@ JSX中有几种不同的方式指定属性
 
     <MyComponent foo={1 + 2 + 3 + 4} />
 
-注意：if和for不算表达式
+注意：if和for不算表达式，不能在JSX中直接使用
 
 #### 字符串常量
 
@@ -65,7 +63,7 @@ JSX中有几种不同的方式指定属性
     <MyTextBox autocomplete />
     <MyTextBox autocomplete={true} />
 
-**不建议使用**
+**建议显式传递属性值**
 
 #### 扩展属性
 
@@ -80,7 +78,7 @@ JSX中有几种不同的方式指定属性
       return <Greeting {...props} />;
     }
 
-**不建议使用，容易导致不相关属性的传递**
+**谨慎使用，容易导致不相关属性的传递**
 
 ### 子节点的传递
 
@@ -159,7 +157,7 @@ false、null、undefined 和 true 都是合法的子元素，但它们不会直�
 
     <div>{true}</div>
 
-React中，出现了`falsy`值，即强制类型转换后会变为false的值，包括有0，''，null，undefined 和 NaN
+注意`falsy`值，即强制类型转换后会变为false的值，包括有0，''，null，undefined 和 NaN
 
 此处需注意，**0作为一个falsy，会被判断为false，不执行后续的逻辑，但其本身会被渲染**，而其他值渲染时会被忽略
 
@@ -172,3 +170,6 @@ React中，出现了`falsy`值，即强制类型转换后会变为false的值，
 **解决办法为使得&&前面的表达式始终为布尔值**
 
 如果需要将false、true、null或者undefined出现在输出中，则必须先将其转换为字符串再加入到元素中。
+
+**Note**：truthy和falsy是JavaScript隐式类型转换提出的概念，隐式类型转换规则详见OneNote
+

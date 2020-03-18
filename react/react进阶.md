@@ -126,3 +126,11 @@ class组件具备以下两个生命周期中任意一个或两个时，即为错
     <dd>{item.description}</dd>
   </React.Fragment>
   ```
+
+## 性能优化
+
+### 常规操作
+
+使用生产版本、webpack打包、tree shaking、performance分析
+
+### 虚拟化长列表
