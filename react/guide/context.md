@@ -1,4 +1,6 @@
-### Context
+## Context
+
+### 使用Context
 
 Context提供了一个无需为每层组件手动添加props，就能在组件之间进行数据传输的方法，但是也使得组件复用性变差
 
