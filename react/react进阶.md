@@ -134,3 +134,27 @@ class组件具备以下两个生命周期中任意一个或两个时，即为错
 使用生产版本、webpack打包、tree shaking、performance分析
 
 ### 虚拟化长列表
+
+### 避免调停（优化渲染条件）
+
+React中构建并维护了一套内部的UI渲染描述，即为虚拟DOM。当组件的props或state变更，会将当前的vDOM与之前的vDOM进行对比，判断节点是否需要更新，以节省资源
+
+若要省略对比操作，手动控制刷新，可以覆盖shouldComponentUpdate，控制返回true（执行React更新流程）或者false（跳过整个更新过程）。注意，**返回true后，React也会进行vDOM判断**
+
+`shouldComponentUpdate`根据某些条件判断是否进行渲染，如果要根据props与state的**浅比较**，可以通过继承`React.PureComponent`类。
+
+**NOTE**：使用过程中需要注意`React.PureComponent`是依据浅比较的形式进行，故如果要更改相关属性，一定要赋予新的值，可以使用解构赋值或其他方法
+
+## Protals
+
+将子节点渲染到父组件以外的DOM节点，常用于对话框、悬浮框、提示框等
+
+    ReactDOM.createPortal(child, container)
+
+Protal中子元素的事件冒泡行为与普通的React元素一致，**一个从 portal 内部触发的事件会一直冒泡至包含 React 树的祖先，即便这些元素并不是 DOM 树 中的祖先**
+
+## Profiler
+
+用于测量渲染一个React应用的渲染代价，找出其中渲染较慢的部分
+
+## 协调
