@@ -5,3 +5,5 @@
 * [hook](hook.md)
     * [Context](guide/context.md)
     * [深入JSX](guide/jsx.md)
+    * [diff比较](guide/diff.md)
+    * [refs使用](guide/refs.md)
