@@ -26,6 +26,8 @@
     * [进阶](react/react进阶.md)
         * [Context](react/guide/context.md)
         * [深入JSX](react/guide/jsx.md)
+        * [diff比较](react/guide/diff.md)
+        * [refs使用](react/guide/refs.md)
     * [hook](react/hook.md)
 * [flutter](flutter/README.md)
     * [简介](flutter/begin.md)
