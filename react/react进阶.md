@@ -139,3 +139,13 @@ Protal中子元素的事件冒泡行为与普通的React元素一致，**一个�
 
 用于测量渲染一个React应用的渲染代价，找出其中渲染较慢的部分
 
+## Render Props
+
+在React组件中使用一个值为函数的prop共享代码的技术，即使用props将函数传入目标组件，函数中渲染子组件，在目标组件中调用函数完成渲染，功能在于可以在调用过程中传入参数
+
+render props可以代替实现高阶组件HOC
+
+**NOTE**：`Render Props`与`React.PureComponent`一起使用需要注意，内联函数会导致PureComponent每次比较都得到true，可以使用实例方法避免
+
+## 静态类型检查
+
