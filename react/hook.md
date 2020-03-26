@@ -39,8 +39,8 @@ Hook是一种复用**状态逻辑**的方式，不复用状态本身，Hook的�
 	* useEffect可以多次调用，关注点分离
 	* useEffect可以返回一个函数，React 会在组件卸载的时候执行清除操作，调用函数
 
-* useContext：不适用组件嵌套即可订阅React的Context
-* useReducer：通过reducer管理组件本地的state
+* useContext：不使用组件嵌套即可订阅React的Context
+* useReducer：通过reducer批量管理组件本地的state
 
 #### 使用规则
 

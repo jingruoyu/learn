@@ -149,3 +149,47 @@ render props可以代替实现高阶组件HOC
 
 ## 静态类型检查
 
+Flow与TypeScript
+
+## 严格模式
+
+严格模式调用方式为
+
+    <React.StrictMode>
+      <div>
+        <ComponentOne />
+        <ComponentTwo />
+      </div>
+    </React.StrictMode>
+
+只针对`React.StrictMode`中的内容及其后代元素进行检查
+
+严格模式有助于
+* 识别不安全的生命周期，避免使用过时的寿命周期方法
+* 使用过时字符串`ref API`的警告
+* 使用废弃的`findDOMNode方法`的警告
+* 检测意外的副作用
+
+    React分为两个阶段工作，渲染与提交。
+    * 渲染阶段确定需要进行哪些更改。此阶段React调用render，将结果进行diff
+    * 提交阶段发生在React应用变化时，此阶段还会调用`componentDidMount`和`componentDidUpdate`等生命周期方法
+
+* 检测过时的context API
+
+## propTypes类型检查
+
+* 可以使用`propTypes`对props属性进行类型检查，可以针对单个属性进行
+* 可以使用`defaultProps`指定props中属性的默认值，确保父组件没有指定属性时有一个默认值
+
+`propTypes`类型检查发生在`defaultProps`赋值后，所以类型检查也适用于`defaultProps`
+
+## 非受控组件
+
+* 受控组件：表单数据由React组件进行管理，真实数据存储于组件中
+* 非受控组件：表单数据由DOM节点进行处理，真实数据存储于DOM节点中
+
+部分情况下，有些组件的值不能存储于组件中，只能存储在DOM节点里，如上传文件，此时就需要使用非受控组件，利用ref、DOM等API进行处理
+
+## Web Components
+
+Web Compoennts是HTML5中的API，为可复用组件提供强大封装，可以和React搭配使用
