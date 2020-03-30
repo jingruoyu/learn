@@ -31,6 +31,9 @@ Hook是一种复用**状态逻辑**的方式，不复用状态本身，Hook的�
 #### 使用规则
 
 * 只能在函数最外层调用Hook，不能在循环、条件判断或子函数中调用
+
+	React依赖Hook的调用顺序，确定每一次渲染中state、effect的对应关系。如果将hook放入条件或循环语句中，可能会造成两次渲染中hook执行情况对应不上，从而导致一系列问题。
+
 * 只能在react函数组件和自定义Hook中调用Hook，不能在JavaScript函数中调用
 
 #### 系统自带的Hook
@@ -42,6 +45,8 @@ Hook是一种复用**状态逻辑**的方式，不复用状态本身，Hook的�
 	**函数组件中只在首次渲染时创建state**，下次重新渲染时，直接返回当前state，而不是再次创建，useState为函数组件增加了状态
 
 	调用更新state的函数时，state变量会被替换，而this.setState的操作是合并，仅替换state指定属性
+
+	如果更新函数返回值与当前 state 完全相同，则随后的重渲染会被完全跳过。React使用Object.is比较算法来比较state
 
 * Effect Hook
 
@@ -64,12 +69,49 @@ Hook是一种复用**状态逻辑**的方式，不复用状态本身，Hook的�
 	* **effect不会造成阻塞**，除了需要测量布局外，大部分情况下均为异步执行
 
 * useContext：不使用组件嵌套即可订阅React的Context
-* useReducer：通过reducer批量管理组件本地的state
+
+	接收一个context对象并返回该context的当前值，即上次组件中距离当前组件最近的`<MyContext.Provider>`的value属性
+
+	当上层组件中的Provider更新时，useContext会触发重新渲染，并使用最新传递的context value值
+
+* useReducer：通过reducer批量管理组件本地的state，useState替代方案
+
+	返回当前的state以及与其配套的dispatch，通过dispatch更新state
+
+	useReducer初始化：
+	* 指定初始state：initState作为useReducer的第二个参数
+	* 惰性初始化：init函数作为useReducer的第三个参数，initState将作为init函数的参数被执行
+
+	如果 Reducer Hook 的返回值与当前 state 相同，React 将跳过子组件的渲染及副作用的执行
+
+* useCallback：返回该回调函数的 memoized 版本，该回调函数仅在某个依赖项改变时才会更新
+
+	`useCallback(fn, deps)`相当于`useMemo(() => fn, deps)`
+
+	当把回调函数传递给使用引用相等性去避免非必要渲染的子组件时，它将非常有用
+
+* useMemo
+
+	仅当某个依赖项改变是才重新计算memoized值，避免每次渲染时都进行计算
+
+	传入useMemo的函数会在渲染期间执行，不要再这个函数内部执行与渲染无关的操作
+
+* useRef
+* useImperativeHandle
+* useLayoutEffect
+* useDebugValue
 
 #### 自定义Hook
 
 自定义Hook将需要复用的useState和useEffect相关的逻辑抽离出来，在不同的组件中可以直接调用该Hook
 
-与系统自带hook相同，自定义hook每次调用都会产生独立的状态，不会相关影响
+与系统自带hook相同，自定义hook每次调用都会产生独立的状态，不会相互影响
 
 **自定义hook必须使用`use`开头**
+
+使用场景：
+* 可以在多个Hook之间传递参数
+
+	Hook本身即为函数，故Hook的参数可以为一个变量，当变量更新时，Hook本身也会得到更新
+
+* 
