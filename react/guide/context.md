@@ -37,7 +37,7 @@ context适用于在组件树的不同层级中需要访问同样一批数据，�
     </Page>
 
 * Class.contextType
-    * 可以使用`this.context`来消费最近`Context`上的那个值，可以再任何生命周期中访问，包括render函数
+    * 可以使用`this.context`来消费最近`Context`上的那个值，可以在任何生命周期中访问，包括render函数
     * 通过public class filed，可以使用static初始化context
 * Context.Consumer
     * 为内部的子元素订阅context变更
