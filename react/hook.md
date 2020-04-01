@@ -28,7 +28,7 @@ React缺点
 
 Hook是一种复用**状态逻辑**的方式，不复用状态本身，Hook的每次调用都会产生完全独立的state
 
-#### 使用规则
+### 使用规则
 
 * 只能在函数最外层调用Hook，不能在循环、条件判断或子函数中调用
 
@@ -36,7 +36,7 @@ Hook是一种复用**状态逻辑**的方式，不复用状态本身，Hook的�
 
 * 只能在react函数组件和自定义Hook中调用Hook，不能在JavaScript函数中调用
 
-#### 系统自带的Hook
+### 系统自带的Hook
 
 * state Hook
 
@@ -47,6 +47,10 @@ Hook是一种复用**状态逻辑**的方式，不复用状态本身，Hook的�
 	调用更新state的函数时，state变量会被替换，而this.setState的操作是合并，仅替换state指定属性
 
 	如果更新函数返回值与当前 state 完全相同，则随后的重渲染会被完全跳过。React使用Object.is比较算法来比较state
+
+	更新函数参数
+	* 目标值：直接进行数据更新
+	* 函数：以当前值为参数，计算后返回目标值，再进行更新。适用于摆脱hook的闭包场景
 
 * Effect Hook
 
@@ -110,7 +114,7 @@ Hook是一种复用**状态逻辑**的方式，不复用状态本身，Hook的�
 * useLayoutEffect：在所有DOM变更之后同步调用effect，区别于useEffect在于其为同步调用，DOM变更 -> useLayoutEffect调用 -> 浏览器绘制
 * useDebugValue：可用于在 React 开发者工具中显示自定义 hook 的标签
 
-#### 自定义Hook
+### 自定义Hook
 
 自定义Hook将需要复用的useState和useEffect相关的逻辑抽离出来，在不同的组件中可以直接调用该Hook
 
@@ -119,3 +123,12 @@ Hook是一种复用**状态逻辑**的方式，不复用状态本身，Hook的�
 **自定义hook必须使用`use`开头**
 
 可以在多个Hook之间传递参数：Hook本身即为函数，故Hook的参数可以为一个变量，当变量更新时，Hook本身也会得到更新
+
+### hook FQA
+
+* [数据获取](https://www.robinwieruch.de/react-hooks-fetch-data)
+* 建议将一个大的state对象拆分为多个state变量，可以避免合并，而且逻辑拆分更容易
+* **使用hook后，effect、组件内部的函数调用、事件处理会默认产生闭包**，其所使用的的状态是他被创建的那次渲染中的
+
+	这是hook与class最大的不同
+* 
