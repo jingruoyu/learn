@@ -92,14 +92,23 @@ Hook是一种复用**状态逻辑**的方式，不复用状态本身，Hook的�
 
 * useMemo
 
-	仅当某个依赖项改变是才重新计算memoized值，避免每次渲染时都进行计算
+	仅当某个依赖项改变是才重新计算memoized值，避免每次渲染时都进行计算，当不提供依赖数组时每次渲染都会计算新的值
 
-	传入useMemo的函数会在渲染期间执行，不要再这个函数内部执行与渲染无关的操作
+	传入useMemo的函数会在渲染期间执行，不要在这个函数内部执行与渲染无关的操作，副作用之类的操作可以放入useEffect中
+
+	useMemo是一种性能优化手段，但是不能作为语义上的保证
 
 * useRef
-* useImperativeHandle
-* useLayoutEffect
-* useDebugValue
+
+	返回一个可变的ref对象，该对象在组件的整个生命周期内保持不变，ref对象使用方法基本同正常的ref属性
+
+	**useRef可以在`current`属性上保存任何属性值**，优点在于每次渲染都会返回同一个ref对象，不会创建新值。
+
+	当ref.content中内容改变时不会进行通知，不会引发组件重新渲染。此类需求可以通过回调ref实现
+
+* useImperativeHandle：自定义使用ref时子组件向父组件暴露的实例值
+* useLayoutEffect：在所有DOM变更之后同步调用effect，区别于useEffect在于其为同步调用，DOM变更 -> useLayoutEffect调用 -> 浏览器绘制
+* useDebugValue：可用于在 React 开发者工具中显示自定义 hook 的标签
 
 #### 自定义Hook
 
@@ -109,9 +118,4 @@ Hook是一种复用**状态逻辑**的方式，不复用状态本身，Hook的�
 
 **自定义hook必须使用`use`开头**
 
-使用场景：
-* 可以在多个Hook之间传递参数
-
-	Hook本身即为函数，故Hook的参数可以为一个变量，当变量更新时，Hook本身也会得到更新
-
-* 
+可以在多个Hook之间传递参数：Hook本身即为函数，故Hook的参数可以为一个变量，当变量更新时，Hook本身也会得到更新
