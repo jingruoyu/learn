@@ -7,3 +7,6 @@
 **每个组件实例必须保留对其DOM节点和子组件实例的引用，并在适当的时候创建，更新和销毁它们。**
 
 代码行随着组件可能状态数量的平方增长，并且父级可以直接访问其子级组件实例，因此将来很难将它们分离。
+
+https://reactjs.org/blog/2015/12/18/react-components-elements-and-instances.html
+https://reactjs.org/docs/implementation-notes.html
