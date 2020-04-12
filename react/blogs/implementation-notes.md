@@ -4,6 +4,8 @@
 
 [stack reconciler实现笔记 中文版](https://jobbym.github.io/2017/02/14/react-Implementation-Notes/)
 
+https://www.youtube.com/watch?v=_MAD4Oly9yg
+
 这篇文章是stack reconcile实现笔记集合
 
 ### stack reconciler
