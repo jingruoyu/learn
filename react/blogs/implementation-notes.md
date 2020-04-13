@@ -4,9 +4,11 @@
 
 [stack reconciler实现笔记 中文版](https://jobbym.github.io/2017/02/14/react-Implementation-Notes/)
 
+[相关视频](https://www.youtube.com/watch?v=_MAD4Oly9yg)
+
 这篇文章是stack reconcile实现笔记集合
 
-### stack reconciler
+### stack reconciler 基础
 
 #### reconciler
 
@@ -18,4 +20,47 @@
 
 #### stack reconciler
 
-`stack reconciler`是为React 15及更早的版本提供的支持，目前已经停止使用
+`stack reconciler`是为React 15及更早的版本提供的支持，目前已经停止使用，替代它的是fiber reconciler，其实质是在stack的基础上进行优化
+
+`stack reconciler`对`render`、`reconciler`（即diff）、DOM的处理方式为，每调用一个`render`生成对应的`element`对象，就进行相应的`reconciler`，然后如果发现子元素发生变动，再对子元素进行相同的递归遍历操作，最终根据生成的`element`对象进行DOM操作。
+
+在此过程中，`render`、`reconciler`的执行即为不断地出栈入栈，故称为`stack reconciler`
+
+#### fiber reconciler
+
+`fiber reconciler`在`stack reconciler`的基础上进行了优化
+* 将`render`与`reconciler`的工作变为可中断的，避免过长占用主线程
+
+    `fiber reconciler`会在执行`render`前检查目前为止所有render与reconciler操作耗时，如果超过一定阈值，则让出主线程，避免产生页面无响应的情况
+
+* 能不断地将任务进行优先级排序、rebase和复用
+* 能够在父节点和子节点之间来回操作，以支持React中的布局
+* 能够从render中返回多个元素
+* 更好的支持错误边界
+
+### stack reconciler 原理
+
+#### 概览
+
+reconciler自身没有一个公共的的API，React DOM和React Native中的Renderers使用reconciler，依托用户编写的React Component，有效的更新用户视图
+
+#### mounting是递归过程
+
+首次加载component
+
+	ReactDOM.render(<App />, rootEl)
+
+React DOM将App组件传入reconciler，reconciler判断组件类型。此处的组件即为React element，即为一个对象
+* 如果是函数，则调用`App(props)`，获取返回的元素
+* 如果是类，则创建一个实例`new APP(props)`，调用生命周期的`componentWillMount`方法，之后调用`render`函数获取已渲染的element
+
+无论是哪种方式，reconciler都会得到App组件的渲染目标"renderered to"
+
+这个过程是递归的，App可能渲染为B组件，B可能渲染为C组件。当reconciler会通过用户定义的component渲染逻辑，向下递归的获取数据
+
+**NOTE**
+* React element是使用一个简单地对象来表示组件的type和props
+* 用户定义的component可以是类或者函数，但它们都会表达成element
+* mounting是一个递归过程，通过给定一个React element顶点，可以创建一棵DOM或Native树
+
+#### 挂载元素
