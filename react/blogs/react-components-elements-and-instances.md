@@ -75,6 +75,8 @@ const DeleteAccount = () => (
 )
 ```
 
+**函数组件return和class组件render返回的结果实质上就是一个element对象**
+
 #### 组件封装元素树
 
 当React发现一个元素的type是函数组件或类组件，它会明白即将渲染的是一个组件，会对其赋予相应的props。
