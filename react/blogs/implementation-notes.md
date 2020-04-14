@@ -58,9 +58,31 @@ React DOM将App组件传入reconciler，reconciler判断组件类型。此处的
 
 这个过程是递归的，App可能渲染为B组件，B可能渲染为C组件。当reconciler会通过用户定义的component渲染逻辑，向下递归的获取数据
 
+参见博客中伪代码。
+
+**此处重点解释了class组件和函数组件返回的都是一个element对象，该对象上有type、props属性**
+
 **NOTE**
 * React element是使用一个简单地对象来表示组件的type和props
 * 用户定义的component可以是类或者函数，但它们都会表达成element
 * mounting是一个递归过程，通过给定一个React element顶点，可以创建一棵DOM或Native树
 
 #### 挂载元素
+
+如果我们最终没有渲染一些内容到屏幕上，那么这一过程是无效的
+
+除了用户自定义的组件之外，React元素也可以表示特定平台的组件(host组件)，如div等
+
+**当一个元素的type是string时，我们会将其当做一个host组件处理。**当reconciler遇到一个host组件时，它会让渲染器处理加载它。例如，React DOM会创建一个DOM节点
+
+如果host组件有子节点，reconciler会根据上述规则进行递归加载，无论子节点的类型是什么。
+
+子节点生成的DOM节点会被追加到父级DOM节点下，并依次递归，最终生成完整的DOM结构
+
+**NOTE**
+
+reconciler自身不与DOM绑定。元素挂载的准确结果取决于渲染器，在React DOM中是一个DOM节点，React DOM Server中是一个字符串，React Native中是一个代表本地视图的数字
+
+参见博客中伪代码。
+
+**此处重点在于针对host component，以及其中children的处理**，整体上都是在不停的递归调用mount函数以获取组件内部DOM结构，然后使用mountHost生成DOM节点并绑定
