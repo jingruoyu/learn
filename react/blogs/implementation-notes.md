@@ -86,3 +86,43 @@ reconciler自身不与DOM绑定。元素挂载的准确结果取决于渲染器�
 参见博客中伪代码。
 
 **此处重点在于针对host component，以及其中children的处理**，整体上都是在不停的递归调用mount函数以获取组件内部DOM结构，然后使用mountHost生成DOM节点并绑定
+
+#### 内部实例生成过程
+
+React的关键特性是尅重新渲染任何事物，而不必重新创建DOM或者重置状态
+
+之前的介绍中只说到了如何生成初始化的DOM树，但是还不能进行更新，因为没有存储所有的`publicInstances`，并且DOM节点与组件之间也没有对应关系
+
+stack reconciler代码库使用`mount` + class解决这个问题。这种方式存在缺点，我们正在通过fiber reconciler进行替换
+
+之前我们创建了`mountHost`和`mountComposite`两个函数处理element树的解析，这里将会把他们转化为`DOMComponent`和`CompositeComponent`两个class，class的constructor函数接收element对象
+
+伪代码修改：
+* mount变为instantiateComponent：改为返回两个类的实例，传入参数依然是element对象
+* mountComposite变为CompositeComponent：在返回的实例上拥有以下几个属性
+	* currentElement：当前的element对象
+	* renderedComponent：instantiateComponent返回的实例
+	* publicInstance：组件实例，只有class组件会有，函数组件为null
+
+	mount方法继续调用内层包含块的mount方法
+
+	CompositeComponent是reconciler的实现细节，不会向用户暴露。之前class组件与函数组件的element对象都是直接向用户暴露的
+
+* mountHost变为DOMComponent：在返回的实例上增加以下属性
+	* currentElement：当前的element对象
+	* node：根节点
+	* renderedChildren：每一个子节点的instantiateComponent实例化对象，之后直接mount，然后挂载在node上
+
+	mount方法返回真正的DOM节点
+
+`DOMComponent`和`CompositeComponent`两个class也称为内部实例。当它们存在时，我们可以将一些长期属于与他们联系在一起。只有渲染器renderer和reconciler能够接触到它们
+
+相反，我们称用户定义的类所产生的实例为公共实例。公共实例可以在自定义组件的render函数或其他方法的this上访问到
+
+*注意文档中的举例*，从<App />到div的内部实例树中包含composite与host实例
+
+*React Devtools中，使用灰色高亮host实例，使用紫色高亮composite实例*
+
+组件挂载时，首先实例化整个组件树，之后调用组件根节点的mount方法，就可以层层调用，最终获取到真实的DOM节点，然后添加到DOM树上去
+
+#### 组件卸载
