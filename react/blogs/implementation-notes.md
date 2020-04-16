@@ -104,6 +104,8 @@ stack reconciler代码库使用`mount` + class解决这个问题。这种方式�
 	* renderedComponent：instantiateComponent返回的实例
 	* publicInstance：组件实例，只有class组件会有，函数组件为null
 
+		class组件中使用的生命周期方法，都会作为组件实例的方法，通过`publicInstance`即可访问
+
 	mount方法继续调用内层包含块的mount方法
 
 	CompositeComponent是reconciler的实现细节，不会向用户暴露。之前class组件与函数组件的element对象都是直接向用户暴露的
@@ -126,3 +128,52 @@ stack reconciler代码库使用`mount` + class解决这个问题。这种方式�
 组件挂载时，首先实例化整个组件树，之后调用组件根节点的mount方法，就可以层层调用，最终获取到真实的DOM节点，然后添加到DOM树上去
 
 #### 组件卸载
+
+之前已经实现了使用内部实例对象实现element到DOM节点的映射，最终生成了整个DOM树
+
+如果要在组件卸载时实现对应的生命周期方法，需要在DOM节点上存储内部实例对象，以便在组件卸载时访问对应的实例方法
+
+```javascript
+function mountTree(element, containerNode) {
+  // Destroy any existing tree
+  if (containerNode.firstChild) {
+    unmountTree(containerNode);
+  }
+
+  // Create the top-level internal instance
+  var rootComponent = instantiateComponent(element);
+
+  // Mount the top-level component into the container
+  var node = rootComponent.mount();
+  containerNode.appendChild(node);
+
+  // Save a reference to the internal instance
+  node._internalInstance = rootComponent;
+
+  // Return the public instance it provides
+  var publicInstance = rootComponent.getPublicInstance();
+  return publicInstance;
+}
+````
+
+以上代码中将内部实例对象`rootComponent`作为`node`的`_internalInstance`内部属性，在组件卸载或其他场景下可以直接通过node节点访问到
+
+class组件中使用的生命周期方法，都是最终生成的组件实例方法，可以通过内部实例对象中`CompositeComponent`实例上的`publicInstance`属性访问到
+
+由此可以在元素卸载时递归调用`componentWillUnmount`生命周期函数
+
+#### updating
+
+之前我们实现了React的卸载方法实现，不过React不会将整个树的每个组件都卸载掉然后重新加载。reconciler的目标是复用已存在的实例，尽可能的保存DOM和state
+
+此部分的实现是通过在`DOMComponent`和`CompositeComponent`中分别增加receive方法
+
+```javascript
+receive(nextElement) {
+	// ...
+}
+```
+
+此函数作用是通过nextElement提供的描述更新component及其子节点
+
+这部分常被称为**虚拟DOM比较**（virtual DOM diffing），但是真正发生的是**通过递归遍历内部实例对象树，让每一个实例对象接收更新**
