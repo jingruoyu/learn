@@ -101,7 +101,7 @@ stack reconciler代码库使用`mount` + class解决这个问题。这种方式�
 * mount变为instantiateComponent：改为返回两个类的实例，传入参数依然是element对象
 * mountComposite变为CompositeComponent：在返回的实例上拥有以下几个属性
 	* currentElement：当前的element对象
-	* renderedComponent：instantiateComponent返回的实例
+	* renderedComponent：instantiateComponent返回的对象，即为CompositeComponent或DOMComponent实例
 	* publicInstance：组件实例，只有class组件会有，函数组件为null
 
 		class组件中使用的生命周期方法，都会作为组件实例的方法，通过`publicInstance`即可访问
@@ -166,7 +166,7 @@ class组件中使用的生命周期方法，都是最终生成的组件实例方
 
 之前我们实现了React的卸载方法实现，不过React不会将整个树的每个组件都卸载掉然后重新加载。reconciler的目标是复用已存在的实例，尽可能的保存DOM和state
 
-此部分的实现是通过在`DOMComponent`和`CompositeComponent`中分别增加receive方法
+此部分的实现是通过在`DOMComponent`和`CompositeComponent`中分别增加**receive**方法
 
 ```javascript
 receive(nextElement) {
@@ -174,6 +174,79 @@ receive(nextElement) {
 }
 ```
 
-此函数作用是通过nextElement提供的描述更新component及其子节点
+此函数作用是通过nextElement提供的描述更新component及其子节点，nextElement是当前组件在下一次渲染中的element对象
 
 这部分常被称为**虚拟DOM比较**（virtual DOM diffing），但是真正发生的是**通过递归遍历内部实例对象树，让每一个实例对象接收更新**
+
+#### 更新composite组件
+
+当composite component收到一个新的element时，会运行实例的componentWillUpdate生命周期钩子
+
+然后会使用新的nextElement中的type、props重新渲染component，得到下一轮待渲染的nextRenderedElement对象。renderElement是组件内容的渲染element
+
+diff操作：
+* 若前后两次renderedElement的type相同，会直接使用前一次renderedComponent对象上的receive方法进行更新
+
+    此处需注意，比较的type是组件内容元素的type，即其原对象中renderedComponent上的currentElement与下一次渲染的nextRenderedElement进行对比
+
+    ```javascript
+    var prevRenderedComponent = this.renderedComponent;
+    var prevRenderedElement = prevRenderedComponent.currentElement;
+    // ...
+    // 函数组件
+    nextRenderedElement = type(nextProps);
+    // ...
+    if (prevRenderedElement.type === nextRenderedElement.type) {
+      prevRenderedComponent.receive(nextRenderedElement);
+      return;
+    }
+    ```
+
+    注意renderedComponent与renderElement的不同
+
+* 若前后两次renderedElement的type不同，则需要卸载之前组件，替换元素
+
+    ```javascript
+    var prevNode = prevRenderedComponent.getHostNode()
+
+    // Unmount the old child and mount a new child
+    prevRenderedComponent.unmount()
+    var nextRenderedComponent = instantiateComponent(nextRenderedElement)
+    var nextNode = nextRenderedComponent.mount()
+
+    // Replace the reference to the child
+    this.renderedComponent = nextRenderedComponent
+
+    // Replace the old node with the new one
+    // Note: this is renderer-specific code and
+    // ideally should live outside of CompositeComponent
+    prevNode.parentNode.replaceChild(nextNode, prevNode)
+    ```
+
+    此处需要在两个类中实现一个getHost方法，CompositeComponent中递归调用，DOMComponent返回真实node
+
+总结：当CompositeComponent收到一个新的element时
+* 如果type未改变，则代理到自己已渲染的内部实例上，实现局部更新
+* 如果type改变，则卸载原节点，在这个位置替换一个新元素
+
+本文中暂不讨论带key的情况，此类情况过于复杂
+
+#### 更新host组件
+
+不同平台下的的DOMComponent更新实现是不一样的，当收到一个element时，需要更新底层平台特定的视图。如果是React DOM，意味着需要更新DOM特性，即attributes
+
+```javascript
+// Remove old attribute
+Object.keys(prevProps).forEach(propName => {
+  if(propName !== 'children' && !nextProps.hasOwnProperty(propName)){
+    node.removeAttribute(propName)
+  }
+})
+// Set next attribute
+Object.keys(nextProps).forEach(propName => {
+  if(propName !== 'children'){
+    node.setAttribute(propName, nextProps[propName])
+  }
+})
+```
+
