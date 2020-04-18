@@ -8,6 +8,10 @@
 
 这篇文章是stack reconcile实现笔记集合
 
+react实例关系图
+
+![react组件树实例关系图](react_instantiateComponent_tree.png)
+
 ### stack reconciler 基础
 
 #### reconciler
