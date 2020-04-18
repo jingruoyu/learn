@@ -12,7 +12,8 @@
         "toc",
         "git-author",
         "mermaid-gb3",
-        "chart"
+        "chart",
+        "image-zoom"
     ],
     "pluginsConfig": {
         "theme-default": {

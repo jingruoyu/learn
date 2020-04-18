@@ -10,6 +10,7 @@
     "gitbook-plugin-emphasize": "^1.1.0",
     "gitbook-plugin-expandable-chapters-small": "^0.1.7",
     "gitbook-plugin-git-author": "^1.1.2",
+    "gitbook-plugin-image-zoom": "0.0.4",
     "gitbook-plugin-mermaid-gb3": "^2.1.0",
     "gitbook-plugin-prism": "^2.4.0",
     "gitbook-plugin-search-plus": "^1.0.3",
