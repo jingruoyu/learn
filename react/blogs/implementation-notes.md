@@ -193,7 +193,7 @@ diff操作：
     var prevRenderedComponent = this.renderedComponent;
     var prevRenderedElement = prevRenderedComponent.currentElement;
     // ...
-    // 函数组件
+    // 函数组件，类组件不赘述
     nextRenderedElement = type(nextProps);
     // ...
     if (prevRenderedElement.type === nextRenderedElement.type) {
@@ -226,7 +226,7 @@ diff操作：
     此处需要在两个类中实现一个getHost方法，CompositeComponent中递归调用，DOMComponent返回真实node
 
 总结：当CompositeComponent收到一个新的element时
-* 如果type未改变，则代理到自己已渲染的内部实例上，实现局部更新
+* 如果type未改变，则代理到自己已渲染的内部实例上，递归比较，最终局部更新
 * 如果type改变，则卸载原节点，在这个位置替换一个新元素
 
 本文中暂不讨论带key的情况，此类情况过于复杂
@@ -236,17 +236,145 @@ diff操作：
 不同平台下的的DOMComponent更新实现是不一样的，当收到一个element时，需要更新底层平台特定的视图。如果是React DOM，意味着需要更新DOM特性，即attributes
 
 ```javascript
-// Remove old attribute
-Object.keys(prevProps).forEach(propName => {
-  if(propName !== 'children' && !nextProps.hasOwnProperty(propName)){
-    node.removeAttribute(propName)
-  }
-})
-// Set next attribute
-Object.keys(nextProps).forEach(propName => {
-  if(propName !== 'children'){
-    node.setAttribute(propName, nextProps[propName])
-  }
-})
+    // Remove old attribute
+    Object.keys(prevProps).forEach(propName => {
+      if(propName !== 'children' && !nextProps.hasOwnProperty(propName)){
+        node.removeAttribute(propName)
+      }
+    })
+    // Set next attribute
+    Object.keys(nextProps).forEach(propName => {
+      if(propName !== 'children'){
+        node.setAttribute(propName, nextProps[propName])
+      }
+    })
 ```
 
+针对children，在更新时进行遍历，根据收到的type是否匹配他们之前的type，判断是更新该子节点还是替换子节点。真实情况下reconciler还需要element的key，并且跟踪插入和删除操作，不过在此不做讨论
+
+我们收集children节点上的DOM操作到一个列表，之后进行批量操作
+
+```javascript
+    // 接以上部分
+    var prevChildren = prevProps.children || [];
+    var nextChildren = nextProps.children || [];
+
+    // These are arrays of internal instances:
+    var prevRenderedChildren = this.renderedChildren;
+    var nextRenderedChildren = [];
+
+    // As we iterate over children, we will add operations to the array.
+    var operationQueue = [];
+
+
+    for(var i = 0; i < nextChildren.length; i ++){
+      // Try to get an existing internal instance for this child
+      var prevChild = prevRenderedChildren[i]
+
+      // If there is no internal instance under this index,
+      // a child has been appended to the end. Create a new
+      // internal instance, mount it, and use its node.
+      if(!prevChild){
+        var nextChild = instantiateComponent(nextChildren[i])
+        var node = nextChild.mount()
+
+        // Record that we need to append a node
+        operationQueue.push({type: 'ADD', node})
+        nextRenderedChildren.push(nextChild)
+        continue
+      }
+
+      // We can only update the instance if its element's type matches.
+      // For example, <Button size="small" /> can be updated to
+      // <Button size="large" /> but not to an <App />
+      var canUpdate = prevChildren[i].type === nextChildren[i].type
+
+      // If we can't update an existing instance, we have to unmount it
+      // and mount a new one instead of it.
+      if(!canUpdate){
+        var prevNode = prevChild.node
+        prevNode.unmount()
+
+        var nextChild = instantiateComponent(nextChildren[i])
+        var nextNode = nextChild.mount()
+
+        // Record that we need to swap the nodes
+        operationQueue.push({type: 'REPLACE', prevNode, nextNode})
+        nextRenderedChildren.push(nextChild)
+        continue
+      }
+
+      // If we can update an existing internal instance
+      // just let it receive the next element and handle its own update.
+      prevChild.receive(nextChildren[i])
+      nextRenderedChildren.push(prevChild)
+    }
+
+    // Finally, unmount any children that don't exist:
+    for(var j = nextChildren.length; j < prevChildren.length; j ++){
+      var prevChild = prevRenderedChildren[j]
+      var node = prevChild.node
+      prevChild.unmount()
+
+      // Record that we need to remove the node
+      operationQueue.push({type: 'REMOVE', type node})
+    }
+    // ...
+```
+
+要点：
+* operationQueue中收集所有的DOM操作
+* 在进行子节点比较时，基本上与compositeComponent相同，不过有三种操作
+    * ADD：prev无子节点，next新增
+    * REPLACE：prev与next的type不同
+    * REMOVE：prev比next子节点多，移除多余的子节点
+
+#### 根节点更新
+
+实现了CompositeComponent与DOMComponent中的receive更新之后，就可以利用type比较进一步实现根节点的更新
+
+```javascript
+function mountTree(element, containerNode) {
+  // Check for an existing tree
+  if (containerNode.firstChild) {
+    var prevNode = containerNode.firstChild;
+    var prevRootComponent = prevNode._internalInstance;
+    var prevElement = prevRootComponent.currentElement;
+
+    // If we can, reuse the existing root component
+    if (prevElement.type === element.type) {
+      prevRootComponent.receive(element);
+      return;
+    }
+
+    // Otherwise, unmount the existing tree
+    unmountTree(containerNode);
+  }
+
+  // ...
+
+}
+```
+
+已上代码中，`_internalInstance`中存储的是上一次组件树挂载时`instantiateComponent`返回的component实例，其中包含了currentElement对象，可以与下一次渲染时的element对象进行比较
+
+如此，在重新执行mountTree时，就不会直接卸载原来的组件树，而是先进行type对比
+* 如果type相同，直接调用原来根节点实例的receive更新
+* 如果type不同，则卸载之前的组件，重新渲染
+
+#### 本文省略的部分
+
+相比真实的代码库，本文省略了一些重要的方面：
+* component可以渲染null，reconciler可以处理数组和渲染输出中的empty slots
+* reconciler可以读取元素的key，并且使用它在元素和实例之间建立对应关系。实际React实现中的复杂逻辑大都与之相关
+* 除了composite和host内部实例类，还有text和empty的component类，他们用于表示文档节点以及渲染为null的空槽位(empty slots)
+* `Renderers`使用`injection`去传递host内部实例类到`reconciler`，如`React DOM`通知`reconciler`使用`ReactDOMComponent`作为host内部实例的实现类
+* 更新children list的逻辑被提取为mixin，称为`ReactMutiChild`，它在`React DOM`和`React Native`中的host 内部实例类实现
+* 在`CompositeComponent`中，`reconciler`页实现了对`setState`的支持。在事件句柄中的多个更新被绑定到一次更新中
+* reconciler也会处理绑定和解绑定（attaching and detaching）refs 到`composite component`和`host`节点上。
+* DOM准备就绪后调用的生命周期方法，如`componentDidMount`和`componentDidUpdate`，会被收集到`callback queues`中，并一次性全部执行
+* React 将关于当前更新的信息放到一个称为事务`tansaction`的内部对象上。事务对于跟踪未执行完的生命周期方法，当前DOM嵌套的警告，任何其他全局范围的更新是很有用的。事务还可以确保React在更新后“清理所有内容”。例如，React DOM提供的事务类在任何更新后都会还原输入选择
+
+### 未来的发展方向
+
+stack reconciler有一些固有的限制，如同步操作、不能中断工作或分块。因此提出了一个技术架构完全不同的Fiber reconciler，将来趋向于使用fiber reconciler代替stack reconciler
