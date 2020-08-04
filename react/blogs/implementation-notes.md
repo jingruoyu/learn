@@ -379,6 +379,8 @@ function mountTree(element, containerNode) {
 * DOM准备就绪后调用的生命周期方法，如`componentDidMount`和`componentDidUpdate`，会被收集到`callback queues`中，并一次性全部执行
 * React 将关于当前更新的信息放到一个称为事务`tansaction`的内部对象上。事务对于跟踪未执行完的生命周期方法，当前DOM嵌套的警告，任何其他全局范围的更新是很有用的。事务还可以确保React在更新后“清理所有内容”。例如，React DOM提供的事务类在任何更新后都会还原输入选择
 
+react中调用reconciler是一个同步过程，其通过重写一些事件，如click等，将reconciler的调用增加到到真正的click回调函数中。而componentDidUpdate等生命周期方法也是同步调用的，故如果在自定义的click事件中进行异步操作，就可以在这些生命函数执行之后执行，这一点在组件库使用中很有用
+
 ### 未来的发展方向
 
 stack reconciler有一些固有的限制，如同步操作、不能中断工作或分块。因此提出了一个技术架构完全不同的Fiber reconciler，将来趋向于使用fiber reconciler代替stack reconciler
