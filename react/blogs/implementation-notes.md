@@ -66,6 +66,8 @@ React DOM将App组件传入reconciler，reconciler判断组件类型。此处的
 
 **此处重点解释了class组件和函数组件返回的都是一个element对象，该对象上有type、props属性**
 
+**compositeComponent组件的type会是一个对象，指向其渲染函数或者class，可以通过type访问到对应的函数或class，故可以在渲染函数上绑定一些自定义属性，或在class上指定静态属性，这为我们提供了一种数据机制，可以通过此方法进行数据传递，用于识别组件等功能**
+
 **NOTE**
 * React element是使用一个简单地对象来表示组件的type和props
 * 用户定义的component可以是类或者函数，但它们都会表达成element
