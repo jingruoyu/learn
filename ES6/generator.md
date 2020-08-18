@@ -231,6 +231,8 @@ generator可以模拟数组的数据结构
 
 * generator函数
 
+故generator的异步操作本质上还是利用回调函数和promise进行实现
+
 ### 协程
 
 协程重点在于执行控制权在不同的函数之间交换，generator正好可以实现这一点，而异步应用的实现中，控制权就是在不同的函数之间先后交换
@@ -238,5 +240,28 @@ generator可以模拟数组的数据结构
 generator封装异步任务的优势
 * 暂停执行与恢复执行（根本原因）
 * 函数体内外的数据交换：可以通过next的执行与传参进行数据交换
-* 错误处理机制：`generator.throw`可以被内部的`try...catch`捕获
+* 错误处理机制：函数内部可以捕获外部抛出的错误
 
+#### Thunk函数
+
+当函数参数是一个表达式时，有两种实现机制
+* call by name：将表达式传入函数体，在用到的地方执行
+* call by value：在键入函数体前，先执行表达式，再将执行结果传入函数体
+
+Thunk函数是编译器call by name的实现，即将参数放到一个临时函数中去，再将临时函数传入函数体
+
+此处需要依赖thunkify的包，这个包将待执行函数、函数参数、函数回调分三次传入，只有传入函数回调函数后才会执行。
+
+与generator函数结合后，generator每次均返回等待传入函数回调的value。利用thunk函数可以实现在generator函数的外部向其注入回调函数，在回调函数中执行next方法，从而进行generator的流程控制
+
+但是这一系列的前提是generator内部的函数本身支持callback
+
+#### co模块
+
+可以像co模块传入generator函数，即可自动执行，且返回promise对象，可以使用then方法添加回调
+
+使用co的前提是yield命令后面都是thunk函数promise对象
+
+在使用promise对象后，每次yield命令返回的都是一个promise对象，故可以直接为这个promise增加then方法，在其中调用next，交回执行权
+
+co实质上即为将每次的yield返回转变为promise对象，增加then方法，在其中调用next方法，以及出错时抛错，改变Promise状态
