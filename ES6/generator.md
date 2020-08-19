@@ -265,3 +265,111 @@ Thunk函数是编译器call by name的实现，即将参数放到一个临时函
 在使用promise对象后，每次yield命令返回的都是一个promise对象，故可以直接为这个promise增加then方法，在其中调用next，交回执行权
 
 co实质上即为将每次的yield返回转变为promise对象，增加then方法，在其中调用next方法，以及出错时抛错，改变Promise状态
+
+## async函数
+
+async函数是generator的语法糖，替换了promise形式的generator函数
+
+其对generator的改进体现在
+* 内置执行器：async调用后可以自动执行，和普通函数相同
+* 更好的语义
+
+	* async表示函数中有异步操作
+	* await表示紧跟在后面的表达式需要等待结果
+	* 整体大大简化，尤其在循环的链式操作方面
+
+* 更广的适用性
+
+	co模块中yield后面只能使用thunk函数或者promise对象，但是await命令后可以使用promise对象或者原始类型值，此时会将其转为resolved状态的Promise
+
+* 返回值是Promise
+
+	这一点相比于generator返回一个遍历器要方便
+
+### 使用
+
+#### async函数返回promise
+
+这一特性带来以下优点：
+
+* 可以使用then添加回调函数
+* async函数可以进行嵌套使用
+
+#### 声明形式
+
+```javascript
+async function func1() {}
+
+const fun2 = async function () {}
+
+const fun3 = async () => {}
+
+const obj = {
+	async foo() {}
+}
+```
+
+#### 错误处理
+
+async返回的Promise对象，只有当内部所有await后的Promise都执行完，才会发生状态改变，除非遇到return或者抛出错误
+
+* await后跟Promise对象时，返回该对象结果
+* await后跟thenable对象，即定义了then方法的对象，await会将其等同于Promise处理
+* 对于其他数据，await直接返回对应的值
+
+**任何一个await语句后面的Promise对象变为reject，整个async都会中断执行**
+
+如果需要进行错误捕获，可以使用
+* try...catch：此处try...catch可以捕获到抛出的错误状态
+* 在可能出错的promise后增加catch，捕获错误
+
+错误捕获后，之后的await可以继续执行
+
+### 注意点
+
+#### try...catch使用
+
+#### await操作间关系
+
+多个await操作如果不存在继发关系，互不依赖，最好使用promise.all改为并发，避免耗时
+
+#### await只能用于async函数中
+
+针对forEach循环中
+* 不能外层是async函数，然后在内层循环中使用await
+* 如果forEach参数为async函数，会导致多个await变为并发
+
+可以将forEach改为for循环，或者改为reduce，回调中等待上一次返回执行完毕后在执行下一个操作
+
+#### async可以保留运行堆栈
+
+一般的异步函数是没有堆栈信息的，如setTimeout，promise.then等
+
+async可以保留运行堆栈，极大地方便了报错处理
+
+### 实现原理
+
+基本为自动执行器的翻版
+
+```javascript
+function spawn(func) {
+    return new Promise((resolve, reject) => {
+        const gen = func()
+        function step(nextF) {
+            try{
+                const next = nextF()
+            } catch(e) {
+                reject(e)
+            }
+
+            if (next.done) {
+                return resolve(next.value)
+            }
+
+            next.value.then(value => step(() => gen.next(value))).catch(err => step(() => gen.throw(err)))
+        }
+        step(() => gen.next())
+    })
+}
+```
+
