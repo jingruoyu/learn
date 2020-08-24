@@ -183,9 +183,25 @@ super函数只能用在子类的构造函数中，其他地方调用会报错
 
 **由于对象总是继承自其他对象的，所以可以在任何一个对象中使用super关键字**
 
+### prototype属性和__proto__属性
 
+* 子类的__proto__属性，表示构造函数的继承，总是指向父类
+* 子类prototype属性的__proto__属性，表示方法的继承，总是指向父类的prototype属性
 
+基类不存在父类，只是一个普通函数，继承自Function.prototype，故基类的__proto__属性指向Function.prototype
 
-### mixin、extends、proxy多重继承
+由上述可知，基类继承自Function.prototype，故基类的`class.prototype.__proto__`指向`Function.prototype.__proto__`，即`Obejct.prototype`
 
-mixin是一种实现多重继承的方式，允许向一个类里面注入一些代码，使得一个类的功能能够“混入”另一个类
+针对实例：子类实例的__proto__属性的__proto__属性，指向父类实例的__proto__属性
+
+### 继承
+
+ES5中不能继承原生构造函数，因为在子类中执行原生构造函数时需要通过call或apply绑定this，传入参数，而原生构造函数会忽略这些方法传入的this，导致无法拿到内部属性
+
+ES6中允许继承原生构造函数
+
+不过ES6中继承Object需要注意，一旦发现Object方法不是通过new命令调用，则会忽略参数
+
+### mixin多重继承
+
+mixin是一种实现多重继承的方式，允许向一个类里面注入一些代码，使得一个类或多个类的功能能够“混入”另一个类
