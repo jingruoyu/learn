@@ -4,6 +4,7 @@ JavaScript之前没有模块体系，社区实现了commonJS和AMD
 
 * CommonJS：需要时require，**同步加载模块**，一般用于服务器
 * AMD：依赖前置，**异步加载模块**，一般用于浏览器，代表为requireJS
+* UMD：同时适配AMD和commonJS的一种模块格式
 * CMD：需要时require，**异步加载模块**，代表为seaJS
 
 ES6在语言层面上实现了模块功能，可以成为浏览器和服务端通用的解决方案
@@ -20,9 +21,6 @@ ES6的模块加载是**编译时加载**，性能更好。此外可以进行代�
 
 优点：
 * 不再需要umd模块格式，直接使用ES6模块格式即可
-
-	umd是为了同时适配AMD和commonJS的一种模块格式
-
 * 浏览器的新api可以使用模块格式提供，不必作为全局对象或navigator对象的属性
 * 不再需要对象作为命名空间
 
@@ -39,6 +37,12 @@ ES6的模块自动采用严格模式
 
 严格模式下，顶层的this执行undefined，即不应该在顶层代码中使用this
 
+### inline脚本的async执行
+
+对非模块的脚本而言，async属性只能用于外部代码。代码准备好后立刻执行，独立于其他脚本或HTML文档。对模块脚本，工作方式相同
+
+如果内联脚本具有async属性，则其等待内部的module下载完成之后就会立即执行，不会等待其他的代码或HTML
+
 ### export
 
 export命令用于规定模块的对外接口，必须与模块内部的变量建立一一对应的关系，可以使用as关键字将变量重命名
@@ -48,6 +52,23 @@ export语句输出的接口，与其对应的值是**动态绑定关系**，可�
 CommonJS的模块输出的是值的缓存，不存在动态更新
 
 export命令需要位于模块顶层
+
+#### export default
+
+export default可以指定模块的默认输出
+
+其实质上是将命令后面的值赋值给default变量，故
+
+* 可以针对其使用as命令
+
+    ```javascript
+    export {add as default}
+
+    import { default as foo } from 'modules'
+    ```
+
+* 不能在export default后定义变量
+* 可以在export default后直接跟一个值
 
 ### import
 
@@ -59,6 +80,23 @@ import命令具有提升效果，会提升到整个模块的头部，首先执�
 
 import是静态执行，故不可以使用表达书、变量等，这些都是动态执行的
 
-注意点：
-* import语句会执行所加载的模块，所以可以只加载模块，不指定输入变量
-* 多次重复执行import，只会执行一次，即为单例模式
+注意点：多次重复执行import，只会执行一次，即为单例模式
+
+import的引入方法
+* 引入目标模块的特定变量
+* 整体加载目标模块
+
+    ```javascript
+    import * as circle from './circle'
+    ```
+
+    此方法可以将模块整体加载在指定对象上，该对象中途不允许改变
+
+* 执行所加载的模块
+
+    ```javascript
+    import 'lodash'
+    ```
+
+import可以同时从一个模块中导入默认接口与其他接口
+
