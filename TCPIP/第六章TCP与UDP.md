@@ -140,7 +140,7 @@ MSS：最大消息长度，TCP在建立连接时，同时确定发送数据包�
 
 通信开始通过慢启动算法得出的数值，对发送数据量进行控制，过程如下图
 
-![慢启动](../img/TCPIP/TCP/TCP-cwnd.png)
+![慢启动](../img/TCPIP/TCP-cwnd.png)
 
 拥塞窗口cwnd(congestion window)：发送端对从客户端接收确认（ACK）之前可以发送数据量的限制
 * 慢启动将此值初始化为1个数据段，即1MSS

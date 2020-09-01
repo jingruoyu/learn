@@ -1,17 +1,31 @@
-## 二进制数组
-
-ArrayBuffer对象、TypedArray视图和dataView视图是JavaScript操作二进制数据的接口
-* ArrayBuffer代表内存中的一段二进制数据
-* TypeArray用于读写简单类型的二进制数据
-* dateView用于读写复杂类型的二进制数据
-
-二进制数据诞生背景
-
-webGLobal诞生后，JavaScript需要和显卡之间进行大量、实时的数据交换，如果采用传统文本格式，两方都需要转换数据，浪费性能，故直接采用二进制数据
-
-二进制数组允许开发者以数据下标的形式直接操作内存，大大增强了JavaScript处理二进制数据的能力，开发者可以使用js和操作系统的原生接口进行二进制通信
+## 二进制数据
 
 ### ArrayBuffer
 
-ArrayBuffer代表存储二进制数据的一段内存，不能直接读写，只能通过视图来读写，视图作用为以指定格式解读二进制数据
+在图像或文件的上传、下载中，经常会使用二进制数据
 
+JavaScript中二进制数据格式有ArrayBuffer、Uint8Array、DataView、Blob、File等
+
+**ArrayBuffer：基本的二进制对象，对固定长度的连续内存空间的引用**
+
+```javascript
+let buffer = new ArrayBuffer(16) 
+```
+
+以上代码会分配一段16字节的连续内存空间，并以0填充
+
+NOTE：
+* ArrayBuffer不能读写
+* 长度固定，无法增加或减少长度
+* 正好占用了内存中的对应空间
+
+操作ArrayBuffer需要使用视图对象，**视图对象以某种数据格式读取ArrayBuffer中的数据**
+
+* Uint8Array：每个字节视为8位无符号整数
+* Uint16Array：每两个字节视为16位无符号整数
+* Uint32Array：每四个字节视为32位无符号整数
+* Float64Array：每八个字节视为64位浮点数，范围5.0x10-324 到 1.8x10308
+
+### TypedArray
+
+所有的视图
