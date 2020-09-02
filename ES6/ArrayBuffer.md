@@ -14,6 +14,8 @@ let buffer = new ArrayBuffer(16)
 
 以上代码会分配一段16字节的连续内存空间，并以0填充
 
+**此时buffer变量中存储的其实是该连续内存的地址，即为引用**
+
 NOTE：
 * ArrayBuffer不能读写
 * 长度固定，无法增加或减少长度
@@ -93,10 +95,53 @@ new DataView(buffer, [byteOffset], [byteLength])
 * byteOffset：视图的起始字节位置，默认0
 * byteLength：ArrayBuffer的长度，默认至buffer的末尾
 
-## 总结
+### 总结
 
 * ArrayBufferView是对所有这些视图的总称
-
 * BufferSource 是 ArrayBuffer 或 ArrayBufferView 的总称
 
-## 应用
+### 应用
+
+#### ajax
+
+传统ajax发送数据只能发送文本数据，即respondType默认为text
+
+XMLHTTPRequest第二版允许xhr请求返回二进制数
+* 如果明确知道服务端返回二进制数据类型，则指定respondType为arraybuffer
+* 如果不知道，则指定为blob
+
+#### Canvas
+
+canvas输出的二进制像素数据就是TypedArray数组
+
+其视图类型是针对图像处理专用的Unit8ClampArray，该类型将小于0的值设为0，大于255的值设为255
+
+#### websocket
+
+websocket可以设置binaryType为arraybuffer，这样接受和发送的数据都是arraybuffer的二进制数据
+
+#### fetch
+
+fetch取回的数据，就是arraybuffer对象
+
+#### file
+
+如果知道一个文件的二进制数据类型，也可以将这个文件读取为ArrayBuffer对象
+
+### SharedArrayBuffer
+
+js通过webworker引入了多线程，主线程用于交互，worker线程用于承担计算任务，各个线程之间隔离，通过postMessage进行通信
+
+当需要发送的数据量较大时，可以通过共享内存，主线程和worker线程进行协作，提升效率
+
+ES2017提供了SharedArrayBuffer，允许worker线程和主线程共享一块内存，此对象其他属性和ArrayBuffer均相同
+
+共享时，需要先在主线程或worker线程中先创建好共享内存，再将内存地址同步到另一个线程中，然后按照事先约定好的方式进行操作即可
+
+### Atomics对象
+
+有了共享内存之后，可能会存在多个线程同时操作一个内存地址的情况。
+
+在实际的执行中，引擎会将js命令便以为多条机器码，在此过程中，多条互不依赖的命令的执行顺序可能会被打乱，一个线程运行期间，可能也会插入另一个线程的指令，故同时操作一个内存地址可能会导致结果不为预期值
+
+为解决此问题，ES2017提供了Atomics对象，其提供的一系列方法可以保证一个操作所对应的的多条机器指令是作为一个整体运行的，中间不会被打断，避免在指令内部的线程竞争
