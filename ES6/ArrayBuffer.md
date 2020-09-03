@@ -145,3 +145,22 @@ ES2017提供了SharedArrayBuffer，允许worker线程和主线程共享一块内
 在实际的执行中，引擎会将js命令便以为多条机器码，在此过程中，多条互不依赖的命令的执行顺序可能会被打乱，一个线程运行期间，可能也会插入另一个线程的指令，故同时操作一个内存地址可能会导致结果不为预期值
 
 为解决此问题，ES2017提供了Atomics对象，其提供的一系列方法可以保证一个操作所对应的的多条机器指令是作为一个整体运行的，中间不会被打断，避免在指令内部的线程竞争
+
+## 二进制数据与字符串
+
+### TextDecoder
+
+TextDecoder对象在给定buffer和编码格式后，能够将值读取到实际的JavaScript字符串中
+
+```javascript
+let uint8Array = new Uint8Array([72, 101, 108, 108, 111]);
+
+alert( new TextDecoder().decode(uint8Array) ); // Hello
+```
+
+### TextEncoder
+
+TextEncoder将字符串转换为字节，只支持utf8编码
+
+* encode(str)：返回一个Uint8Array
+* encodeInto(str, destination)，将str编码到dest中，目标必须为Uint8Array
