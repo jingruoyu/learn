@@ -164,3 +164,69 @@ TextEncoder将字符串转换为字节，只支持utf8编码
 
 * encode(str)：返回一个Uint8Array
 * encodeInto(str, destination)，将str编码到dest中，目标必须为Uint8Array
+
+## [Blob](https://zh.javascript.info/blob)
+
+ArrayBuffer和视图都是ECMA标准的一部分，是JavaScript的一部分
+
+Blob是浏览器中更为高级的对象，其有一个可选的type（通常为MIME类型）和blobParts组成，blobParts是一系列的其他blob对象、字符串或BufferSource
+
+![Blob结构](../img/ES6/blob_struct.img)
+
+ArrayBuffer、Unit8Array及其他BufferSource是二进制数据，而Blob表示具有类型的二进制数据，所以Blob可以用于浏览器中常见的的下载、上传等场景，在请求方法中可以很轻松使用
+
+### 使用
+
+```javascript
+new Blob(blobParts, options)
+```
+
+方法：
+
+* blob.slice(start, end, type)：提取blob片段
+
+Blob对象是不可改变的，无法直接在Blob中更改数据，但是可以通过slice获取Blob的多个部分，从这些部分创建新的Blob对象
+
+### 用途
+
+#### 用作URL
+
+Blob对象可以通过动态创建链接，作为a标签或其他标签的url，来显示他们的内容
+
+URL.createObjectURL方法可以创建一个DOMstring，其中包含参数对象的url。这个URL对象可以表示指定的File对象或者Blob对象。URL在当前文档打开的状态下有效，在unload时会被自动清除
+
+浏览器内部为每个URL存储了一个URL -> Blob 的映射，因此可以通过URL直接访问Blob。但是Blob是保存在内存中的，由于这个映射的存在，会导致浏览器无法释放。故当不再使用这个URL时，可以手动revokeObjectURL移除引用，之后URL会不再起作用
+
+#### Blob转换为base64
+
+将`URL.createObjectURL`替代方法是，将Blob替换为base64编码的字符串
+
+base64编码将二进制护具表示为一个有0到64的ASCII吗组成的字符串，十分安全且可读，可以在data-url中使用
+
+data-url的形式为`data:[mediatype][;base64],<data>`，可以像使用常规url一样使用
+
+这两种从 Blob 创建 URL 的方法都可以用。但通常 URL.createObjectURL(blob) 更简单快捷
+
+#### image转化为Blob
+
+可以通过canvas，将图像、图像的一部分或者屏幕截图创建为一个Blob，方便上传
+
+具体过程为
+* 使用canvas.drawImage在canvas上绘制图像
+* 使用canvas方式toBlob创建一个blob，创建完后运行callback
+
+	toBlob方法是异步操作，所以需要回调函数，也可以在async中调用，将其改为promise对象
+
+对于页面截屏，操作为先扫一遍浏览器页面，并将其绘制在canvas上，然后就可以获取到一个对应的blob
+
+#### Blob转为ArrayBuffer
+
+Blob构造器允许从几乎所有东西创建Blob，包括任何的BufferSource
+
+但是如果需要执行低级别操作的话，可以使用FileReader从blob获取最低级别的ArrayBuffer
+
+## 二进制文件
+
+### File对象
+
+File对象继承自Blob，扩展了文件系统相关的功能
