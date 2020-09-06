@@ -215,7 +215,7 @@ data-url的形式为`data:[mediatype][;base64],<data>`，可以像使用常规ur
 * 使用canvas.drawImage在canvas上绘制图像
 * 使用canvas方式toBlob创建一个blob，创建完后运行callback
 
-	toBlob方法是异步操作，所以需要回调函数，也可以在async中调用，将其改为promise对象
+    toBlob方法是异步操作，所以需要回调函数，也可以在async中调用，将其改为promise对象
 
 对于页面截屏，操作为先扫一遍浏览器页面，并将其绘制在canvas上，然后就可以获取到一个对应的blob
 
@@ -230,3 +230,14 @@ Blob构造器允许从几乎所有东西创建Blob，包括任何的BufferSource
 ### File对象
 
 File对象继承自Blob，扩展了文件系统相关的功能
+
+两种获取方式：
+* 构造函数：
+
+    ```javascript
+    new File(fileParts, fileName, [options])
+    ```
+
+* 通过浏览器接口获取文件时，file将从操作系统上获得this信息
+
+### FileReader
