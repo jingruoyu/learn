@@ -11,3 +11,4 @@
     * [组件、React元素、实例区别](blogs/react-components-elements-and-instances.md)
     * [stack reconciler实现](blogs/implementation-notes.md)
     * [hook](blogs/why-reacts-hooks-api-is-a-game-changer.md)
+    * [React diff算法](blogs/React_diff.md)

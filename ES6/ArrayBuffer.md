@@ -241,3 +241,27 @@ File对象继承自Blob，扩展了文件系统相关的功能
 * 通过浏览器接口获取文件时，file将从操作系统上获得this信息
 
 ### FileReader
+
+FileReader是一个对象，唯一目的是从Blob（因此也可以从File中）中读取数据
+
+FileReader使用事件传递数据，因为从磁盘读取数据可能比较费时间
+
+读取过程中的事件
+* loadstart
+* progress
+* load
+* abort
+* error
+* loadend：读取完成，无论成功还是时报
+
+主要方法
+* readAsArrayBuffer(blob)：将数据读取为二进制格式的ArrayBuffer
+* readAsText(blob, [encoding = utf-8])：将数据读取为给定编码为文本字符串
+* readAsDataURL(blob)：读取二进制数据，并将其编码为base64的data url
+* abort()：取消操作
+
+read\*方法的选择，取决于我们的目标格式，及如何使用数据
+
+Web Workers中可以使用FileReaderSync，他会像常规函数那样返回一个结果。这个方法仅在web worker中可用，所以在读取文件时，同步调用会有延迟。而在web worker中，这个延迟并不会影响页面
+
+**但是在很多情况下，我们并不需要读取文件内容，可以直接使用URL.createObjectURL(file)，再将url赋值给a或img标签，文件便可以下载或者呈现为图像，作为canvas的一部分等**
