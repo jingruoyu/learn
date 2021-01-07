@@ -2,6 +2,8 @@
 
 [HTTP/1.1](https://tools.ietf.org/html/rfc2616#section-5.1.1)
 
+[HTTP简史](https://hpbn.co/brief-history-of-http/)
+
 HTTP是应用层协议，分布式协作
 
 ## 标准目的
