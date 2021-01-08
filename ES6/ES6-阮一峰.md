@@ -440,6 +440,8 @@ ES6中，将字符的Unicode码放入大括号中，如`\u{20BB7}`便可以正�
 
 ### 标签模板
 
+[标签模板](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/template_strings)
+
 **标签模板**：模板字符串紧跟在一个函数名后，该函数将会被调用来处理这个模板字符串，模板字符串即为函数参数
 
 模板字符串本身即为一种函数调用方式
