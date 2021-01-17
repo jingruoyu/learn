@@ -135,3 +135,46 @@ rname命令是极少的在不同类型系统上运行机制不一样的命令
 可以使用mv代替rname
 
 ## working with file contents
+
+* head
+* tail
+* cat
+* tac
+
+### head
+
+默认展示指定文件的前十行
+
+* head -n：指定展示前n行
+* head -cn：指定展示前 n bytes
+
+### tail
+
+tail命令默认展示文件的最后十行
+
+* tail -n：指定展示行数
+* tail -f：循环读取，可以用于展示实时日志文件
+
+### cat
+
+cat命令是最受欢迎的命令之一，将标准输入复制到标准输出，可以联合其他命令使用
+
+cat是concatenate的缩写，其基本用途是将文件串联为更大的文件
+
+* `cat > winter.txt`：可以使用cat直接创建文件，然后输入文件内容，可以多行，Ctrl+d控制输入结束
+* `cat > winter.txt <<stop`：可以在上述命令后增加文件结束标志
+* `cat file1 > file2`：此方法会覆盖file2的内容，使用`>>`不会覆盖，而会把file1内容复制到file2后面
+
+#### tac
+
+cat的倒写，可以将文件按照行倒着输出
+
+### more && less
+
+当文件内容大于一页时，more命令会将文件分页展示，空格下一页，q退出
+
+less命令作用相同
+
+## Linux file tree
+
+### 文件系统的层级体系标准
