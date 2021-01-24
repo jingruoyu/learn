@@ -90,7 +90,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="ES6-继承.html" />
+    <link rel="next" href="ES6-继承.md" />
     
     
     <link rel="prev" href="./" />
@@ -179,9 +179,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.2" data-path="ES6-继承.html">
+        <li class="chapter " data-level="2.1.2" data-path="ES6-继承.md">
             
-                <a href="ES6-继承.html">
+                <span>
             
                     
                         <b>2.1.2.</b>
@@ -1444,6 +1444,7 @@
 <li>ECMA2015/2016/2017&#x7B49;&#xFF0C;&#x662F;ES6&#x5728;&#x6BCF;&#x5E74;&#x53D1;&#x5E03;&#x7684;&#x4E0D;&#x540C;&#x7248;&#x672C;</li>
 </ul>
 <p>&#x5373;ES6&#x662F;&#x4E00;&#x4E2A;&#x6CDB;&#x6307;&#xFF0C;ES2015&#x3001;ES2016&#x7B49;&#x662F;&#x5176;&#x5728;&#x6BCF;&#x5E74;&#x516D;&#x6708;&#x53D1;&#x5E03;&#x7684;&#x4E0D;&#x540C;&#x7248;&#x672C;</p>
+<p>ES5&#x652F;&#x6301;utf-8&#xFF0C;ES6&#x652F;&#x6301;utf-16</p>
 <h2 id="babel&#x8F6C;&#x7801;&#x5668;"><a name="babel&#x8F6C;&#x7801;&#x5668;" class="plugin-anchor" href="#babel&#x8F6C;&#x7801;&#x5668;"><i class="fa fa-link" aria-hidden="true"></i></a>babel&#x8F6C;&#x7801;&#x5668;</h2>
 <p><strong>&#x5C06;ES6&#x4EE3;&#x7801;&#x8F6C;&#x4E3A;ES5&#x4EE3;&#x7801;&#xFF0C;&#x4ECE;&#x800C;&#x5728;&#x73B0;&#x6709;&#x73AF;&#x5883;&#x6267;&#x884C;&#xFF0C;&#x4E0D;&#x7528;&#x8003;&#x8651;&#x517C;&#x5BB9;&#x95EE;&#x9898;</strong></p>
 <ul>
@@ -1503,7 +1504,7 @@
 <p>  <code>for</code>&#x5FAA;&#x73AF;&#x4E2D;&#xFF0C;&#x6574;&#x4E2A;&#x5FAA;&#x73AF;&#x662F;&#x4E00;&#x4E2A;&#x7236;&#x4F5C;&#x7528;&#x57DF;&#xFF0C;&#x5176;&#x4E2D;&#x7684;&#x5FAA;&#x73AF;&#x4F53;&#x662F;&#x4E00;&#x4E2A;&#x5B50;&#x4F5C;&#x7528;&#x57DF;</p>
 </li>
 <li><p>&#x53D8;&#x91CF;&#x63D0;&#x5347;</p>
-<p>  <code>let</code>&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x53D8;&#x91CF;&#x63D0;&#x5347;&#xFF0C;&#x4F46;&#x662F;ES6&#x7981;&#x6B62;&#x5728;&#x53D8;&#x91CF;&#x5728;&#x58F0;&#x660E;&#x524D;&#x4F7F;&#x7528;&#xFF0C;&#x53D8;&#x91CF;&#x53EA;&#x80FD;&#x5728;<strong>&#x58F0;&#x660E;&#x540E;&#x4F7F;&#x7528;</strong>&#xFF0C;&#x5426;&#x5219;&#x629B;&#x51FA;&#x9519;&#x8BEF;</p>
+<p>  <code>let</code>&#x547D;&#x4EE4;&#x4E0D;&#x5B58;&#x5728;&#x53D8;&#x91CF;&#x63D0;&#x5347;&#xFF0C;ES6&#x7981;&#x6B62;&#x5728;&#x53D8;&#x91CF;&#x5728;&#x58F0;&#x660E;&#x524D;&#x4F7F;&#x7528;&#xFF0C;&#x53D8;&#x91CF;&#x53EA;&#x80FD;&#x5728;<strong>&#x58F0;&#x660E;&#x540E;&#x4F7F;&#x7528;</strong>&#xFF0C;&#x5426;&#x5219;&#x629B;&#x51FA;&#x9519;&#x8BEF;</p>
 </li>
 <li><p>&#x6682;&#x65F6;&#x6027;&#x6B7B;&#x533A;</p>
 <p>  &#x5982;&#x679C;&#x533A;&#x5757;&#x4E2D;&#x5B58;&#x5728;<code>let</code>&#x548C;<code>const</code>&#x547D;&#x4EE4;&#xFF0C;&#x8FD9;&#x4E2A;&#x533A;&#x5757;&#x5BF9;&#x8FD9;&#x4E9B;&#x547D;&#x4EE4;&#x58F0;&#x660E;&#x7684;&#x53D8;&#x91CF;&#xFF0C;<strong>&#x4ECE;&#x4E00;&#x5F00;&#x59CB;&#x5C31;&#x5F62;&#x6210;&#x4E86;&#x5C01;&#x95ED;&#x4F5C;&#x7528;&#x57DF;&#x3002;&#x51E1;&#x662F;&#x5728;&#x58F0;&#x660E;&#x4E4B;&#x524D;&#x5C31;&#x4F7F;&#x7528;&#x8FD9;&#x4E9B;&#x53D8;&#x91CF;&#xFF0C;&#x5C31;&#x4F1A;&#x62A5;&#x9519;</strong>&#x3002;</p>
@@ -2086,7 +2087,10 @@ var f = function (v) {
 <p>&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x4E0D;&#x9002;&#x7528;&#x4E8E;</p>
 <ul>
 <li>&#x9700;&#x8981;&#x4F7F;&#x7528;&#x52A8;&#x6001;this&#x7684;&#x573A;&#x666F;</li>
-<li>&#x5B9A;&#x4E49;&#x5BF9;&#x8C61;&#x65B9;&#x6CD5;&#x65F6;&#xFF0C;&#x4E0D;&#x80FD;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x3002;&#x56E0;&#x4E3A;&#x5BF9;&#x8C61;&#x672C;&#x8EAB;&#x65E0;&#x6CD5;&#x5F62;&#x6210;&#x4E00;&#x4E2A;&#x4F5C;&#x7528;&#x57DF;,&#x5BFC;&#x81F4;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x4E2D;&#x7684;this&#x4F1A;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x66F4;&#x5916;&#x5C42;&#x7684;this,&#x800C;&#x4E0D;&#x662F;&#x6307;&#x5411;&#x5BF9;&#x8C61;&#x81EA;&#x8EAB;</li>
+<li><p>&#x5B9A;&#x4E49;&#x5BF9;&#x8C61;&#x65B9;&#x6CD5;&#x65F6;&#xFF0C;&#x4E0D;&#x80FD;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x3002;</p>
+<p>  &#x56E0;&#x4E3A;&#x5BF9;&#x8C61;&#x672C;&#x8EAB;&#x65E0;&#x6CD5;&#x5F62;&#x6210;&#x4E00;&#x4E2A;&#x4F5C;&#x7528;&#x57DF;,&#x5BFC;&#x81F4;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x4E2D;&#x7684;this&#x4F1A;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x66F4;&#x5916;&#x5C42;&#x7684;this,&#x800C;&#x4E0D;&#x662F;&#x6307;&#x5411;&#x5BF9;&#x8C61;&#x81EA;&#x8EAB;</p>
+<p>  &#x66F4;&#x591A;&#x5B9E;&#x4F8B;&#x4E2D;&#x662F;&#x5C06;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x5305;&#x88F9;&#x5728;&#x4E00;&#x4E2A;&#x666E;&#x901A;&#x51FD;&#x6570;&#x4E2D;&#xFF0C;&#x5728;&#x5B9A;&#x4E49;&#x65F6;&#xFF0C;&#x8BE5;&#x666E;&#x901A;&#x51FD;&#x6570;&#x7684;this&#x662F;&#x6307;&#x5411;&#x5BF9;&#x8C61;&#x7684;&#xFF0C;&#x6545;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x7684;this&#x4E5F;&#x53EF;&#x4EE5;&#x6307;&#x5411;&#x5BF9;&#x8C61;</p>
+</li>
 </ul>
 <h4 id="&#x5D4C;&#x5957;&#x7684;&#x7BAD;&#x5934;&#x51FD;&#x6570;"><a name="&#x5D4C;&#x5957;&#x7684;&#x7BAD;&#x5934;&#x51FD;&#x6570;" class="plugin-anchor" href="#&#x5D4C;&#x5957;&#x7684;&#x7BAD;&#x5934;&#x51FD;&#x6570;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x5D4C;&#x5957;&#x7684;&#x7BAD;&#x5934;&#x51FD;&#x6570;</h4>
 <p>&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x4E4B;&#x95F4;&#x7684;&#x4E92;&#x76F8;&#x5D4C;&#x5957;</p>
@@ -2718,7 +2722,7 @@ n // { a: 3, b: 4 }
 <p>ES2020&#x5F15;&#x5165;Null&#x5224;&#x65AD;&#x8FD0;&#x7B97;&#x7B26;<code>??</code>&#xFF0C;&#x53EA;&#x6709;&#x5F53;&#x8FD0;&#x7B97;&#x7B26;&#x5DE6;&#x4FA7;&#x503C;&#x4E3A;null&#x6216;undefined&#x65F6;&#xFF0C;&#x624D;&#x4F1A;&#x8FD4;&#x56DE;&#x53F3;&#x4FA7;&#x7684;&#x503C;</p>
 <p><code>??</code>&#x8FD0;&#x7B97;&#x7B26;&#x884C;&#x4E3A;&#x548C;<code>||</code>&#x5F88;&#x76F8;&#x4F3C;&#xFF0C;&#x4F46;&#x533A;&#x522B;&#x5728;&#x4E8E;&#x5BF9;false&#x548C;0&#x7684;&#x4E0D;&#x4F1A;&#x53D6;&#x53F3;&#x4FA7;&#x7684;&#x503C;</p>
 <p><strong><code>??</code>&#x8FD0;&#x7B97;&#x7B26;&#x53EF;&#x4EE5;&#x548C;<code>?.</code>&#x8FD0;&#x7B97;&#x7B26;&#x914D;&#x5408;&#x4F7F;&#x7528;</strong>&#xFF0C;&#x4E3A;null&#x6216;&#x8005;undefined&#x8BBE;&#x7F6E;&#x9ED8;&#x8BA4;&#x503C;</p>
-<div class="git-author-container git-author-bottom"><div class="modified"><span style="font-size:75%">Last modified by jingruoyu 2020-08-04 21:01:54</span></div><div class="created"><span style="font-size:75%">Created by jingruoyu 2018-07-17 23:02:04</span></div></div>
+<div class="git-author-container git-author-bottom"><div class="modified"><span style="font-size:75%">Last modified by jingruoyu 2021-01-07 22:37:02</span></div><div class="created"><span style="font-size:75%">Created by jingruoyu 2018-07-17 23:02:04</span></div></div>
                                 
                                 </section>
                             
@@ -2750,7 +2754,7 @@ n // { a: 3, b: 4 }
                 </a>
                 
                 
-                <a href="ES6-继承.html" class="navigation navigation-next " aria-label="Next page: ES6-继承">
+                <a href="ES6-继承.md" class="navigation navigation-next " aria-label="Next page: ES6-继承">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2761,7 +2765,7 @@ n // { a: 3, b: 4 }
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"ES6-阮一峰","level":"2.1.1","depth":2,"next":{"title":"ES6-继承","level":"2.1.2","depth":2,"path":"ES6/ES6-继承.md","ref":"ES6/ES6-继承.md","articles":[]},"previous":{"title":"ES6","level":"2.1","depth":1,"path":"ES6/README.md","ref":"ES6/README.md","articles":[{"title":"ES6-阮一峰","level":"2.1.1","depth":2,"path":"ES6/ES6-阮一峰.md","ref":"ES6/ES6-阮一峰.md","articles":[]},{"title":"ES6-继承","level":"2.1.2","depth":2,"path":"ES6/ES6-继承.md","ref":"ES6/ES6-继承.md","articles":[]},{"title":"ES6-新数据结构","level":"2.1.3","depth":2,"path":"ES6/ES6-新数据结构.md","ref":"ES6/ES6-新数据结构.md","articles":[]},{"title":"ES6-新数据类型","level":"2.1.4","depth":2,"path":"ES6/ES6-新数据类型.md","ref":"ES6/ES6-新数据类型.md","articles":[]},{"title":"ES6-数据代理","level":"2.1.5","depth":2,"path":"ES6/data-proxy.md","ref":"ES6/data-proxy.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","search-plus","-sharing","-highlight","prism","anchors","emphasize","splitter","expandable-chapters-small","toc","git-author","mermaid-gb3","chart","image-zoom"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"ignore":["mermaid"]},"emphasize":{},"image-zoom":{},"git-author":{"modifyTpl":"<span style=\"font-size:75%\">Last modified by {user} {timeStamp}</span>","createTpl":"<span style=\"font-size:75%\">Created by {user} {timeStamp}</span>"},"splitter":{},"toc":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"expandable-chapters-small":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"anchors":{},"chart":{"type":"highcharts"},"search-plus":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"荆若愚学习笔记","language":"zh-hans","gitbook":"*"},"file":{"path":"ES6/ES6-阮一峰.md","mtime":"2020-08-09T15:51:24.290Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-11T16:23:47.304Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"ES6-阮一峰","level":"2.1.1","depth":2,"next":{"title":"ES6-继承","level":"2.1.2","depth":2,"path":"ES6/ES6-继承.md","ref":"ES6/ES6-继承.md","articles":[]},"previous":{"title":"ES6","level":"2.1","depth":1,"path":"ES6/README.md","ref":"ES6/README.md","articles":[{"title":"ES6-阮一峰","level":"2.1.1","depth":2,"path":"ES6/ES6-阮一峰.md","ref":"ES6/ES6-阮一峰.md","articles":[]},{"title":"ES6-继承","level":"2.1.2","depth":2,"path":"ES6/ES6-继承.md","ref":"ES6/ES6-继承.md","articles":[]},{"title":"ES6-新数据结构","level":"2.1.3","depth":2,"path":"ES6/ES6-新数据结构.md","ref":"ES6/ES6-新数据结构.md","articles":[]},{"title":"ES6-新数据类型","level":"2.1.4","depth":2,"path":"ES6/ES6-新数据类型.md","ref":"ES6/ES6-新数据类型.md","articles":[]},{"title":"ES6-数据代理","level":"2.1.5","depth":2,"path":"ES6/data-proxy.md","ref":"ES6/data-proxy.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","search-plus","-sharing","-highlight","prism","anchors","emphasize","splitter","expandable-chapters-small","toc","git-author","mermaid-gb3","chart","image-zoom"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"ignore":["mermaid"]},"emphasize":{},"image-zoom":{},"git-author":{"modifyTpl":"<span style=\"font-size:75%\">Last modified by {user} {timeStamp}</span>","createTpl":"<span style=\"font-size:75%\">Created by {user} {timeStamp}</span>"},"splitter":{},"toc":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"expandable-chapters-small":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"anchors":{},"chart":{"type":"highcharts"},"search-plus":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"荆若愚学习笔记","language":"zh-hans","gitbook":"*"},"file":{"path":"ES6/ES6-阮一峰.md","mtime":"2021-01-07T14:37:50.626Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-01-24T03:03:13.771Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

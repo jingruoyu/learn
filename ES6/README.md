@@ -1,4 +1,6 @@
-### ES6
+## ES6
+
+[javascript ES6](https://javascript.info/)
 
 * [ES6-阮一峰](ES6-阮一峰.md)
 * [ES6-继承](ES6-继承.md)
