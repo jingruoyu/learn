@@ -1,10 +1,48 @@
+[bash教程](https://wangdoc.com/bash/intro.html)
+
 # shell语言学习
+
+## shell含义
+
+`shell`原意是外壳，与`kernel`的内核相对应，比喻内核外面的一层，即用户与内核交互的对话界面
+
+shell的含义：
+* 一个程序，提供一个与用户对话的命令行环境(command line interface，简写为CLI)
+* 一个命令解释器，解释用户输入的命令。脚本都通过shell的解释执行，而不通过编译
+* 一个工具箱，提供各种小工具，供用户方便的使用操作系统功能
 
 ## shell环境
 
+* Bourne Shell（sh）
+* Bourne Again shell（bash）
+* C Shell（csh）
+* TENEX C Shell（tcsh）
+* Korn shell（ksh）
+* Z Shell（zsh）
+* Friendly Interactive Shell（fish）
+
 Linux的shell种类众多，其中`Bourne Again Shell`，即`Bash`应用最为广泛
 
-shell脚本第一行的`#!/bin/bash`指定解释当前脚本文件的shell程序路径，告诉系统使用哪种解释器执行shell
+```bash
+# 查看当前运行的shell
+echo $SHELL
+
+# 查看系统安装的所有shell
+cat /etc/shell
+```
+
+shell脚本第一行的`#!/bin/bash`指定解释当前脚本文件的shell程序路径，告诉系统使用哪种解释器执行shell，该路径可以在`/etc/shell`中看到
+
+### 命令行提示符
+
+```
+[user@hostname]$
+```
+
+* user：用户名
+* hostname：主机名
+
+root用户的提示符，不以`$`结尾，而以`#`结尾，用来提示用户权限的不同。root权限下权限较大，不要出现误操作
 
 ### shell脚本运行方法
 
@@ -27,6 +65,47 @@ shell脚本第一行的`#!/bin/bash`指定解释当前脚本文件的shell程序
     这种运行方式直接运行解释器，将shell脚本文件名作为参数传入。这种情况下无需在脚本第一行指定解释器信息，会被外部解释器覆盖
 
 ## 语法学习
+
+### 基础语法
+
+#### echo
+
+在屏幕上输出一行文本，可以将该命令的参数原样输出
+
+参数：
+* -n：取消输出末尾的回车
+* -e：解释引号中的一些特殊字符，否则默认情况下会直接让特殊字符变为普通字符直接输出
+
+#### 命令格式
+
+* 长短参数
+* 不同参数空格间隔，多余空格直接忽略
+* 每一行的结尾加上反斜杠，Bash 就会将下一行跟当前行放在一起解释
+
+#### 分号
+
+分号是命令的结束符，使得一行可以放置多个命令，上一个命令执行完后执行第二个命令
+
+第二个命令总是接着第一个执行，无论第一个执行成功或失败
+
+#### `&&`和`||`
+
+* command1 && command2：如果command1执行成功则执行command2
+* command1 || command2：如果command1执行失败则执行command2
+
+#### type
+
+type可以查看命令是内置命令还是外部程序
+
+* -a：查看一个命令所有定义
+* -t：查看命令类型，alias，keyword，function，builtin，file
+
+#### 快捷键
+
+* Ctrl + L：清除屏幕，相当于clear命令
+* Ctrl + D：关闭shell会话
+
+一次Tab不全，两次Tab列出所有选项
 
 ### 变量
 
