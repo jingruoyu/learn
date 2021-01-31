@@ -59,22 +59,68 @@ Stack reconciler是自顶向下的递归，导致主线程上的布局、动画�
 
 Fiber将任务拆分为一系列，每次只检查树上的一部分，有时间继续下一个任务。此种情况下需要更多的上下文信息，之前的vDOM tree难以满足，扩展出了fiber tree，在更新过程中，会根据现有的fiber tree构造出workInProgress tree，用于断点恢复
 
-fiber tree上各节点的主要结构为
+fiber节点的主要结构为
 
 ```
-{
-    stateNode,
-    child,
-    return, // 当前节点处理完毕后，应该返回到哪里。效果上与栈处理中return的地址相同
-    sibling,
-    ...
-}
+function FiberNode(
+  tag: WorkTag,
+  pendingProps: mixed,
+  key: null | string,
+  mode: TypeOfMode,
+) {
+  // 作为静态数据结构的属性
+  // Fiber对应组件的类型 Function/Class/HostComponent
+  this.tag = tag;
+  // key属性
+  this.key = key;
+  // 大部分情况同type
+  this.elementType = null;
+  // 对于 FunctionComponent，指函数本身，对于ClassComponent，指class，对于HostComponent，指DOM节点tagName
+  this.type = null;
+  // Fiber对应的真实DOM节点
+  this.stateNode = null;
+
+  // 用于连接其他Fiber节点形成Fiber树
+  // 指向父级Fiber节点
+  this.return = null;
+  // 指向子Fiber节点
+  this.child = null;
+  // 指向右边第一个兄弟Fiber节点
+  this.sibling = null;
+  this.index = 0;
+
+  this.ref = null;
+
+  // 作为动态的工作单元的属性
+  // 保存本次更新造成的状态改变相关信息
+  this.pendingProps = pendingProps;
+  this.memoizedProps = null;
+  this.updateQueue = null;
+  this.memoizedState = null;
+  this.dependencies = null;
+
+  this.mode = mode;
+    // 保存本次更新会造成的DOM操作
+  this.effectTag = NoEffect;
+  this.nextEffect = null;
+
+  this.firstEffect = null;
+  this.lastEffect = null;
+
+  // 调度优先级相关
+  this.lanes = NoLanes;
+  this.childLanes = NoLanes;
+
+  // 指向该fiber在另一次更新时对应的fiber
+  this.alternate = null;
+
 ```
+
+在新的React架构中，每个Fiber节点对应一个React element，保存了该组件的类型（函数组件、类组件、原生节点）、对应的DOM节点、本次更新中该组件改变的状态、要执行的工作等信息
 
 [fiber tree](../../img/react/fiber-tree.png)
 
 **fiber tree实际上是一个单链表**
-
 
 DOM
     真实DOM节点
@@ -95,13 +141,14 @@ Elements
 
 ### `Fiber reconciler`
 
-`Fiber reconciler`分为两个阶段
+`Fiber reconciler`分为三个阶段
+* schedule阶段，根据任务优先级进行调度，实现时间切片
 * (可中断)render/reconciler通过构造`workInProgress tree`得出change
-* (不可中断)commit应用这些DOMchange
+* (不可中断)commit应用这些DOMchange，renderer
 
 #### render/reconciler
 
-以`fiber tree`为基础，吧每个fiber作为一个**工作单元**，自顶向下逐节点构造`workInProgress tree`
+以`fiber tree`为基础，把每个fiber作为一个**工作单元**，自顶向下逐节点构造`workInProgress tree`
 
 具体过程为
 1. **如果当前节点不需要更新**，直接把子节点clone过来，跳到5；要更新的话打个tag
@@ -132,14 +179,14 @@ commit阶段直接同步执行完成
 
 生命周期函数被分为两个阶段
 
-* renderer/reconciler
+* render/reconciler
 
 	componentWillMount
 	componentWillReceiveProps
 	shouldComponentUpdate
 	componentWillUpdate
 
-* commit
+* commit/renderer
 
 	componentDidMount
 	componentDidUpdate
@@ -177,3 +224,83 @@ React应用的根节点通过current指针在不同Fiber树的rootFiber间切换
 优先级机制带来两个问题
 * 生命周期函数可能会被频频中断，触发顺序、次数没有保证
 * 低优先级任务没有机会执行
+
+## 例子
+
+```javascript
+function App() {
+  const [num, add] = useState(0);
+  return (
+    <p onClick={() => add(num + 1)}>{num}</p>
+  )
+}
+ReactDOM.render(<App/>, document.getElementById('root'));
+```
+
+### mount
+
+首次执行ReactDom.render时会创建fiberRootNode（源码中称为fiberRoot）和rootFiber。其中fiberRootNode是整个应用的根节点，rootFiber是<App />所在组件树的根节点
+
+两个区别在于
+* 整个应用的根节点只有一个，即fiberRootNode，其current指向当前页面上已渲染内容对应的Fiber树，称为current Fiber树
+* 应用中可以多次调用ReactDom.render渲染不同的组件树，他们拥有不同的rootFiber
+
+进入render阶段后，根据组件返回的JSX在内存中依次创建Fiber并连接在一起构成Fiber树，称为workInProgress Fiber树。构建过程中会尝试复用current Fiber树中已有的Fiber节点
+
+**workInProgress Fiber树在首屏渲染时，只有rootFiber存在对应的current Fiber，即rootFiber.alternate**
+
+[workInProgress Fiber](../../img/react/first-render.png)
+
+### update
+
+update时会开启依次新的render阶段并构建一棵新的workInProgress树
+
+* Reconciler工作的阶段被称为render阶段。因为在该阶段会调用组件的render方法。
+* Renderer工作的阶段被称为commit阶段。commit阶段会把render阶段提交的信息渲染在页面上。
+* render与commit阶段统称为work，即React在工作中
+* 如果任务正在Scheduler内调度，就不属于work。
+
+## render
+
+### Fiber tree的创建过程
+
+render阶段开始于performSyncWorkOnRoot
+
+```
+// performSyncWorkOnRoot会调用该方法
+function workLoopSync() {
+  while (workInProgress !== null) {
+    performUnitOfWork(workInProgress);
+  }
+}
+```
+
+workInProgress代表当前已创建的workInProgress fiber
+
+performUnitOfWork方法会创建下一个Fiber节点并赋值给workInProgress，并将workInProgress与已创建的Fiber节点连接起来构成Fiber树。
+
+Fiber tree的构建分为两个阶段
+
+1. 递阶段
+
+    此阶段从rootFiber开始向下深度优先遍历，为遍历到的每个Fiber节点调用beginWork方法，创建Fiber节点，并与之前的节点连接起来，为其创建子节点
+
+    当遇到叶子节点时，进入回溯阶段
+
+2. 归阶段
+
+    此阶段调用completeWork处理Fiber节点
+
+    当某个Fiber节点执行完completeWork，如果其存在兄弟Fiber节点（即fiber.sibling !== null），会进入其兄弟Fiber的“递”阶段
+
+    如果不存在兄弟Fiber，会进入父级Fiber的“归”阶段。
+
+    “递”和“归”阶段会交错执行直到“归”到rootFiber。至此，render阶段的工作就结束了
+
+#### beginWork
+
+在beginWork函数中，分为update与mount两种情况
+
+update时，需要根据oldProps === newProps && workInProgress.type === current.type判断节点能否直接复用之前的Fiber，无需新建
+
+mount时，暂无current，会根据workInProgress.tag的不同，创建不同类型的Fiber节点
