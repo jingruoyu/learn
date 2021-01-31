@@ -297,10 +297,342 @@ Fiber tree的构建分为两个阶段
 
     “递”和“归”阶段会交错执行直到“归”到rootFiber。至此，render阶段的工作就结束了
 
-#### beginWork
+### beginWork
 
 在beginWork函数中，分为update与mount两种情况
 
-update时，需要根据oldProps === newProps && workInProgress.type === current.type判断节点能否直接复用之前的Fiber，无需新建
+* mount时，暂无current，会根据workInProgress.tag的不同，创建不同类型的Fiber节点
+* update时，需要根据`oldProps === newProps && workInProgress.type === current.type`判断节点能否直接复用之前的Fiber，无需新建
 
-mount时，暂无current，会根据workInProgress.tag的不同，创建不同类型的Fiber节点
+对于常见类型的组件，如（FunctionComponent/ClassComponent/HostComponent），最终会进入`reconcileChildren`
+
+#### reconcileChildren
+
+* 对于mount组件，会创建新的子Fiber节点
+* 对于update组件，会将当前组件与之前的Fiber节点比较，根据比较结果生成新的Fiber节点
+
+```javascript
+export function reconcileChildren(
+  current: Fiber | null,
+  workInProgress: Fiber,
+  nextChildren: any,
+  renderLanes: Lanes
+) {
+  if (current === null) {
+    // 对于mount的组件
+    workInProgress.child = mountChildFibers(
+      workInProgress,
+      null,
+      nextChildren,
+      renderLanes,
+    );
+  } else {
+    // 对于update的组件
+    workInProgress.child = reconcileChildFibers(
+      workInProgress,
+      current.child,
+      nextChildren,
+      renderLanes,
+    );
+  }
+}
+```
+
+无论走哪个逻辑，最终都会向`workInProgress.child`节点赋值，作为本次beginWork的返回值，并作为下次performUnitOfWork执行时workInProgress的传参
+
+#### effectTag
+
+render阶段的工作是在内存中执行的，当工作结束后会通知Renderer需要指定的DOM操作。这些数据保存在fiber.effectTag中
+
+要通知Renderer将Fiber节点对应的DOM节点插入页面，需要满足两个条件
+* fiber.stateNode存在，即Fiber节点中保存了对应的DOM节点
+* (fiber.effectTag & Placement) !== 0，即Fiber节点存在Placement effectTag
+
+### completeWork
+
+completeWork中分为处理自定义组件与HostComponent两种
+
+处理HostComponent：
+
+```javascript
+case HostComponent: {
+  popHostContext(workInProgress);
+  const rootContainerInstance = getRootHostContainer();
+  const type = workInProgress.type;
+
+  if (current !== null && workInProgress.stateNode != null) {
+    // update的情况
+    updateHostComponent(
+      current,
+      workInProgress,
+      type,
+      newProps,
+      rootContainerInstance,
+    );
+  } else {
+    // mount的情况
+    // ...省略
+  }
+  return null;
+}
+```
+
+此过程中需要判断`workInProgress.stateNode`是否还存在相应的DOM节点
+
+当update时，Fiber节点已经存在对应的DOM节点，所以不需要生成DOM节点，需要做的就是处理props，如
+* onClick、onChange等回调函数的注册
+* style prop
+* 处理DANGEROUSLY_SET_INNER_HTML prop
+* 处理children prop
+
+updateHostComponent函数内部，被处理完的props会被赋值给workInProgress.updateQueue，并最终在commit阶段渲染到页面上
+
+当mount时，为Fiber节点生成对应的DOM节点，并将后代DOM节点插入父DOM中，类似于update中处理props的过程
+
+### effectList
+
+completeWork的上层函数completeUnitOfWork中，每个执行完completeWork且存在effectTag的Fiber节点会被保存在一条被称为effectList的单向链表中。
+
+effectList中第一个Fiber节点保存在fiber.firstEffect，最后一个元素保存在fiber.lastEffect。
+在“归”阶段，所有有effectTag的Fiber节点都会被追加在effectList中，最终形成一条以rootFiber.firstEffect为起点的单向链表。
+
+```
+                       nextEffect         nextEffect
+rootFiber.firstEffect -----------> fiber -----------> fiber
+```
+
+在commit阶段遍历effectList就能执行所有的effect
+
+render阶段全部工作完成。在performSyncWorkOnRoot函数中fiberRootNode被传递给commitRoot方法，开启commit阶段工作流程
+
+[workInProgress Fiber](../../img/react/fiber-commit-performance.png)
+
+## commit
+
+commit阶段根据fiber tree上的节点编辑执行渲染视图动作，可以分为三个子阶段
+* before mutation（执行DOM操作前）
+* mutation（执行DOM操作）
+* layout（执行DOM操作后）
+
+### before mutation
+
+* 处理DOM节点渲染、删除后的autoFocus、blur逻辑
+* 调用getSnapshotBeforeUpdate生命周期钩子
+* 调度useEffect
+
+当一个FunctionComponent含有useEffect或useLayoutEffect，他对应的Fiber节点也会被赋值effectTag。
+
+### mutation
+
+mutation阶段也是遍历effectList，对每个fiber节点执行三个操作
+* 根据ContentReset effectTag重置文字节点
+* 更新ref
+* 根据effectTag分别处理，其中effectTag包括(Placement | Update | Deletion | Hydrating)
+
+然后根据不同的effectTag执行不同的操作函数
+
+### layout
+
+该阶段的代码都是在DOM渲染完成（mutation阶段完成）后执行的。
+该阶段触发的生命周期钩子和hook可以直接访问到已经改变后的DOM，即该阶段是可以参与DOM layout的阶段。
+
+该阶段主要进行一些生命周期或者hooks的处理
+
+**current Fiber树的切换**
+
+```
+root.current = finishedWork;
+```
+
+## diff算法
+
+diff的入口在[reconcileChildFibers](https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L1280)中, 该函数会根据newChild（即JSX返回的结果）类型调用不同的处理函数
+
+```javascript
+// 根据newChild类型选择不同diff函数处理
+function reconcileChildFibers(
+  returnFiber: Fiber,
+  currentFirstChild: Fiber | null,
+  newChild: any,
+): Fiber | null {
+
+  const isObject = typeof newChild === 'object' && newChild !== null;
+
+  if (isObject) {
+    // object类型，可能是 REACT_ELEMENT_TYPE 或 REACT_PORTAL_TYPE
+    switch (newChild.$$typeof) {
+      case REACT_ELEMENT_TYPE:
+        // 调用 reconcileSingleElement 处理
+      // // ...省略其他case
+    }
+  }
+
+  if (typeof newChild === 'string' || typeof newChild === 'number') {
+    // 调用 reconcileSingleTextNode 处理
+    // ...省略
+  }
+
+  if (isArray(newChild)) {
+    // 调用 reconcileChildrenArray 处理
+    // ...省略
+  }
+
+  // 一些其他情况调用处理函数
+  // ...省略
+
+  // 以上都没有命中，删除节点
+  return deleteRemainingChildren(returnFiber, currentFirstChild);
+
+```
+
+可以从同级的节点数量将Diff分为两类：
+* 当newChild类型为object、number、string，代表同级只有一个节点
+* 当newChild类型为Array，同级有多个节点
+
+### 单节点diff
+
+对于单个节点，类型为object为例，会进入[reconcileSingleElement](https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L1141)
+
+判断DOM节点可否复用
+
+```javascript
+function reconcileSingleElement(
+  returnFiber: Fiber,
+  currentFirstChild: Fiber | null,
+  element: ReactElement
+): Fiber {
+  const key = element.key;
+  let child = currentFirstChild;
+  
+  // 首先判断是否存在对应DOM节点
+  while (child !== null) {
+    // 上一次更新存在DOM节点，接下来判断是否可复用
+
+    // 首先比较key是否相同
+    if (child.key === key) {
+
+      // key相同，接下来比较type是否相同
+
+      switch (child.tag) {
+        // ...省略case
+        
+        default: {
+          if (child.elementType === element.type) {
+            // type相同则表示可以复用
+            // 返回复用的fiber
+            return existing;
+          }
+          
+          // type不同则跳出循环
+          break;
+        }
+      }
+      // 代码执行到这里代表：key相同但是type不同
+      // 将该fiber及其兄弟fiber标记为删除
+      deleteRemainingChildren(returnFiber, child);
+      break;
+    } else {
+      // key不同，将该fiber标记为删除
+      deleteChild(returnFiber, child);
+    }
+    // 只在同层级对比
+    child = child.sibling;
+  }
+
+  // 创建新Fiber，并返回 ...省略
+
+```
+
+从代码可以看出，React通过先判断key是否相同，如果key相同则判断type是否相同，只有都相同时一个DOM节点才能复用。
+* 当child !== null且key相同且type不同时执行deleteRemainingChildren将child及其兄弟fiber都标记删除。
+* 当child !== null且key不同时仅将child标记删除。
+
+### 多节点diff
+
+同级多个节点的Diff，一定属于以下三种情况中的一种或多种
+* 节点更新
+* 节点增加或减少
+* 节点位置变化
+
+Diff算法的整体逻辑会经历两轮遍历
+* 第一轮遍历，处理更新的节点
+* 第二轮遍历，处理剩下的不属于更新的节点
+
+第一轮遍历步骤为
+1.   let i = 0，遍历newChildren，将newChildren[i]与oldFiber比较，判断DOM节点是否可复用。
+2.   如果可复用，i++，继续比较newChildren[i]与oldFiber.sibling，可以复用则继续遍历。
+3.   如果不可复用，分两种情况：
+  key不同导致不可复用，立即跳出整个遍历，第一轮遍历结束。
+  key相同type不同导致不可复用，会将oldFiber标记为DELETION，并继续遍历
+4. 如果newChildren遍历完（即i === newChildren.length - 1）或者oldFiber遍历完（即oldFiber.sibling === null），跳出遍历，第一轮遍历结束。
+
+此时会产生有无遍历完成的情况
+
+```
+/ 之前
+<li key="0" className="a">0</li>
+<li key="1" className="b">1</li>
+            
+// 之后 情况1 —— newChildren与oldFiber都遍历完
+<li key="0" className="aa">0</li>
+<li key="1" className="bb">1</li>
+            
+// 之后 情况2 —— newChildren没遍历完，oldFiber遍历完
+// newChildren剩下 key==="2" 未遍历
+<li key="0" className="aa">0</li>
+<li key="1" className="bb">1</li>
+<li key="2" className="cc">2</li>
+            
+// 之后 情况3 —— newChildren遍历完，oldFiber没遍历完
+// oldFiber剩下 key==="1" 未遍历
+<li key="0" className="aa">0</li>
+
+// 之后 情况4 —— 都没遍历完
+<li key="0">0</li>
+<li key="2">1</li>
+<li key="1">2</li>
+```
+
+第二轮遍历根据第一轮遍历的结果分别讨论
+
+* 同时遍历完：只需要在第一轮遍历中进行组件更新，diff结束
+* newChildren没遍历完，oldFiber遍历完
+
+    已有的主节点都复用了，这时还有新加入的节点，意味着本次有新节点插入，只需要遍历剩下的newChildren为生成的workInProgress fiber依次标记Placement
+
+* newChildren遍历完，oldFiber没遍历完
+
+    本次更新比之前的节点数量少，有节点被删除了。所以需要遍历剩下的oldFiber，依次标记Deletion
+
+* newChildren与oldFiber都没遍历完
+
+    意味着有节点在这次更新中改变了位置
+
+#### 处理移动的节点
+
+由于有节点改变了位置，所以不能再使用位置索引对比前后的节点
+
+为了快速找到key对应的oldFiber，我们将所有还未处理的oldFiber存入以key-oldFiber为键值对的Map中
+
+```javascript
+const existingChildren = mapRemainingChildren(returnFiber, oldFiber);
+```
+
+接下来遍历剩余的newChildren，通过newChildren[i].key就能在existingChildren中找到key相同的oldFiber。
+
+
+#### 标记节点是否移动
+
+需要寻找移动的节点
+
+节点是否需要移动的参照物是：在diff过程中，最后一个可复用的节点在oldFiber中的位置索引（用变量lastPlacedIndex表示）
+
+由于本次更新中节点是按newChildren的顺序排列。在遍历newChildren过程中，每个遍历到的可复用节点一定是当前遍历到的所有可复用节点中最靠右的那个，即一定在lastPlacedIndex对应的可复用的节点在本次更新中位置的后面。
+
+那么只需要比较遍历到的可复用节点在上次更新时是否也在lastPlacedIndex对应的oldFiber后面，就能知道两次更新中这两个节点的相对位置改变没有。
+
+**用变量oldIndex表示遍历到的可复用节点在oldFiber中的位置索引。如果oldIndex < lastPlacedIndex，代表本次更新该节点需要向右移动**
+
+lastPlacedIndex初始为0，每遍历一个可复用的节点，如果oldIndex >= lastPlacedIndex，则lastPlacedIndex = oldIndex
+
+[协助理解](https://juejin.cn/post/6844903905629831176)
