@@ -58,10 +58,9 @@ ngx_http_addition_module 是一个过滤模块，它可以在回复正文前后�
         location /name/ {
             proxy_pass http://127.0.0.1/remote/;
         }
+        ```
 
         请求http://127.0.0.1/name/test.html 会被代理到http://example.com/remote/test.html
-
-        ```
 
     * 如果不使用URI，传送到后端服务器的请求URI一般是客户端发起的原始URI，如果nginx改变了请求URI，则传送的URI是nginx改变以后完整的规范化URI
 
@@ -69,10 +68,9 @@ ngx_http_addition_module 是一个过滤模块，它可以在回复正文前后�
         location /some/path/ {
             proxy_pass http://127.0.0.1;
         }
+        ```
 
         请求http://127.0.0.1/name/test.html 会被代理到http://127.0.0.1/name/test.html
-
-        ```
 
     一些情况下无法确定URI应该被替换的部分：
 
