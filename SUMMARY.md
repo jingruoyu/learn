@@ -94,3 +94,5 @@
 ## 小说
 
 * [基督山伯爵](novel/README.md)
+* [平凡的世界](novel/平凡的世界.md)
+* [肖申克的救赎](novel/The_Shawshank_Redemption.md)
