@@ -1,6 +1,6 @@
-### HTTPS
+## HTTPS
 
-#### 加密方式
+### 加密方式
 
 * 对称加密：把秘钥传给对方，双方用同一个秘钥加密解密
 * 非对称加密：拥有公钥和私钥，公钥和私钥地位相同
@@ -13,7 +13,7 @@
 	* 客户端使用公钥加密对称秘钥，服务端用私钥解密，拿到真正的对称秘钥
 	双方开始用对称秘钥开始进行加密传输
 
-#### HTTPS Secure
+### HTTPS Secure
 
 HTTPS = HTTP + 加密 + 认证 + 完整性保护
 
@@ -22,7 +22,7 @@ HTTPS的通信接口部分由SSL（Secure Socket Layer）和TLS（Transport Laye
 * SSL：Secure Socket Layer，安全套接层，位于可靠的面向连接的网络层协议和应用层协议之间的一种协议层
 * TLS：Transport Layer Security，安全层传输协议，用于两个应用程序之间提供保密性和数据完整性。该协议由两层组成：TLS记录协议和TLS握手协议
 
-#### HTTPs通信步骤
+### HTTPs通信步骤
 
 1. 客户端通过发送Client Hello报文开始SSL通信。报文中包含客户端支持的SSL的指定版本、加密组件（Cipher Suite）列表（所使用的加密算法及密钥长度等）
 2. 服务器可进行SSL通信时，会以Server Hello报文作为应答。和客户端一样，在报文中包含SSL版本以及加密组件。服务器的加密组件内容是从接收到的客户端加密组件内筛选出来的
@@ -37,7 +37,7 @@ HTTPS的通信接口部分由SSL（Secure Socket Layer）和TLS（Transport Laye
 11. 应用层协议通信，即发送HTTP响应
 12. 最后由客户端端口连接。断开连接时，发送close_notify报文。这步之后再发送TCP FIN报文来关闭与TCP的通信
 
-#### HTTPS证书验证
+### HTTPS证书验证
 
 1. 操作系统、浏览器中已经内置了一些根证书，主要是少数几家权威CA机构颁发的证书，证书中有CA的公钥，可以信任
 2. HTTPS网站需要先在CA机构申请公钥证书，证书的内容是
@@ -54,3 +54,5 @@ HTTPS的通信接口部分由SSL（Secure Socket Layer）和TLS（Transport Laye
 7. 之后双方均使用对称秘钥进行通信
 
 此过程在SSL层完成
+
+### charles原理
