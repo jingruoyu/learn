@@ -54,3 +54,13 @@ HTTPS的通信接口部分由SSL（Secure Socket Layer）和TLS（Transport Laye
 7. 之后双方均使用对称秘钥进行通信
 
 此过程在SSL层完成
+
+### 单向认证与双向认证
+
+HTTPS一般使用单向认证，如上所述
+
+双向认证在单向认证的基础上增加了服务端要求获取客户端的HTTPS证书，并进行验证
+
+在双向加密的基础上，Charles等代理工具将无法使用
+
+[博客](https://www.jianshu.com/p/29e0ba31fb8d)

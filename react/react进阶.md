@@ -201,3 +201,7 @@ Flow与TypeScript
 ## Web Components
 
 Web Compoennts是HTML5中的API，为可复用组件提供强大封装，可以和React搭配使用
+
+## 生命周期
+
+![生命周期](../../img/react/lifeCycle.jpg)
