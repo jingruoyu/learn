@@ -39,14 +39,17 @@ function ColorPicker({ children }) {
 }
 ```
 
-### 总结
-
 在使用memo和useMemo之前，需要首先考虑**将组件中可变与不可变的部分拆分**
 
-内容提升的本意是用于内容进行拆分，使得组件更衣懂，性能优化是它的一个副作用，而且其可能将来还会有别的优点，如在server component方面
+内容提升的本意是用于内容进行拆分，使得组件更易懂，性能优化是它的一个副作用，而且其可能将来还会有别的优点，如在server component方面
 
 如果这些的方法均不能有效优化性能的话，然后再去考虑使用profiler分析和mome
 
+### batchUpdate
+
+react中batch update的原理
+
 ### 参考资料
 
-https://overreacted.io/before-you-memo/
+* [memo](https://overreacted.io/before-you-memo/)
+* [batchUpdate](https://zhuanlan.zhihu.com/p/78516581)
