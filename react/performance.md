@@ -58,7 +58,9 @@ react中batch update
 * 可以使用**ReactDOM.unstable_batchedUpdates**强制batch
 * 未来react希望可以全部batch
 
-
+详见
+* [batch](https://overreacted.io/react-as-a-ui-runtime/#batch)
+* [react运行时逻辑](./blogs/react-as-a-ui-runtime.html)
 
 ### 参考资料
 
