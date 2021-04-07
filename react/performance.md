@@ -47,9 +47,20 @@ function ColorPicker({ children }) {
 
 ### batchUpdate
 
-react中batch update的原理
+react中batch update
+
+[Dan的解释](https://github.com/facebook/react/issues/10231)
+* 同一个React event handler中同步的多次setState会被batch，在handler退出之前执行。
+    
+    注意此处为react的event handler，基于react事件委托的机制，一个React event handler实质上为同一个事件所引起的所有event handler
+
+* 异步的事件循环，如network response、setTimeout等，不会被batch
+* 可以使用**ReactDOM.unstable_batchedUpdates**强制batch
+* 未来react希望可以全部batch
+
+
 
 ### 参考资料
 
 * [memo](https://overreacted.io/before-you-memo/)
-* [batchUpdate](https://zhuanlan.zhihu.com/p/78516581)
+* [batchUpdate](https://overreacted.io/react-as-a-ui-runtime/#batching)
