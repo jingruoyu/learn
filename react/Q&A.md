@@ -69,3 +69,42 @@ https://zhuanlan.zhihu.com/p/105940433
 https://zhuanlan.zhihu.com/p/200855720
 
 此处涉及到vNode的数据结构
+
+### setState的同步异步问题
+
+[React官方解答](https://zh-hans.reactjs.org/docs/faq-state.html#why-is-setstate-giving-me-the-wrong-value)
+
+调用setState其实是异步的，即在调用之后，可能不会立即在this.state上映射为新的值。如果需要基于当前state进行计算，则向setState传递一个函数
+
+**setState什么时候是异步的？**
+
+event handler内部的setState是异步的，但是在setTimeout等异步函数回调中调用的setState可以理解为同步的
+
+### 同步异步更新状态问题
+
+React设计为异步更新是为了将状态更改进行批量操作，避免不必要的重新渲染来提升性能
+
+**为什么不默认全部设计为异步更新**
+
+React具有跨平台特性，所以前端使用时分为react和react-dom两部分，setState操作是在react的reconciler中执行的，setTimeout、Promise等都是前端平台特有的API，无法进行针对性优化
+
+### React与vue不同
+
+#### batch update
+
+* vue的状态更改是通过事件队列中的微任务完成的，故所有的状态更改都可以进行批量更新
+* react由于跨平台性，是通过在event handler的前后分别插入hook执行的，但是对于setTimeout等异步回调无能为力
+
+#### 更新机制
+
+* vue是自动更新机制，在首次render时收集依赖，依赖变化时重新渲染。其弊端是需要对所有的state进行监听，消耗内存。优化方式是对不会变化的数据进行Object.freeze()冻结
+* react是手动更新，setState后，会调用整个vDOM树的diff，找出需要render的组件。在此过程中，可能会由于state存放位置的问题，导致渲染范围过大，出现性能问题，是react的一个优化点
+
+react + mobx也可以实现类似于vue的依赖收集、定点更新机制，可以参见react-mobx-lite，这个库只支持react函数式组件
+
+react与vue在性能上不存在十分大的区别，主要还是取决于开发者与业务场景
+
+#### 接口
+
+* vue中模板语法需要使用vue的指令，学习成本偏高
+* react使用jsx语法，与js基本相同，学习成本更低

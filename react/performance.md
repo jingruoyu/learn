@@ -49,6 +49,12 @@ function ColorPicker({ children }) {
 
 react中batch update
 
+官网说明
+
+>React may batch multiple setState() calls into a single update for performance.
+
+>Because this.props and this.state may be updated asynchronously, you should not rely on their values for calculating the next state.
+
 [Dan的解释](https://github.com/facebook/react/issues/10231)
 * 同一个React event handler中同步的多次setState会被batch，在handler退出之前执行。
     
@@ -58,9 +64,12 @@ react中batch update
 * 可以使用**ReactDOM.unstable_batchedUpdates**强制batch
 * 未来react希望可以全部batch
 
+[优化demo](https://codesandbox.io/s/bitter-morning-cit20?file=/src/App.js)
+
 详见
 * [batch](https://overreacted.io/react-as-a-ui-runtime/#batch)
 * [react运行时逻辑](./blogs/react-as-a-ui-runtime.html)
+* [React 15 的 setState（上）](http://youlujie.top/React-15-%E7%9A%84-setState%EF%BC%88%E4%B8%8A%EF%BC%89.html)
 
 ### 参考资料
 
