@@ -47,7 +47,11 @@ Parent (onClick)
 
 当状态的更改逻辑更复杂时，建议使用**reducer**进行处理
 
-思考：
+问题：
+* setTimeout内的任务无法被batch
+
+    与React的更新机制有关，详见https://zhuanlan.zhihu.com/p/78516581
+
 * vue的执行机制
 
 	vue依赖于事件队列进行数据的批量更新，与react原理不同。因为react是不依赖于底层框架的，所以未用到事件机制
