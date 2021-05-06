@@ -83,6 +83,7 @@
     * [performance](chrome-devtools/performance.md)
     * [deviceModel](chrome-devtools/deviceModel.md)
     * [audit](chrome-devtools/audit.md)
+* [git](Git/README.md)
 
 ## 模式
 
