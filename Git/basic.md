@@ -21,4 +21,20 @@ git支持多种数据传输协议，包括
 
 详见[在服务器上搭建git](https://www.progit.cn/#_git_on_the_server)
 
-## 记录每次更新到repo
+## 文件的生命周期
+
+![git中文件的生命周期](https://www.progit.cn/images/lifecycle.png)
+
+### `git status`
+
+检查当前文件状态，该命令会列出当前目录下
+* 已跟踪但被修改的文件
+* 未跟踪状态的新文件
+* 当前所在的分支
+* 当前分支与远程分支是否存在偏离
+
+### `git add`
+
+git add [filename | .]
+
+该命令会跟踪新文件或者暂存已修改的文件
