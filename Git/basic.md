@@ -101,3 +101,23 @@ options
 `git commit --amend`
 * 将暂存区文件提交
 * 将本次提交与上次提交合并，并覆盖上次message
+
+### 取消暂存
+
+`git reset HEAD <file>`可以将暂存区的修改回退到工作区
+
+![git status 提示](./imgs/git_reset.png)
+
+**NOTE**：git reset命令的hard选项很危险，可能会导致工作目录所有当前进度丢失，谨慎使用
+
+### 撤掉对文件的修改
+
+`git checkout -- [file]`：撤销工作区为文件的修改
+
+同样可以在git status输出中查看该命令
+
+**NOTE**
+* Git中任何已提交的东西几乎都是可以恢复的，包括被删除分支的提交或者amend覆盖的提交
+* 但是未被提交的东西丢失后无法恢复
+
+## remote repo
