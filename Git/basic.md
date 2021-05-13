@@ -95,3 +95,9 @@ options
 * -- filePath：指定文件路径
 
 ## 撤销操作
+
+### 重新提交
+
+`git commit --amend`
+* 将暂存区文件提交
+* 将本次提交与上次提交合并，并覆盖上次message
