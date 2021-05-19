@@ -95,3 +95,62 @@ options
 * -- filePath：指定文件路径
 
 ## 撤销操作
+
+### 重新提交
+
+`git commit --amend`
+* 将暂存区文件提交
+* 将本次提交与上次提交合并，并覆盖上次message
+
+### 取消暂存
+
+`git reset HEAD <file>`可以将暂存区的修改回退到工作区
+
+![git status 提示](./imgs/git_reset.png)
+
+**NOTE**：git reset命令的hard选项很危险，可能会导致工作目录所有当前进度丢失，谨慎使用
+
+### 撤掉对文件的修改
+
+`git checkout -- [file]`：撤销工作区为文件的修改
+
+同样可以在git status输出中查看该命令
+
+**NOTE**
+* Git中任何已提交的东西几乎都是可以恢复的，包括被删除分支的提交或者amend覆盖的提交
+* 但是未被提交的东西丢失后无法恢复
+
+## 远程仓库的使用
+
+Git通过远程仓库进行协作，远程仓库可以进行读写权限控制。
+
+### 查看origin repo
+
+`git remote`：查看已经配置的远程仓库服务器，默认情况下会列出他们的简写，至少会有一个origin，这是git clone仓库服务器的默认名字
+
+* `git remote -v`：显示简写与其对应的URL
+* `git remote add <shortname> <url>`：添加一个新的远程git仓库，并指定简写
+* `git remote show [remote-name]`：列出远程仓库的URL和跟踪分支的信息
+* `git remote rename [old-name] [new-name]`:重命名远程仓库
+* `git remote rm [remote-name]`：移除特定远程仓库
+
+### 从远程仓库抓取和拉取
+
+#### `git fetch [remote-name]`
+
+命令访问远程仓库，从中拉取所有本地没有的数据。执行完成后，将会拥有远程仓库中所有分支的引用，可以随时合并或查看
+
+使用`git clone`克隆一个仓库后，命令会自动将其添加为远程仓库，并默认以`origin`为简写
+
+`git fetch`会拉取clone或上一次fetch操作后新推送的所有工作，将数据拉取到本地仓库，但是**不会自动合并或修改当前的工作区**，必须手动进行合并
+
+#### `git pull`
+
+命令会自动拉取数据然后合并远程分支到当前分支
+
+### 推送到远程仓库
+
+`git push [remote-name] [branch-name]`
+
+只有当前用户对clone的服务器有写入权限，并且之前没有人pull过，该命令才会生效
+
