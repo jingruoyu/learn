@@ -194,3 +194,48 @@ git可以为历史上的某次提交打上标签，以示重要，通常人们�
 `git checkout -b [branch-name] [tag-name]`：可以根据特定的标签创建一个新分支。
 
 此处需要注意标签不能像分支一样前后移动，所以只能通过新建分支的形式跳转到某个标签
+
+## git别名
+
+可以通过`git config`文件配置每一个命令的别名，可以对较长的命令进行简写，或对组合命令创建别名
+
+```
+// git checkout -> git co
+git config --global alias.co checkout
+
+// git unstage fileA 等价于 git reset HEAD -- fileA
+git config --global alias.unstage 'reset HEAD --'
+
+// 获取最后一次提交
+git config --global alias.last 'log -1 HEAD'
+```
+
+也可以执行外部命令，类似于shell命令的组合执行,间隔符为`!`
+
+`git config --global alias.visual '!gitk'`
+
+## 总结
+
+### 命令
+
+* git init
+* git clone
+* git fetch
+* git remote
+* git add
+* git commit
+* git push
+* git pull
+* git status
+* git diff
+* git rm
+* git mv
+* git log
+* git tag
+* git reset HEAD filename:取消暂存
+
+### 其他相关
+
+* 多个远程仓库
+* .gitignore
+* alias
