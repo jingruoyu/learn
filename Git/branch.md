@@ -29,3 +29,17 @@ git在提交时，会保存一个commit object，其中包含
 ![commit-and-tree](https://git-scm.com/book/en/v2/images/commit-and-tree.png)
 
 #### git分支本质上即为指向提交对象的可变指针，在每次提交时自动向前移动
+
+### 分支创建
+
+`git branch [new-branch-name]`：创建新分支，实质上为创建了一个可以移动的新指针，指向当前位置
+
+![head-to-master](https://git-scm.com/book/en/v2/images/head-to-master.png)
+
+Git中有一个名为`HEAD`的特殊指针，HEAD指针指向当前所在的本地分支，可以使用`git log`查看当前各个分支所指的对象
+
+### 分支切换
+
+`git checkout`：将HEAD指针切换到一个已存在的分支上，并且**工作区会变成该分支所指向的快照内容**
+
+Git分支实质上仅包含所指对象校验和的文件（长度为40的SHA-1值字符串），故其创建和销毁都很高效。创建一个新分支就相当于向一个文件中写入41个字节（40个字符和1个换行符）
