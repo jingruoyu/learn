@@ -163,4 +163,34 @@ push功能需要对远程库具有写入权限，本地分支不会自动与远�
 
 `git push origin --delete <branch-name>`：从服务器上移出指针
 
-## 变基
+## rebasing
+
+在git中整合来自不同分支的修改主要由两种方法：merge和rebase
+
+### merge
+
+会将两个分支的最新快照以及二者最近的公共祖先进行三方合并，结果为生成一个新的快照，效果如下图
+
+![merge效果图](https://git-scm.com/book/en/v2/images/basic-rebase-2.png)
+
+### rebase
+
+`git rebase [branch]`
+
+rebase可以将当前分支上的所有修改都移至目标分支。具体过程为
+
+1. 找到这两个分支的最近共同祖先
+2. 对比当前分支相对于该祖先的历次提交，提取相应的修改并存为临时文件
+3. 将当前分支指向目标基底
+4. 最后以此将之前另存为临时文件的修改依序应用
+
+![rebase效果图](https://git-scm.com/book/en/v2/images/basic-rebase-3.png)
+
+rebase和merge的效果没有任何区别，但是rebase使得提交历史显得更整洁。经过rebase处理的分支，尽管实际开发工作是并行的，但是在提交记录中是串行的，commit是一条直线
+
+这样的好处是保持历史记录的整洁，尤其是在多人维护的项目中，使用rebase后最终项目维护者只需要在主分支上进行快速合并（即指针快进）即可
+
+**无论是通过rebase，还是通过merge，整合的最终结果所指向的快照始终是一样的，只不过提交历史不同**。 
+
+* rebase是将一系列提交按照原有次序依次应用到另一分支上
+* merge是把最终结果合在一起
