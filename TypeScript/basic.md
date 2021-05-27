@@ -263,13 +263,89 @@ function reverse(x: number | string): number | string | void {
 
 ## 泛型
 
+### 基本使用
+
 可以使用泛型创建可重用的组件，一个组件可以支持多种类型的数据，用户可以用自己的数据类型来使用组件
 
-泛型可以作为参数传入函数，用作后续其他数据的类型定义
+泛型可以理解为具有参数的类型，根据参数确定最终输出的类型
 
 ```javascript
 function identity<T>(arg: T): T {
     return arg;
+}
+
+identity<string>('test')
+```
+
+也可以通过类型推论的形式得出泛型的具体类型
+
+```javascript
+identity('test')
+```
+
+也可以定义多个类型参数
+
+```javascript
+function swap<T, U>(tuple: [T, U]): [U, T] {
+    return [tuple[1], tuple[0]];
+}
+
+swap([7, 'seven']); // ['seven', 7]
+```
+
+### 泛型约束
+
+可以对泛型的使用进行约束，禁止函数使用某些类型之外的参数，保证内部逻辑的正确
+
+```javascript
+// 函数参数必须具有length属性，如果不具有length属性则会在编译阶段报错
+interface Lengthwise {
+    length: number;
+}
+
+function loggingIdentity<T extends Lengthwise>(arg: T): T {
+    console.log(arg.length);
+    return arg;
+}
+```
+
+### 泛型接口
+
+可以使用泛型接口定义函数形状
+
+```javascript
+interface CreateArrayFunc {
+    <T>(length: number, value: T): Array<T>;
+}
+
+// 定义函数形状
+let createArrayFunc: CreateArrayFunc;
+// 将泛型参数提前到接口名上
+let createArrayFunc: CreateArrayFunc<any>;
+```
+
+### 泛型类
+
+```javascript
+class GenericNumber<T> {
+    zeroValue: T;
+    add: (x: T, y: T) => T;
+}
+
+let myGenericNumber = new GenericNumber<number>();
+```
+
+### 默认参数
+
+可以为泛型中的类型参数指定默认类型，当使用泛型时没有在代码中直接指定类型参数，类型推断也无法推测出，默认类型就会起作用
+
+```javascript
+function createArray<T = string>(length: number, value: T): Array<T> {
+    let result: T[] = [];
+    for (let i = 0; i < length; i++) {
+        result[i] = value;
+    }
+    return result;
 }
 ```
 
