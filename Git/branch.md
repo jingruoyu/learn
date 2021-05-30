@@ -155,7 +155,7 @@ push功能需要对远程库具有写入权限，本地分支不会自动与远�
 * `git branch -u <remote-branch>`：更改当前分支跟踪的远程分支，`--set-upstream-to选项效果相同`
 * `git branch -vv`：查看所有跟踪分支，数据情况取决于最后一次fetch拉取的数据
 
-### 拉取
+### pull
 
 `git pull`大多数情况下等于`git fetch` + `git merge`
 
@@ -175,9 +175,9 @@ push功能需要对远程库具有写入权限，本地分支不会自动与远�
 
 ### rebase
 
-`git rebase [branch]`
+`git rebase [base-branch]`
 
-rebase可以将当前分支上的所有修改都移至目标分支。具体过程为
+rebase可以将当前分支上的所有修改都移至指定分支。具体过程为
 
 1. 找到这两个分支的最近共同祖先
 2. 对比当前分支相对于该祖先的历次提交，提取相应的修改并存为临时文件
@@ -185,6 +185,8 @@ rebase可以将当前分支上的所有修改都移至目标分支。具体过�
 4. 最后以此将之前另存为临时文件的修改依序应用
 
 ![rebase效果图](https://git-scm.com/book/en/v2/images/basic-rebase-3.png)
+
+**谨记，rebase是将当前分支上的所有修改移到指定branch的后面**
 
 rebase和merge的效果没有任何区别，但是rebase使得提交历史显得更整洁。经过rebase处理的分支，尽管实际开发工作是并行的，但是在提交记录中是串行的，commit是一条直线
 
@@ -194,3 +196,64 @@ rebase和merge的效果没有任何区别，但是rebase使得提交历史显得
 
 * rebase是将一系列提交按照原有次序依次应用到另一分支上
 * merge是把最终结果合在一起
+
+### 指定rebase应用的分支
+
+`git rebase --onto [apply-branch] [base-branch] [topic-branch]`：将topic-branch基于base-branch分歧之后做的修改，基于apply-branch重新应用一遍，并将topic-branch指向对应位置
+
+`git rebase --onto master server client`命令效果如下
+
+![rebase onto](https://git-scm.com/book/en/v2/images/interesting-rebase-2.png)
+
+`git branch [base-branch] [topic-branch]`：指定base-branch，无需切换分支
+
+**谨记：branch仅仅是一个指针，指针指向的位置随时会发生变化**
+
+### rebase的风险
+
+如果某一分支可能会被其他人操作即为公共分支，则不要在这个分支上面进行rebase
+
+变基操作的实质是丢弃一些现有的提交，然后相应地新建一些内容一样但实际上不同的提交
+
+但是改变公共分支的历史记录，会引起其他用户使用上的问题，因此，不建议在公共分支上手动使用rebase，可能会引起不同用户之间的冲突
+
+### 使用rebase解决rebase问题
+
+如果真的发生其他用户强制push覆盖了部分你所基于的commit，则需要检查
+1. 你自己的commit
+2. 对方覆盖的commit
+
+Git除了对整个commit提交计算SHA-1校验和外，也对本次提交所引入的修改计算了校验和，即`patch-id`
+
+如果你拉取过被覆盖的更新，并将你的工作基于此进行rebase，一般情况下，Git都能成功分辨出哪些是你的修改，并把它们应用到新分支上
+
+rebase对commit的筛选
+* 检查哪些提交是我们的分支上独有的
+* 检查其中哪些提交不是合并操作的结果
+* 检查哪些提交在对方覆盖更新时并没有被纳入目标分支
+* 把查到的这些提交应用在base-branch上面
+
+### rebase vs merge
+
+* rebase会修改历史记录
+* merge不会修改历史记录
+
+二者如何取舍取决于团队对历史记录的看法
+
+* 提交历史记录实际发生过什么
+* 提交历史是项目过程中发生的事
+
+#### 总的原则是，只对尚未推送或分享给别人的本地修改执行变基操作清理历史， 从不对已推送至别处的提交执行变基操作
+
+## submit
+
+* checkout
+* branch
+* merge
+* rebase
+* fetch
+* push
+* pull
+* 分支跟踪
+* 分支的类型
+* git工作流
