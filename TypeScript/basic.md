@@ -441,11 +441,106 @@ cat as any as fish
 
 通常我们会将声明语句放到一个单独的文件中，文件以`.d.ts`后缀
 
-### 声明语句
+TypeScript一般会解析项目中所有的`.ts`文件，也会将声明文件同时解析，此时其他的`.ts`文件就会获得相关的类型定义
+
+### 语法规范
+
+**声明文件中只能定义类型，切勿在声明语句中定义具体实现**
+
+库的使用场景
+
+#### 全局变量
 
 * declare var：声明全局变量
 * declare function：声明全局函数
 * declare class：声明全局类
 * declare enum：声明枚举类型
-* declare namespace：声明（含子属性的）全局变量
-* interface和type声明全局类型
+* declare namespace：声明（含子属性的）全局变量，可以进行嵌套。namespace中可以进行其他属性的声明
+
+    目前已经不推荐namespace，而是使用ES6的模块化方案export
+
+* interface和type声明全局类型，无需declare
+
+    * 为减少命名冲突，最好将其放到namespace下
+    * 声明合并，可以组合同一个变量的多个声明语句，他们会进行不冲突的合并
+
+#### npm包
+
+npm包声明文件可能存在与
+
+* 与该包绑定在一起，在package.json中寻找types字段或者`index.d.ts`文件
+* 已经发布到`@types`中，直接安装
+
+如果都不存在，需要自己写声明文件，声明文件存放位置
+
+* node_modules/@types/packagename/index.d.ts，但是node_modules文件夹不稳定，又被删除的风险
+* 根目录下新建一个types文件夹，通过配置tsconfig.json
+
+声明文件语法
+
+* `export`导出变量
+* `export namespace`导出含有子属性的对象
+* `export default`ES6默认导出，只有function、class、interface可以默认导出
+* `export =`commonjs导出模块，但只能导出一个变量
+
+#### UMD库
+
+既可以通过`script`标签引入，又可以通过`import`导入的库，称作UMD库
+
+相比于npm包类型声明文件，需要额外声明一个全局变量，ts提供了新语法`export as namespace`
+
+#### 直接扩展全局变量
+
+有时第三方库扩展了一个全局变量，但对应的类型没有来得及更新，就会导致ts编译错误，此时可以通过**声明合并**，为此类型上添加属性或方法
+
+#### 在npm包或UMD库中扩展全局变量
+
+对于`npm`包或`UMD`库，如果导入此库之后会扩展全局变量，则需要使用另一种语法在声明文件中扩展全局变量的类型，那就是`declare global`
+
+#### 模块插件
+
+有时通过 import 导入一个模块插件，可以改变另一个原有模块的结构，ts提供了`declare module`，它可以用来扩展原有模块的类型
+
+
+### 声明文件的依赖
+
+声明文件之间的依赖的导入方式
+
+* import
+
+    ```javascript
+    import * as moment from 'moment';
+    ```
+
+* 三斜线指令
+
+    涉及到全局变量时需要使用三斜线代替import
+
+    * 书写一个全局变量的声明文件，全局变量的声明文件中不允许出现import等关键字，否则会被视为一个npm包或UMD库，不再是全局变量的声明文件
+    * 需要依赖一个全局变量的声明文件，全局变量不支持通过import导入
+
+    ```typescript
+    /// <reference types="jquery" />
+
+    declare function foo(options: JQuery.AjaxSettings): string;
+    ```
+
+    三斜线指令也可以用在拆分全局变量的声明文件，如JQuery，最后再向外统一导出一个变量
+
+## 内置对象
+
+TypeScript为js中的很多内置对象定义好了类型
+
+### ECMAScript内置对象
+
+### DOM和BOM内置对象
+
+### TypeScript核心库
+
+[TypeScript核心库](https://github.com/Microsoft/TypeScript/tree/main/src/lib)定义了所有浏览器需要用到的类型，并且是预置在TypeScript中的
+
+核心库中不包含nodejs部分
+
+Node.js不是内置对象的一部分，故如果想用ts写nodejs，需要引入第三方声明文件
+
+`npm install @types/node --save-dev`
