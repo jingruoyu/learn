@@ -108,3 +108,21 @@ react与vue在性能上不存在十分大的区别，主要还是取决于开发
 
 * vue中模板语法需要使用vue的指令，学习成本偏高
 * react使用jsx语法，与js基本相同，学习成本更低
+
+#### 一个例子
+
+```javascript
+// react
+{status ? <HelloWorld msg={'hello1'}> : <HelloWorld msg={'hello2'}>}
+
+// vue
+<HelloWorld v-if="status" msg='hello1'>
+<HelloWorld v-else msg='hello1'>
+```
+
+status会在true、false之间变化，问组件内部生命周期的执行情况
+
+* React中，切换状态时，由于状态变化导致父组件重新render，子组件也会重新渲染，所以每次会执行对应组件的生命周期
+* vue中，切换状态时，直接更新对应status，然后执行vDOM diff操作，判断前后key和type均相同，故直接复用element，没有重新执行渲染。故beforeMount类的生命周期只执行一次，后期触发的都是update。
+
+	另外如果调用组件时如果增加key属性，则会导致diff时无法复用，也会每次执行mount生命周期
