@@ -111,6 +111,8 @@ react与vue在性能上不存在十分大的区别，主要还是取决于开发
 
 #### 一个例子
 
+[vue demo](https://codesandbox.io/s/boring-feistel-8gcqg?file=/src/App.vue)
+
 ```javascript
 // react
 {status ? <HelloWorld msg={'hello1'}> : <HelloWorld msg={'hello2'}>}
