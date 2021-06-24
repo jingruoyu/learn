@@ -137,3 +137,20 @@ Git协议没有任何安全措施，要么谁都可以clone这个版本库，要
 * 搭建复杂
 
 	需要守护进程，需要防护墙开放对应端口
+
+## 在服务器上搭建Git
+
+裸仓库：bare repo，即一个**不包含当前工作目录**的repo
+
+可以通过clone既有仓库得到裸仓库，由此my_project.git就是一个裸仓库
+
+`git clone --base my_project my_project.git`
+
+也可以通过直接clone .git目录获得，二者原理相似
+
+`cp -r -f my_project/.git my_project.git`
+
+小型团队的私有项目合作，使用SSH服务器 + bare repo即可，访问者通过SSH连接进行访问，权限控制可以通过git账号+SSH公钥进行
+
+## 生成SSH公钥
+
