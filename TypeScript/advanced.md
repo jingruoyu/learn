@@ -141,3 +141,75 @@ TypeScript 除了实现了所有 ES6 中的类的功能以外，还添加了一�
 给class加上TypeScript类型，方法与接口类似
 
 ## class与interface
+
+interface可以用于**对象的形状**进行描述
+
+### 类实现接口
+
+一般的，类只能继承自另一个类。当不同类之间有一些共有特性时，此时可以把特性提取为`interfaces`，使用`implements`实现，即为在`class`中实现了这个特性
+
+```typescript
+interface Alarm {
+    alert(): void;
+}
+
+interface Light {
+    lightOn(): void;
+    lightOff(): void;
+}
+
+class Car implements Alarm, Light {
+    alert() {
+        console.log('Car alert');
+    }
+    lightOn() {
+        console.log('Car light on');
+    }
+    lightOff() {
+        console.log('Car light off');
+    }
+}
+```
+
+### 接口继承接口
+
+接口与接口之间可以是继承关系
+
+```typescript
+interface Alarm {
+    alert(): void;
+}
+
+interface LightableAlarm extends Alarm {
+    lightOn(): void;
+    lightOff(): void;
+}
+```
+
+### 接口继承类
+
+TypeScript中接口可以继承类，因为在声明class时，既创建了一个class，同时也创建了一个同名的interface，故可以将其既当做类使用，也当做接口使用
+
+同名interface中仅包含对应的实例属性与实例方法，**不包含constructor、静态属性与静态方法**
+
+**接口继承类**实质上还是**接口继承接口**
+
+## 声明合并
+
+如果定义了两个相同名字的函数、接口或类，那么他们会合并成一个类型
+
+### 函数的合并
+
+可以通过重载定义多个函数类型
+
+### 接口的合并
+
+接口中的属性在合并时会简单的合并到一个接口中
+
+**合并的类型属性必须是唯一的**，如果存在多个同名接口的同名属性类型存在冲突会报错
+
+接口中方法的合并与函数的合并相同
+
+### 类的合并
+
+类的合并与接口合并规则一致
