@@ -24,14 +24,16 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm install
-        npm run build --if-present
-        npm run test --if-present
+        cd node_modules/npm/node_modules/
+        npm i graceful-fs@latest
+        cd -
+        npm run build
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
       with:
         name: node-app
-        path: .
+        path: ./_book
 
   deploy:
     runs-on: ubuntu-latest
@@ -46,11 +48,18 @@ jobs:
       with:
         name: node-app
 
-    - name: 'Deploy to Azure Web App'
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
+    - name: Sign in to Azure 
+    # Use the GitHub secret you added.
+    - uses: azure/login@v1
       with:
-        app-name: 'ruoyu-nodeApp'
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Deploy to Azure Web App
+    # Remove publish-profile.
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: '<app-name>'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_fad8c34a01b74e3fb144b45f961c4613 }}
         package: .
+    - name: Sign out of Azure.
+      run: |
+        az logout
