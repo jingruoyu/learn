@@ -23,7 +23,7 @@ jobs:
 
     - name: npm install, build, and test
       run: |
-        npm install
+        npm ci
         cd node_modules/npm/node_modules/
         npm i graceful-fs@latest
         cd -
