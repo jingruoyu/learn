@@ -30,7 +30,8 @@ jobs:
         npm run build
 
     - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v2
+      # uses: actions/upload-artifact@v2
+      run: pwd
       with:
         name: node-app
         path: learn/learn/_book
