@@ -22,7 +22,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "gitbook build && gh-pages -d _book"
+    "build": "gitbook build",
+    "publish": "gh-pages -d _book"
   },
   "repository": {
     "type": "git",
