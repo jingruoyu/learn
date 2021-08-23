@@ -28,6 +28,7 @@ jobs:
         npm i graceful-fs@latest
         cd ../../../
         npm run build
+        ls
 
     - run: |
         cd /_book
