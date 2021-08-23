@@ -27,11 +27,9 @@ jobs:
         cd node_modules/npm/node_modules/
         npm i graceful-fs@latest
         cd ../../../
-        npm run build
-        ls
+        gitbook build
 
     - run: |
-        cd /_book
         pwd
         ls
 
