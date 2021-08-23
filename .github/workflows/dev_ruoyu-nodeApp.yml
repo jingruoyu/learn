@@ -26,14 +26,14 @@ jobs:
         npm ci
         cd node_modules/npm/node_modules/
         npm i graceful-fs@latest
-        cd -
+        cd ../../../
         npm run build
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
       with:
         name: node-app
-        path: learn/learn/_book/
+        path: ./_book/
 
   deploy:
     runs-on: ubuntu-latest
