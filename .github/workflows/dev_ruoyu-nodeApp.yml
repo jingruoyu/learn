@@ -29,6 +29,8 @@ jobs:
         cd ../../../
         npm run build
 
+    - run: ll
+
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
       with:
