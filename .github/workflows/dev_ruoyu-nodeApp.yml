@@ -26,8 +26,8 @@ jobs:
         npm ci
         cd node_modules/npm/node_modules/
         npm i graceful-fs@latest
-        cd ../../../
-        gitbook build
+        cd -
+        npm run build --if-present
 
     - run: |
         pwd
