@@ -74,3 +74,6 @@ Angular在AfterContent hooks与AfterView hooks之间，会有个小的时间窗�
 
 ### `DoCheck`
 
+可以在`DoCheck`中监控`ngOnChanges`无法捕获的变更，实现自己的变更检查逻辑
+
+但是`DoCheck` hooks在每个检测周期都会进行调用，其中大部分都是Angular在页面其他地方渲染不想关的数据出发的，使用成本比较高昂，其中只能执行一些轻量级逻辑
