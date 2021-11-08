@@ -77,7 +77,7 @@ for (let v of foo()) {
 // 1 2 3 4 5
 ```
 
-这个方法更为简单，利用了遍历器对象的内部属性
+这个方法更为简单，利用了遍历器对象的内部属性，但是会忽略generator最后的return
 
 ### next方法的参数
 
@@ -108,8 +108,6 @@ let obj = {
 ### generator.prototype.throw
 
 generator函数返回的遍历器对象具有throw方法，可以在函数外部报错，函数内部使用try...catch捕获，不影响下一次next
-
-此捕获仅支持捕获一次，当第二次调用时，不会被再次捕获，直接抛出函数体
 
 使用时注意`generator.throw`与`throw`的区别
 
