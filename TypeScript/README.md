@@ -1,5 +1,7 @@
 [TypeScript入门](https://ts.xcatliu.com/basics/primitive-data-types.html)
 
+[typescript document](https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html)
+
 JavaScript超集，主要提供类型系统和对ES6的支持，ts最终会被编译为js文件
 
 ### 优点
