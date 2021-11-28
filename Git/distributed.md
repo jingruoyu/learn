@@ -1,5 +1,7 @@
 # 分布式Git
 
+[引用规范](https://git-scm.com/book/zh/v2/Git-%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86-%E5%BC%95%E7%94%A8%E8%A7%84%E8%8C%83#_refspec)
+
 ## 分布式工作流程
 
 ### Centralized Workflow
@@ -131,4 +133,3 @@ git diff $(git merge-base contrib master)
 ### 为项目发布打标签
 
 创建标签后，可以在之后的任何一个提交点使用该tag重新创建发布
-
