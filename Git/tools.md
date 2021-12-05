@@ -68,3 +68,31 @@ $ git log refA refB --not refC
 
 ## Interactive Staging
 
+`git add -i`或者`git add --interactive`可以进入交互式终端模式，使用不同的选项可以进行不同的操作，可以暂存部分文件或文件的特定部分
+
+* `git add --patch`：暂存文件特定部分
+* `git reset --patch`：重置部分文件
+* `git checkout --patch`：checkout部分文件
+* `git stash --patch`：暂存部分文件
+
+## stashing and cleaning
+
+`git stash`将未完成的修改保存在一个栈上，等待合适的时机再应用，方便工作时切换分支
+
+* `git stash list`
+* `git stash apply`：--index，回到暂存前的位置
+* `git stash drop`：移除特定暂存
+
+### 从stash创建一个分支
+
+`git stash branch <new-branch-name>`
+
+可以从stash中创建一个新分支，checkout出stash工作时所在的commit，并将stash的内容放进去，最后丢弃该stash
+
+### 清理工作目录
+
+`git clean`：移除所有没有忽略的untrack的文件
+
+更安全的选项是运行`git stash --all`，将所有内容移除并保存起来
+
+也可以使用`git clean -d -n`的-n标记，进行一次dry run，查看即将移除的内容
