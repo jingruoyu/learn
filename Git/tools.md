@@ -96,3 +96,63 @@ $ git log refA refB --not refC
 更安全的选项是运行`git stash --all`，将所有内容移除并保存起来
 
 也可以使用`git clean -d -n`的-n标记，进行一次dry run，查看即将移除的内容
+
+## Signing Your Work
+
+如果需要对其他人的commits进行验证，Git提供了几种可以通过GPG签署和验证工作的方式
+
+### GPG
+
+首先需要配置GPG，安装个人密钥，之后可以使用私钥进行签署信息
+
+### Tag使用
+
+* `git commit -S -m [message]`
+* `git tag -v [Tag]`可以验证tag上的密钥是否有效，但需要signer的公钥在钥匙链中
+
+### commit中使用
+
+* `git tag -s [Tag] -m [message]`
+* `git merge --verify-signatures -S [branch]`：merge前会检查并拒绝没有携带GPG签名的提交，s参数可以签署即将生成的merge commit，pull也可以使用
+
+## Searching
+
+git提供了`git grep`与日志搜索两种功能
+
+### GREP
+
+从committed tree、working directory甚至是索引中查找到一个字符串或正则表达式。默认为在当前working directory中查找
+
+`git grep`优点在于快速，而且可以直接在旧版本的code中查找
+
+### git log中搜索
+
+* git log -S [string]：查找包含特定字符串改动的commits
+* git log -L :[function-name]:[file-name]：确定function范围，查找function的每一次变更。也可以使用正则表达式，协助确定函数范围
+
+## Rewriting History
+
+**不要在push后修改commit历史**
+
+### 修改最后一次提交
+
+`git commit --amend`
+
+* 此命令可以修改最后一次提交的message
+* 如果需要修改content，可以先将文件放入暂存区，再运行此命令
+* 只修改content不修改message，可以增加--no-edit参数
+
+修改后SHA-1校验和会更新，新的commit会将原来的commit替换掉，类似于rebase
+
+### 修改多个commit
+
+`git rebase -i HEAD~3`后按照提示进行
+
+* 修改信息
+* 重排序
+* 压缩
+* 拆分
+* 等
+
+## Reset原理
+
