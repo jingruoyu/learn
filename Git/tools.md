@@ -156,3 +156,160 @@ git提供了`git grep`与日志搜索两种功能
 
 ## Reset原理
 
+可以将Git的管理模式想象为三棵树
+
+* HEAD：上一次提交的快照，下一次提交的父节点
+* Index：预期的下一次提交的快照
+* working directory：sandbox
+
+### HEAD
+
+HEAD指向当前分支引用的指针，总是指向该分支的最后一次提交
+
+### Index
+
+Index是预期的下一次提交，也会将这个概念引用为git的暂存区，也就是运行git commit时Git的状态
+
+### working directory
+
+工作区。其他两棵树将他们的内容存储在.git文件夹中，高效但不直观，而working directory则会将他们unpack为实际的文件以便编辑。
+
+[工作流程](https://git-scm.com/book/en/v2/images/reset-workflow.png)
+
+**当checkout到一个分支时，会修改HEAD使其指向新分支的引用，将Index填充为该次commit的快照，然后将Index的内容复制到working directory**
+
+### reset作用
+
+#### 移动HEAD
+
+如：`git reset --soft HEAD~`
+
+在当前分支上移动HEAD指向，将会更改当前分支的指向
+
+#### 更新Index
+
+`git reset [--mixed] HEAD~`
+
+指定mixed选项后，Index将会取消暂存的所有东西
+
+#### 更新working directory
+
+`git reset --hard HEAD~`
+
+使用hard参数后，工作目录将会和Index一起更新到HEAD所指位置
+
+**hard参数是reset命令中唯一的危险用法，会真正销毁数据，且不可以撤销**
+
+### 指定路径的reset
+
+指定路径的reset将会把作用范围限定在指定的文件或文件合集。这样就会跳过第一步，因为HEAD指针无法同时指向两个提交中各自的一部分，但是Index和working directory可以进行部分更新，所以第二、三步还是会执行
+
+`git reset file`与`git add file`的作用正好相反，所以该命令可以用于**取消暂存文件**
+
+`git reset [commitId] file-name`
+
+### checkout
+
+checkout也会操作HEAD、Index和Working directory三棵树，但是区别在于是否向其传递一个文件路径
+
+#### 不带路径
+
+`git checkout [branch]`与`git reset --hard [branch]`很像，区别在于
+
+* checkout对于工作目录是安全的，不会将已更改的文件弄丢。而reset会全面替换所有文件
+* checkout只会移动HEAD自身指向另一个分支，而reset会移动**HEAD分支**的指向
+
+#### 带路径
+
+带文件路径的checkout会想reset一样不移动HEAD，使用目标branch中的file来更新Index和工作目录，对于working directory同样不安全
+
+## Advance Merging
+
+Git不会尝试解决冲突，需要自行解决
+
+### merge conflicts
+
+#### 中断一次merge
+
+`git merge --abort`
+
+遇到冲突时退出合并，恢复到运行merge之前的状态。但是其不能完美之前工作区处理未提交的内容。此时也可以使用`git reset --hard HEAD`回到上次commit的状态，但是所有未提交的工作都会丢失
+
+#### checkouting out conflicts
+
+git checkout的部分选项在merge中可以帮助合并冲突
+
+* conflict选项可以用于替换合并标记
+* --[branch]可以用于留下一方的修改，直接丢弃另一方
+
+#### 合并日志
+
+使用git log的`...`语法可以帮助我们查看可能产生冲突的分支
+
+`git log --oneline --left-right HEAD...MERGE_HEAD`
+
+使用merge参数会进一步得到任何一边接触了冲突文件的commit
+
+### 撤销合并
+
+#### 修复引用
+
+**如果merge commit只存在于本地repo**，最简单的方法为将HEAD分支移动到目标位置。
+
+`git reset --hard HEAD~`
+
+但是此方法只能用于merge commit还没有push的阶段，否则推荐使用revert commit
+
+#### revert commit
+
+Git将会生成一个新的commit，该commit会撤销之前commit的所有修改
+
+`git revert -m 1 HEAD`
+
+但是这样会产生一个问题：之前revert掉的内容无法再merge到当前分支，因为这些内容都存在于Git中。如果在其上发生改动，只有改动的内容会被merge进来。
+
+解决办法为再次revert到之前回滚的版本上去，原理图如下
+
+[revert原理图](https://git-scm.com/book/en/v2/images/undomerge-revert3.png)
+
+### 其他的一些合并方式
+
+#### 假合并
+
+#### 子树合并
+
+## Rerere
+
+Git的隐藏功能，全称为reuse recorded resolution，即让Git记住解决一处conflict的方法，当下次遇到相同的冲突时，Git会自动解决它
+
+使用场景：
+
+* 在一个长期分支上merge外部的topic branch，不用解决相同的冲突
+* rebase情况同上
+* 在解决了一堆冲突后，但是想撤销此次修改，不过解决冲突的方式希望记录下来
+
+`git config --global rerere.enable true`：开启rerere功能
+
+## Debugging with Git
+
+### file annotation
+
+`git blame`：查看文件每行最后一次修改的提交记录
+
+`git blame -C`：找出文件中code的原始出处，对于复制过来的代码片段很有用
+
+### Binary Search
+
+假设发现线上版本有问题，当无法确定引入问题的commitId时，可以使用二分查找在正常的commit与当前commit之间迅速确定出错的版本
+
+1. `git bisect bad`
+2. `git bisect good <commitId>`
+3. `git bisect <status>`
+4. ...
+5. `git bisect reset`：重置HEAD指针回到最开始的位置
+
+此过程也可以通过脚本进行，`git bisect run test.sh`
+
+## Submodules
+
+
