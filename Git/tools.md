@@ -312,4 +312,47 @@ Git的隐藏功能，全称为reuse recorded resolution，即让Git记住解决�
 
 ## Submodules
 
+工作过程中有时需要将A项目嵌入到B项目中，如之前common库嵌入到全搜项目中
 
+Git可以使用子模块解决这个问题，将一个Git repo作为另一个Git repo的子目录。这能够将另一个项目clone到自己的项目中，同时还能保证提交的独立性。
+
+### 子模块
+
+`git submodule add [remote-url] [directory]`：在项目中添加子模块
+
+此时在项目根目录下会生成一个`.gitmodules`文件，用于记录submodule相关信息，此文件也受到版本控制
+
+文件夹中针对子模块的commit信息也会不同，其本质上意味着试讲一次提交记录作为目录提交的，而非将其记录为一个子目录或文件
+
+### Cloning a Project with Submodules
+
+clone一个项目后并不会自动pull子模块的数据,需要运行两个命令才可以拉取到数据
+
+* git submodule init：初始化本地配置文件
+* git submodule update：拉取所有数据并checkout出合适的commit
+
+还有一些其他的简便命令
+
+* git clone --recurse-submodules：递归操作init + update
+* git submodule update --init
+* git submodule update --init --recurse
+
+### Working on a Project with Submodules
+
+`git submodule update --remote`：Git会进入子模块然后抓取数据并合并
+
+默认跟踪master分支，可以进行设置
+
+* 在`.gitsubmodules`文件中进行设置，对所有项目成员生效，推荐
+* 在`.git/config`文件中进行设置，只对自己生效
+
+项目成员需要使用git pull --recurse-submodules更新自己的submodule，或者手动运行命名更新
+
+**当submodules的remote-url发生变化时，无法通过以上命令自动更新**，需要使用
+
+```shell
+# 将新的URL复制到本地配置中
+git submodule sync --recurse
+# 使用新的URL更新submodule
+git submodule update --init --recursive
+```
