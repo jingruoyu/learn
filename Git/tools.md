@@ -339,6 +339,8 @@ clone一个项目后并不会自动pull子模块的数据,需要运行两个命�
 
 ### Working on a Project with Submodules
 
+#### 子模块数据拉取
+
 `git submodule update --remote`：Git会进入子模块然后抓取数据并合并
 
 默认跟踪master分支，可以进行设置
@@ -356,3 +358,48 @@ git submodule sync --recurse
 # 使用新的URL更新submodule
 git submodule update --init --recursive
 ```
+
+#### working on a submodule
+
+```
+git commit -am [message]
+// back to host directory
+git submodule update --remote --[rebase/merge]
+git push --recurse-submodules=check
+```
+
+此操作能够
+
+* 开发本地submodule
+* 将本地submodule与远程分支同步，merge或rebase
+* 同时push host project和submodule
+
+## bundling
+
+* `git bundle create [bundle-name] [bundle range]`
+* `git bundle verify [bundle-name]`
+* `git fetch/pull [bundle-name]`：导入数据
+
+## Replace
+
+Git对象具有不可改变的特性，replace命令用于在Git中将一个对象伪造成另一个对象
+
+也可以用于截断commit tree
+
+## Credentials Storage
+
+* SSH连接：可以不提供口令
+* HTTP连接：每次均需提供用户名密码
+
+Git提供了一个credentials system解决token存储问题
+
+## Summary
+
+* commitId原理
+* HEAD、Index、working directory三棵树
+* reset原理与使用，与checkout区别
+* `..`语法，`...`语法，`~`语法，`^`语法
+* revert使用
+* merge使用，merge中断
+* 二分法搜索commit
+* 子模块
