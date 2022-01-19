@@ -4,6 +4,11 @@
 * [git基础](./basic.md)
 * [git分支](./branch.md)
 * [服务器上的Git](./server.md)
+* [分布式Git](./distributed.md)
+* [GitHub](./github.md)
+* [Git tools](./tools.md)
+* [Customizing Git](./Customize.md)
+* [Git Internal](./Internal.md)
 * [Q&A](./Q&A.md)
 
 References:

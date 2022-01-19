@@ -222,15 +222,20 @@ less命令作用相同
 
 ### Unix 系统资源
 
-`/usr`代表系统资源，Unix System Resource，其中包含可共享的只读数据
+`/usr`代表系统资源，Unix System Resource，其中包含可共享的**只读**数据
 
 * `/usr/bin`：其中包含大量命令
-* `/usr/include`：包含C语言的通用包含文件
+* `/usr/include`：包含C语言的标准头文件
+* `/usr/lib`：不能够被用户或script直接执行的library
+* `/usr/local`：admin在此处安装软件
+* `/usr/share`：用于存储非结构化的数据，数据量一般很大
+* `/usr/src`：内核的源码一般存放在此处
 
 ### 可变数据 /var
 
-大小不可预测的文件（例如日志，缓存和假脱机文件）应位于/ var中
+大小不可预测的文件（例如日志，缓存和假脱机文件）应位于`/var`中
 
-## xargs
+* `/var/log`：日志
+* `/var/lib`：应用数据
+* others
 
-分割参数

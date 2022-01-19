@@ -98,3 +98,52 @@ Git最初向磁盘中存储object使用的是松散（loose）object format。
 一般情况下会保存最新版本的完整内容，历史版本以diff的形式存在，因为大部分情况下需要快速访问文件的最新版本
 
 ## 传输协议
+
+Git可以通过两种形式在repo之间传递数据：dumb协议和smart协议，dumb协议存在安全性和私有化问题，使用较少
+
+### smart协议
+
+smart协议的智能之处是可以读取本地数据，理解客户端有什么和需要什么，并生成合适的packfile
+
+#### 上传数据
+
+客户端启动`send-pack`进程连接到server上运行的`receive-pack`进程
+
+`git push`交互过程（SSH）
+
+* git会运行`send-pack`进程，通过SSH连接服务器，在server端运行`receive-pack`
+* server的`receive-pack`会返回其拥有的所有references
+* `send-pack`进程由此判断哪些提交记录是本地拥有但是服务端没有的
+* `send-pack`告知`receive-pack`即将更新的各个references
+* 客户端发送一个packfile，其中包含了所有server端所没有的object
+* server端返回成功或失败
+
+HTTP(s)与之类似
+
+#### 下载数据
+
+客户端启动`fetch-pack`进程连接到server上运行的`upload-pack`进程，协商数据传输
+
+整体过程与上传数据相似，fetch-pack会通知upload-pack需要的对象与已经拥有的对象，upload-pack由此计算出对应的packfile
+
+## 维护与数据恢复
+
+### Maintenance
+
+`git gc --auto`：收集所有loose Object并将他们放置到packfile中，将多个packfile合并为一个，移除与任何提交都不相关的陈旧object
+
+执行gc命令后，git会生成packed-refs文件，其中会保存被打包的所有references，可以在使用的时候查找
+
+### Data Recovery
+
+`git reflog`：查看HEAD历史指向，用于找出丢失的commit
+
+Git会记录每次HEAD指针的指向，每次提交或者改变分支时，引用日志就会更新。可以使用该命令查看曾经做过什么
+
+#### Removing Objects
+
+假如有人之前向repo中提交了一个很大的文件，之后又删除，Git在每次clone时还是会强制下载这个大文件，因为他在历史中是存在的
+
+解决方法是从该文件引入最早的那个Tree Object开始rewrite每一次commit，但这样是破坏性的，需要谨慎
+
+## 环境变量
